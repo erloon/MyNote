@@ -1,0 +1,9 @@
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\MyNote.Infrastructure.Model.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\MyNote.Infrastructure.Model.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.csprojResolveAssemblyReference.cache
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.csproj.CoreCompileInputs.cache
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\Microsoft.EntityFrameworkCore.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\System.Collections.Immutable.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\Microsoft.EntityFrameworkCore.xml

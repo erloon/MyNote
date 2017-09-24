@@ -13,6 +13,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
+using MyNote.Identity.Domain.Services;
+using AuthenticationProperties = Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties;
 
 namespace MyNote.Identity.UI
 {

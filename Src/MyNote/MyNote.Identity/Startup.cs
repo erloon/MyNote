@@ -8,10 +8,16 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyNote.Identity.UI;
+using MyNote.Identity.Domain;
+using MyNote.Identity.Domain.Model;
+using MyNote.Identity.Infrastructure;
 
 namespace MyNote.Identity
 {
@@ -32,9 +38,19 @@ namespace MyNote.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            var connectionString = Configuration.GetConnectionString("IdentityDatabase");
+            // Add EF services to the services container.
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
-            var connectionString = Configuration.GetConnectionString("IdentityDatabase");//@"server=(localdb)\mssqllocaldb;database=IdentityServer4.QuickStart.EntityFramework;trusted_connection=yes";
+
+            // Add Identity services to the services container.
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc();
+            
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             // configure identity server with in-memory users, but EF stores for clients and scopes
@@ -56,7 +72,7 @@ namespace MyNote.Identity
 
             loggerFactory.AddConsole(LogLevel.Debug);
             app.UseDeveloperExceptionPage();
-
+            app.UseIdentity();
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

@@ -1,0 +1,13 @@
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\MyNote.Identity.Domain.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\MyNote.Identity.Domain.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\obj\Debug\MyNote.Identity.Domain.csprojResolveAssemblyReference.cache
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\obj\Debug\MyNote.Identity.Domain.csproj.CoreCompileInputs.cache
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\obj\Debug\MyNote.Identity.Domain.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\obj\Debug\MyNote.Identity.Domain.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\Microsoft.EntityFrameworkCore.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\MyNote.Infrastructure.Model.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\System.Collections.Immutable.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\MyNote.Infrastructure.Model.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Identity.Domain\bin\Debug\Microsoft.EntityFrameworkCore.xml

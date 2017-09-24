@@ -1,13 +1,14 @@
-﻿using IdentityModel;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4;
+using MyNote.Identity.UI;
 
-namespace MyNote.Identity.UI
+namespace MyNote.Identity.Domain.Services
 {
     public class AccountService
     {
