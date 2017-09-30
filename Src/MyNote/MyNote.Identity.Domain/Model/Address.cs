@@ -9,9 +9,7 @@ namespace MyNote.Identity.Domain.Model
         public string City { get; set; }
         public string Street { get; set; }
         public string Number { get; set; }
-        public Organization Organization { get; set; }
-        public Guid OrganizationId { get; set; }
-        public Company Company { get; set; }
-        public Guid CompanyId { get; set; }
+        public virtual Organization Organization { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

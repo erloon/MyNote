@@ -131,8 +131,6 @@ namespace MyNote.Identity.Infrastructure.Migrations
                     b.Property<string>("City")
                         .HasMaxLength(150);
 
-                    b.Property<Guid>("CompanyId");
-
                     b.Property<string>("Country")
                         .HasMaxLength(150);
 
@@ -145,20 +143,12 @@ namespace MyNote.Identity.Infrastructure.Migrations
                     b.Property<string>("Number")
                         .HasMaxLength(20);
 
-                    b.Property<Guid>("OrganizationId");
-
                     b.Property<string>("Street")
                         .HasMaxLength(150);
 
                     b.Property<Guid>("UpdateBy");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
-
-                    b.HasIndex("OrganizationId")
-                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -249,7 +239,7 @@ namespace MyNote.Identity.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId")
+                    b.HasIndex("AddressId")
                         .IsUnique();
 
                     b.ToTable("Companies");
@@ -259,6 +249,10 @@ namespace MyNote.Identity.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AddressId");
+
+                    b.Property<Guid>("CompanyId");
 
                     b.Property<DateTime>("Create");
 
@@ -274,6 +268,12 @@ namespace MyNote.Identity.Infrastructure.Migrations
                     b.Property<Guid>("UpdateBy");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.ToTable("Organizations");
                 });
@@ -311,6 +311,42 @@ namespace MyNote.Identity.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.Resource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("ContentId");
+
+                    b.Property<DateTime>("Create");
+
+                    b.Property<Guid>("CreateBy");
+
+                    b.Property<DateTime>("Modyfication");
+
+                    b.Property<Guid>("OrganizationId");
+
+                    b.Property<Guid?>("ProjectId");
+
+                    b.Property<Guid?>("TeamId");
+
+                    b.Property<Guid>("UpdateBy");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Resources");
+                });
+
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Team", b =>
                 {
                     b.Property<Guid>("Id")
@@ -346,7 +382,7 @@ namespace MyNote.Identity.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProjrcts");
+                    b.ToTable("UserProjects");
                 });
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.UserTeam", b =>
@@ -399,19 +435,6 @@ namespace MyNote.Identity.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MyNote.Identity.Domain.Model.Address", b =>
-                {
-                    b.HasOne("MyNote.Identity.Domain.Model.Company", "Company")
-                        .WithOne("Address")
-                        .HasForeignKey("MyNote.Identity.Domain.Model.Address", "CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
-                        .WithOne("Address")
-                        .HasForeignKey("MyNote.Identity.Domain.Model.Address", "OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MyNote.Identity.Domain.Model.ApplicationUser", b =>
                 {
                     b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
@@ -422,9 +445,22 @@ namespace MyNote.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Company", b =>
                 {
-                    b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
+                    b.HasOne("MyNote.Identity.Domain.Model.Address", "Address")
                         .WithOne("Company")
-                        .HasForeignKey("MyNote.Identity.Domain.Model.Company", "OrganizationId")
+                        .HasForeignKey("MyNote.Identity.Domain.Model.Company", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.Organization", b =>
+                {
+                    b.HasOne("MyNote.Identity.Domain.Model.Address", "Address")
+                        .WithOne("Organization")
+                        .HasForeignKey("MyNote.Identity.Domain.Model.Organization", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyNote.Identity.Domain.Model.Company", "Company")
+                        .WithOne("Organization")
+                        .HasForeignKey("MyNote.Identity.Domain.Model.Organization", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -436,10 +472,30 @@ namespace MyNote.Identity.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.Resource", b =>
+                {
+                    b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
+                        .WithMany("Resources")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyNote.Identity.Domain.Model.Project", "Project")
+                        .WithMany("Resources")
+                        .HasForeignKey("ProjectId");
+
+                    b.HasOne("MyNote.Identity.Domain.Model.Team", "Team")
+                        .WithMany("Resources")
+                        .HasForeignKey("TeamId");
+
+                    b.HasOne("MyNote.Identity.Domain.Model.ApplicationUser", "User")
+                        .WithMany("Resources")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("MyNote.Identity.Domain.Model.UserProjrct", b =>
                 {
                     b.HasOne("MyNote.Identity.Domain.Model.Project", "Project")
-                        .WithMany("UserProjrcts")
+                        .WithMany("UserProjects")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade);
 

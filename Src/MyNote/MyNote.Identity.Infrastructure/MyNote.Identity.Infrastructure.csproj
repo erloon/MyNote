@@ -64,6 +64,18 @@
     <Compile Include="Migrations\20170924193546_Model.designer.cs">
       <DependentUpon>20170924193546_Model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20170930214018_NewResource.cs" />
+    <Compile Include="Migrations\20170930214018_NewResource.designer.cs">
+      <DependentUpon>20170930214018_NewResource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170930214241_NewResource2.cs" />
+    <Compile Include="Migrations\20170930214241_NewResource2.designer.cs">
+      <DependentUpon>20170930214241_NewResource2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170930214314_NewResource3.cs" />
+    <Compile Include="Migrations\20170930214314_NewResource3.designer.cs">
+      <DependentUpon>20170930214314_NewResource3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Migrations\ConfigurationDb\20170923220821_InitialIdentityServerMigration.cs" />
     <Compile Include="Migrations\ConfigurationDb\20170923220821_InitialIdentityServerMigration.Designer.cs">

@@ -10,7 +10,7 @@ namespace MyNote.Identity.Domain.Mappings
         {
             entityTypeBuilder.HasKey(x => new {x.ProjectId, x.UserId});
             entityTypeBuilder.HasOne(x => x.Project)
-                .WithMany(x => x.UserProjrcts)
+                .WithMany(x => x.UserProjects)
                 .HasForeignKey(x => x.ProjectId);
             entityTypeBuilder.HasOne(x => x.User)
                 .WithMany(x => x.UserProjects)

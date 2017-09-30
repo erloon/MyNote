@@ -12,5 +12,6 @@ namespace MyNote.Identity.Domain.Model
         public bool IsConfirmByAdmin { get; set; }
         public virtual ICollection<UserTeam> UserTeams { get; set; }
         public virtual ICollection<UserProjrct> UserProjects { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

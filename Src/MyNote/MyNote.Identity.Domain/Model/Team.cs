@@ -9,5 +9,6 @@ namespace MyNote.Identity.Domain.Model
         public string CreateDate { get; set; }
         public string OwnerId { get; set; }
         public virtual ICollection<UserTeam> UserTeams { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

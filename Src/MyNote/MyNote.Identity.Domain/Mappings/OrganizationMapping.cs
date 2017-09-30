@@ -14,12 +14,15 @@ namespace MyNote.Identity.Domain.Mappings
                 .HasForeignKey(x => x.OrganizationId);
             entityTypeBuilder.HasOne(x => x.Company)
                 .WithOne(x => x.Organization)
-                .HasForeignKey<Company>(k => k.OrganizationId);
+                .HasForeignKey<Organization>(k => k.CompanyId);
             entityTypeBuilder.HasOne(x => x.Address)
                 .WithOne(x => x.Organization)
-                .HasForeignKey<Address>(x => x.OrganizationId);
+                .HasForeignKey<Organization>(x => x.AddressId);
             entityTypeBuilder.Property(x => x.Name)
                 .HasMaxLength(200);
+            entityTypeBuilder.HasMany(x => x.Resources)
+                .WithOne(x => x.Organization)
+                .HasForeignKey(x=>x.OrganizationId);
 
         }
     }

@@ -18,8 +18,9 @@ namespace MyNote.Identity.Infrastructure
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<UserProjrct> UserProjrcts { get; set; }
+        public DbSet<UserProjrct> UserProjects { get; set; }
         public DbSet<UserTeam> UserTeams { get; set; }
+        public DbSet<Resource> Resources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

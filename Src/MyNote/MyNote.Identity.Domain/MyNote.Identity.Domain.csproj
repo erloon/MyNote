@@ -51,6 +51,7 @@
     <Compile Include="Mappings\CompanyMapping.cs" />
     <Compile Include="Mappings\OrganizationMapping.cs" />
     <Compile Include="Mappings\ProjectMapping.cs" />
+    <Compile Include="Mappings\ResourceMapping.cs" />
     <Compile Include="Mappings\TeamMapping.cs" />
     <Compile Include="Mappings\UserProjrctMapping.cs" />
     <Compile Include="Mappings\UserTeamMapping.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\Project.cs" />
+    <Compile Include="Model\Resource.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\UserProjrct.cs" />
     <Compile Include="Model\UserTeam.cs" />

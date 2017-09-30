@@ -8,7 +8,9 @@ namespace MyNote.Identity.Domain.Mappings
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> entityTypeBuilder)
         {
-            
+            entityTypeBuilder.HasMany(x => x.Resources)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.Id);
         }
     }
 }
