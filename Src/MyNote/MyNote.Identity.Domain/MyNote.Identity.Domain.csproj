@@ -57,12 +57,14 @@
     <Compile Include="Mappings\UserTeamMapping.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\ApplicationUser.cs" />
+    <Compile Include="Model\Commands\CreateOrganizationCommand.cs" />
+    <Compile Include="Model\Commands\CreateUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Resource.cs" />
     <Compile Include="Model\Team.cs" />
-    <Compile Include="Model\UserProjrct.cs" />
+    <Compile Include="Model\UserProject.cs" />
     <Compile Include="Model\UserTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

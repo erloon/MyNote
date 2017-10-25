@@ -18,7 +18,7 @@ namespace MyNote.Identity.Infrastructure
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<UserProjrct> UserProjects { get; set; }
+        public DbSet<UserProject> UserProjects { get; set; }
         public DbSet<UserTeam> UserTeams { get; set; }
         public DbSet<Resource> Resources { get; set; }
 

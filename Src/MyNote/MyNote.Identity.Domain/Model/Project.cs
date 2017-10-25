@@ -13,7 +13,7 @@ namespace MyNote.Identity.Domain.Model
         public Organization Organization { get; set; }
         public Guid OrganizationId { get; set; }
 
-        public virtual ICollection<UserProjrct> UserProjects { get; set; }
+        public virtual ICollection<UserProject> UserProjects { get; set; }
         public virtual ICollection<Resource> Resources { get; set; }
     }
 }

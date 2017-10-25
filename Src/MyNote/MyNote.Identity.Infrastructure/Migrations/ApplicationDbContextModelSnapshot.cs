@@ -372,7 +372,7 @@ namespace MyNote.Identity.Infrastructure.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("MyNote.Identity.Domain.Model.UserProjrct", b =>
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.UserProject", b =>
                 {
                     b.Property<Guid>("ProjectId");
 
@@ -492,7 +492,7 @@ namespace MyNote.Identity.Infrastructure.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("MyNote.Identity.Domain.Model.UserProjrct", b =>
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.UserProject", b =>
                 {
                     b.HasOne("MyNote.Identity.Domain.Model.Project", "Project")
                         .WithMany("UserProjects")

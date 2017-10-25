@@ -11,5 +11,10 @@ namespace MyNote.Identity.Domain.Model
         public string Number { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual Company Company { get; set; }
+
+        public Address()
+        {
+        }
+
     }
 }

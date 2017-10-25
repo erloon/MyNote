@@ -4,9 +4,9 @@ using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Mappings
 {
-    public class UserProjrctMapping:IEntityTypeConfiguration<UserProjrct>
+    public class UserProjrctMapping:IEntityTypeConfiguration<UserProject>
     {
-        public void Configure(EntityTypeBuilder<UserProjrct> entityTypeBuilder)
+        public void Configure(EntityTypeBuilder<UserProject> entityTypeBuilder)
         {
             entityTypeBuilder.HasKey(x => new {x.ProjectId, x.UserId});
             entityTypeBuilder.HasOne(x => x.Project)
