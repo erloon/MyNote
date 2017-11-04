@@ -302,3 +302,4 @@ D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.API\obj\Debug\net462
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.API\obj\Debug\net462\MyNote.Identity.API.AssemblyInfo.cs
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.API\obj\Debug\net462\MyNote.Identity.API.exe
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.API\obj\Debug\net462\MyNote.Identity.API.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.API\obj\Debug\net462\MyNote.Identity.API.csprojResolveAssemblyReference.cache
