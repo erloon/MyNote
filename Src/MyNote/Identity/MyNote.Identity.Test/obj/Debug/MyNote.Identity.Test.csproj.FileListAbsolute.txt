@@ -11,3 +11,5 @@ D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\obj\Debug\MyNot
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\obj\Debug\MyNote.Identity.Test.csproj.CoreCompileInputs.cache
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\obj\Debug\MyNote.Identity.Test.dll
 D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\obj\Debug\MyNote.Identity.Test.pdb
+D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\bin\Debug\nunit.framework.dll
+D:\Praca dyplomowa\Repo\Src\MyNote\Identity\MyNote.Identity.Test\bin\Debug\nunit.framework.xml
