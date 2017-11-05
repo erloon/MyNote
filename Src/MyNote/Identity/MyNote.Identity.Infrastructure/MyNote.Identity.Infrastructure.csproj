@@ -93,8 +93,8 @@
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.EntityFrameworkCore.Relational.2.0.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
-      <HintPath>C:\Users\macie\.nuget\packages\microsoft.entityframeworkcore.sqlserver\1.1.1\lib\net451\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.EntityFrameworkCore.SqlServer.2.0.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
@@ -147,7 +147,6 @@
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Win32.Registry.4.4.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
-    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
@@ -164,26 +163,17 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.SqlClient.4.4.0\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Interactive.Async, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Interactive.Async.3.1.1\lib\net46\System.Interactive.Async.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reflection">
-      <HintPath>..\packages\System.Reflection.4.1.0\lib\net462\System.Reflection.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\System.Runtime.4.1.0\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions">
-      <HintPath>..\packages\System.Runtime.Extensions.4.1.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -202,40 +192,29 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Migrations\20170923220400_InitialIdentityServerMigration.cs" />
-    <Compile Include="Migrations\20170923220400_InitialIdentityServerMigration.Designer.cs">
-      <DependentUpon>20170923220400_InitialIdentityServerMigration.cs</DependentUpon>
+    <Compile Include="MigrationData\ApplicationDbContext.cs" />
+    <Compile Include="MigrationData\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Include="MigrationData\Migrations\00000000000000_CreateIdentitySchema.Designer.cs">
+      <DependentUpon>00000000000000_CreateIdentitySchema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170924193546_Model.cs" />
-    <Compile Include="Migrations\20170924193546_Model.designer.cs">
-      <DependentUpon>20170924193546_Model.cs</DependentUpon>
+    <Compile Include="MigrationData\Migrations\20171105153129_Domain.cs" />
+    <Compile Include="MigrationData\Migrations\20171105153129_Domain.designer.cs">
+      <DependentUpon>20171105153129_Domain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170930214018_NewResource.cs" />
-    <Compile Include="Migrations\20170930214018_NewResource.designer.cs">
-      <DependentUpon>20170930214018_NewResource.cs</DependentUpon>
+    <Compile Include="MigrationData\Migrations\ApplicationDbContextModelSnapshot.cs" />
+    <Compile Include="MigrationData\Migrations\IdentityServer\ConfigurationDb\20171005153917_InitialIdentityServerConfigurationDbMigration.cs" />
+    <Compile Include="MigrationData\Migrations\IdentityServer\ConfigurationDb\20171005153917_InitialIdentityServerConfigurationDbMigration.Designer.cs">
+      <DependentUpon>20171005153917_InitialIdentityServerConfigurationDbMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170930214241_NewResource2.cs" />
-    <Compile Include="Migrations\20170930214241_NewResource2.designer.cs">
-      <DependentUpon>20170930214241_NewResource2.cs</DependentUpon>
+    <Compile Include="MigrationData\Migrations\IdentityServer\ConfigurationDb\ConfigurationDbContextModelSnapshot.cs" />
+    <Compile Include="MigrationData\Migrations\IdentityServer\PersistedGrantDb\20171005153857_InitialIdentityServerPersistedGrantDbMigration.cs" />
+    <Compile Include="MigrationData\Migrations\IdentityServer\PersistedGrantDb\20171005153857_InitialIdentityServerPersistedGrantDbMigration.Designer.cs">
+      <DependentUpon>20171005153857_InitialIdentityServerPersistedGrantDbMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170930214314_NewResource3.cs" />
-    <Compile Include="Migrations\20170930214314_NewResource3.designer.cs">
-      <DependentUpon>20170930214314_NewResource3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20171104234956_UpdateEF.cs" />
-    <Compile Include="Migrations\20171104234956_UpdateEF.designer.cs">
-      <DependentUpon>20171104234956_UpdateEF.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
-    <Compile Include="Migrations\ConfigurationDb\20170923220821_InitialIdentityServerMigration.cs" />
-    <Compile Include="Migrations\ConfigurationDb\20170923220821_InitialIdentityServerMigration.Designer.cs">
-      <DependentUpon>20170923220821_InitialIdentityServerMigration.cs</DependentUpon>
-    </Compile>
+    <Compile Include="MigrationData\Migrations\IdentityServer\PersistedGrantDb\PersistedGrantDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -252,5 +231,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

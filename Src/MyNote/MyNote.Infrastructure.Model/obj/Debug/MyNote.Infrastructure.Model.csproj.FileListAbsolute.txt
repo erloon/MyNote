@@ -133,7 +133,7 @@ D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\System.
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\System.Interactive.Async.xml
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.csprojResolveAssemblyReference.cache
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.csproj.CoreCompileInputs.cache
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.dll
 D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.pdb
-D:\Praca dyplomowa\Repo\Src\MyNote\MyNote.Infrastructure.Model\obj\Debug\MyNote.Infrastructure.Model.csprojResolveAssemblyReference.cache
