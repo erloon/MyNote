@@ -7,10 +7,10 @@ using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Infrastructure
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IContext<ApplicationDbContext>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base((DbContextOptions) (DbContextOptions) options)
+            : base(options)
         {
         }
 
