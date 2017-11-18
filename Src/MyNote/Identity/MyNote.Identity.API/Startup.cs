@@ -10,7 +10,9 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using MyNote.Identity.Domain.Model;
+using MyNote.Identity.Infrastructure;
 using MyNote.Identity.Infrastructure.MigrationData;
+using MyNote.Infrastructure.Model;
 
 namespace MyNote.Identity.API
 {
@@ -29,11 +31,11 @@ namespace MyNote.Identity.API
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<MyIdentityDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<MyIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
@@ -59,6 +61,7 @@ namespace MyNote.Identity.API
                 });
 
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IUnitOfWork<MyIdentityDbContext>, UnitOfWork>();
         }
 
       public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -90,7 +93,7 @@ namespace MyNote.Identity.API
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetRequiredService<MyIdentityDbContext>().Database.Migrate();
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();

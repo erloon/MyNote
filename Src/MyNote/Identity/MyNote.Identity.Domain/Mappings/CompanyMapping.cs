@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyNote.Identity.Domain.Model;
-using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Mappings
 {
-    public class CompanyMapping: IEntityTypeConfiguration<Company>
+    public class CompanyMapping: Infrastructure.Model.Entity.IEntityTypeConfiguration<Company>
     {
         public void Configure(EntityTypeBuilder<Company> entityTypeBuilder)
         {
@@ -18,6 +18,7 @@ namespace MyNote.Identity.Domain.Mappings
                 .HasMaxLength(15);
             entityTypeBuilder.Property(x => x.RegistrationNumber)
                 .HasMaxLength(15);
+            RelationalEntityTypeBuilderExtensions.ToTable(entityTypeBuilder, "Companies");
         }
     }
 }

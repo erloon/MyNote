@@ -195,14 +195,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MigrationData\ApplicationDbContext.cs" />
-    <Compile Include="MigrationData\Migrations\00000000000000_CreateIdentitySchema.cs" />
-    <Compile Include="MigrationData\Migrations\00000000000000_CreateIdentitySchema.Designer.cs">
-      <DependentUpon>00000000000000_CreateIdentitySchema.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationData\Migrations\20171105153129_Domain.cs" />
-    <Compile Include="MigrationData\Migrations\20171105153129_Domain.designer.cs">
-      <DependentUpon>20171105153129_Domain.cs</DependentUpon>
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="MigrationData\MyIdentityDbContext.cs" />
+    <Compile Include="MigrationData\Migrations\20171105160032_Domain.cs" />
+    <Compile Include="MigrationData\Migrations\20171105160032_Domain.designer.cs">
+      <DependentUpon>20171105160032_Domain.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationData\Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="MigrationData\Migrations\IdentityServer\ConfigurationDb\20171005153917_InitialIdentityServerConfigurationDbMigration.cs" />

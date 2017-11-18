@@ -179,7 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappings\AddressMapping.cs" />
-    <Compile Include="Mappings\ApplicationUserMapping.cs" />
+    <Compile Include="Mappings\UserMapping.cs" />
     <Compile Include="Mappings\CompanyMapping.cs" />
     <Compile Include="Mappings\OrganizationMapping.cs" />
     <Compile Include="Mappings\ProjectMapping.cs" />
@@ -198,6 +198,7 @@
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Resource.cs" />
     <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserProject.cs" />
     <Compile Include="Model\UserTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
