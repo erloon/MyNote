@@ -15,8 +15,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,11 +27,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Identity\MyNote.Identity.Domain\MyNote.Identity.Domain.csproj" />
+    <ProjectReference Include="..\Identity\MyNote.Identity.Infrastructure\MyNote.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Identity\MyNote.Identity.Infrastructure\MyNote.Identity.Infrastructure.csproj" />
+    <Compile Update="Infrastructure\MigrationData\Migrations\20171105160032_Domain.designer.cs">
+      <DependentUpon>20171105160032_Domain.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Infrastructure\MigrationData\Migrations\IdentityServer\ConfigurationDb\20171005153917_InitialIdentityServerConfigurationDbMigration.Designer.cs">
+      <DependentUpon>20171005153917_InitialIdentityServerConfigurationDbMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Infrastructure\MigrationData\Migrations\IdentityServer\PersistedGrantDb\20171005153857_InitialIdentityServerPersistedGrantDbMigration.Designer.cs">
+      <DependentUpon>20171005153857_InitialIdentityServerPersistedGrantDbMigration.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using MyNote.Identity.Domain.Model;
 
 namespace MyNote.Identity.Domain.Mappings
 {
-    public class CompanyMapping: Infrastructure.Model.Entity.IEntityTypeConfiguration<Company>
+    public class CompanyMapping: IEntityTypeConfiguration<Company>
     {
         public void Configure(EntityTypeBuilder<Company> entityTypeBuilder)
         {

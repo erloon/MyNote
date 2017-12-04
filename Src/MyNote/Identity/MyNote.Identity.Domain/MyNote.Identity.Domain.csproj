@@ -139,10 +139,6 @@
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -168,9 +164,11 @@
     <Compile Include="Model\ApplicationUser.cs" />
     <Compile Include="Model\Commands\CreateOrganizationCommand.cs" />
     <Compile Include="Model\Commands\CreateUserCommand.cs" />
+    <Compile Include="Model\Commands\User\RegisterUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\DTOs\Address.cs" />
     <Compile Include="Model\DTOs\Company.cs" />
+    <Compile Include="Model\DTOs\Login.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Resource.cs" />
@@ -189,6 +187,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
