@@ -11,9 +11,8 @@ namespace MyNote.Identity.Infrastructure
             : base((DbContextOptions) options)
         {
         }
-
-        public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -24,13 +23,14 @@ namespace MyNote.Identity.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserMapping());
-            builder.ApplyConfiguration(new AddressMapping());
             builder.ApplyConfiguration(new CompanyMapping());
             builder.ApplyConfiguration(new OrganizationMapping());
             builder.ApplyConfiguration(new ProjectMapping());
             builder.ApplyConfiguration(new TeamMapping());
             builder.ApplyConfiguration(new UserProjrctMapping());
             builder.ApplyConfiguration(new UserTeamMapping());
+            builder.ApplyConfiguration(new AddressMapping());
+
             base.OnModelCreating(builder);
         }
     }

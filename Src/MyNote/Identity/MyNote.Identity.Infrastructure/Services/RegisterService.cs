@@ -14,11 +14,9 @@ namespace MyNote.Identity.Infrastructure.Services
         private readonly IDataRepository<Organization> _organizationRepository;
         private readonly IDataRepository<User> _useRepository;
 
-        public RegisterService(IUnitOfWork<MyIdentityDbContext> unitOfWork,
-                                UserManager<ApplicationUser> userManager,
+        public RegisterService(UserManager<ApplicationUser> userManager,
                                 IDataRepository<Organization> organizationRepository,
                                 IDataRepository<User> useRepository)
-            :base(unitOfWork)
         {
             if (userManager == null) throw new ArgumentNullException(nameof(userManager));
             if (organizationRepository == null) throw new ArgumentNullException(nameof(organizationRepository));
@@ -28,13 +26,13 @@ namespace MyNote.Identity.Infrastructure.Services
             _organizationRepository = organizationRepository;
             _useRepository = useRepository;
         }
-        public Task<IdentityResult> Register(RegisterUserCommand command)
+        public Task<IdentityResult> Register(RegisterUserCommand command, Organization organization)
         {
             ApplicationUser applicationUser = null;
             try
             {
                 applicationUser = new ApplicationUser(command);
-                var organization = GetOrganization(command.Organization);
+                //var organization = GetOrganization(command.Organization);
                 if (organization == null) throw new ArgumentNullException(nameof(organization));
 
                 PerformCommand(() =>
@@ -53,7 +51,7 @@ namespace MyNote.Identity.Infrastructure.Services
 
         private Organization GetOrganization(string organizationName)
         {
-            return _organizationRepository.FirstOrDefault<Organization>(x => x.Name.Equals(organizationName));
+            return _organizationRepository.FirstOrDefault(x => x.Name.Equals(organizationName));
         }
     }
 }

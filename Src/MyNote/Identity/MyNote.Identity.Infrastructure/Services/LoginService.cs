@@ -36,8 +36,8 @@ namespace MyNote.Identity.Infrastructure.Services
         public async Task<ApplicationUser> FindByUsernameAndOrganization(Login login)
         {
 
-            var user = await _useRepository.FirstOrDefaultAsync<User>(
-                x => x.Organization.Name.Equals(login.Organization) && x.ApplicationUser.Email.Equals(login.Email),
+            var user = await _useRepository.FirstOrDefaultAsync(
+                x => x.Organization.Name.Equals(login.Organization) && x.ApplicationUser.Email.Equals(login.Email), null,
                 s => s.Include(x => x.Organization));
             return user.ApplicationUser;
         }

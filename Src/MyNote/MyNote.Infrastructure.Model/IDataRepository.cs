@@ -19,17 +19,32 @@ namespace MyNote.Infrastructure.Model
         void Update(TEntity entity);
         TEntity GetById(Guid id);
         void Delete(TEntity entity);
-        List<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null);
 
-        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null);
+        IPagedList<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            int pageIndex = 0,
+            int pageSize = 20,
+            bool disableTracking = true);
 
-        TEntity FirstOrDefault<TResult>(Expression<Func<TEntity, bool>> predicate = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null);
+        Task<IPagedList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            int pageIndex = 0,
+            int pageSize = 20,
+            bool disableTracking = true,
+            CancellationToken cancellationToken = default(CancellationToken));
 
-        Task<TEntity> FirstOrDefaultAsync<TResult>(Expression<Func<TEntity, bool>> predicate = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null);
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true);
 
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true);
+
+        void Save();
     }
 }

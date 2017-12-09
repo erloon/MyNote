@@ -15,90 +15,83 @@ namespace MyNote.Identity.Infrastructure.SeedWork
         where TEntity : BaseEntity
 
     {
-        private readonly IUnitOfWork<MyIdentityDbContext> _unitOfWork;
-        private DbSet<TEntity> _dbSet;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DataRepository(IUnitOfWork<MyIdentityDbContext> unitOfWork)
+        public DataRepository(IUnitOfWork unitOfWork)
         {
             if (unitOfWork == null) throw new ArgumentNullException(nameof(unitOfWork));
-
             _unitOfWork = unitOfWork;
-            _dbSet = SetDbSet(unitOfWork);
-        }
-
-        private DbSet<TEntity> SetDbSet(IUnitOfWork<MyIdentityDbContext> unitOfWork)
-        {
-            var context = unitOfWork.Context;
-            return context.Set<TEntity>();
         }
 
         public void Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            _unitOfWork.GetRepository<TEntity>().Insert(entity);
         }
 
         public Task AddAsync(TEntity entity, CancellationToken cancellationToken = new CancellationToken())
         {
-            return _dbSet.AddAsync(entity, cancellationToken);
+            return _unitOfWork.GetRepository<TEntity>().InsertAsync(entity, cancellationToken);
         }
 
         public void Update(TEntity entity)
         {
-            _dbSet.Update(entity);
+            _unitOfWork.GetRepository<TEntity>().Update(entity);
         }
 
         public TEntity GetById(Guid id)
         {
-            return _dbSet.FirstOrDefault(x => x.Id.Equals(id));
+            return _unitOfWork.GetRepository<TEntity>().GetFirstOrDefault(predicate: x => x.Id.Equals(id));
         }
 
         public void Delete(TEntity entity)
         {
-            _dbSet.Remove(entity);
+            _unitOfWork.GetRepository<TEntity>().Delete(entity);
         }
 
-        public List<TEntity> Get(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        public IPagedList<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
+                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                        int pageIndex = 0,
+                                        int pageSize = 20,
+                                        bool disableTracking = true)
         {
-            IQueryable<TEntity> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            return query.Where(predicate).ToList();
+            return _unitOfWork.GetRepository<TEntity>().GetPagedList(predicate, orderBy, include, pageIndex, pageSize, disableTracking);
         }
 
-        public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        public Task<IPagedList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null,
+                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                            int pageIndex = 0,
+                                            int pageSize = 20,
+                                            bool disableTracking = true,
+                                            CancellationToken cancellationToken = default(CancellationToken))
         {
-            IQueryable<TEntity> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
 
-            return query.Where(predicate).ToListAsync();
+            return _unitOfWork.GetRepository<TEntity>().GetPagedListAsync(predicate, orderBy, include, pageIndex,
+                pageSize, disableTracking, cancellationToken);
         }
 
-        public TEntity FirstOrDefault<TResult>(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate = null,
+                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                                bool disableTracking = true)
         {
-            IQueryable<TEntity> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
 
-            return query.FirstOrDefault(predicate);
+            return _unitOfWork.GetRepository<TEntity>().GetFirstOrDefault(predicate, orderBy, include, disableTracking);
         }
 
-        public Task<TEntity> FirstOrDefaultAsync<TResult>(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate = null,
+                                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                                            bool disableTracking = true)
         {
-            IQueryable<TEntity> query = _dbSet;
-            if (include != null)
-            {
-                query = include(query);
-            }
+            return _unitOfWork.GetRepository<TEntity>()
+                .GetFirstOrDefaultAsync(predicate, orderBy, include, disableTracking);
+        }
 
-            return query.FirstOrDefaultAsync(predicate);
+        public void Save()
+        {
+            _unitOfWork.SaveChanges();
         }
     }
 }

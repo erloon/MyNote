@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MediatR, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MediatR.4.0.1\lib\net45\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNetCore.Authentication.2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll</HintPath>
     </Reference>
@@ -162,11 +165,12 @@
     <Compile Include="Mappings\UserTeamMapping.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\ApplicationUser.cs" />
+    <Compile Include="Model\Commands\CreateCompanyCommand.cs" />
     <Compile Include="Model\Commands\CreateOrganizationCommand.cs" />
     <Compile Include="Model\Commands\CreateUserCommand.cs" />
+    <Compile Include="Model\DomainEvents\CreateFirstUserCommand.cs" />
     <Compile Include="Model\Commands\User\RegisterUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
-    <Compile Include="Model\DTOs\Address.cs" />
     <Compile Include="Model\DTOs\Company.cs" />
     <Compile Include="Model\DTOs\Login.cs" />
     <Compile Include="Model\Organization.cs" />
@@ -188,8 +192,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

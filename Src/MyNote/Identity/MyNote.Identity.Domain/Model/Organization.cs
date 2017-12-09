@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 using MyNote.Identity.Domain.Model.Commands;
 using MyNote.Infrastructure.Model.Entity;
 
@@ -9,22 +8,30 @@ namespace MyNote.Identity.Domain.Model
     public class Organization : Aggregate
     {
         public string Name { get; set; }
-        public Guid AddressId { get; set; }
-        public Address Address { get; set; }
+        public Address Address { get; private set; }
         public Guid CompanyId { get; set; }
         public Company Company { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Resource> Resources { get; set; }
 
-        public void AddUser(CreateUserCommand command, AspNetUserManager<ApplicationUser> userManager)
+        protected Organization()
         {
-            
+
         }
 
-        public void Create(CreateOrganizationCommand command)
+        public void AddUser(ApplicationUser applicationUser)
         {
-            throw new NotImplementedException();
+            if (Users == null) this.Users = new List<User>();
+
+            this.Users.Add(new User(applicationUser, this));
+        }
+
+        public Organization(CreateOrganizationCommand command)
+        {
+            this.Name = command.Name;
+            this.Address = new Address(command.Country, command.City, command.Street, command.Number);
+            this.Company = new Company(command.CreateCompanyCommand, this.Address,this.Id);
         }
     }
 }

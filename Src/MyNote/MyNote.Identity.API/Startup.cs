@@ -6,10 +6,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Autofac;
+using MediatR;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MyNote.Identity.API.Infrastructure.Autofac;
+using MyNote.Identity.API.Infrastructure.Mediator;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Infrastructure;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MyNote.Identity.API
 {
@@ -32,44 +37,59 @@ namespace MyNote.Identity.API
                     sqlServerOptionsAction: sqlOptions =>
                     {
                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                    }));
+                    }))
+                    .AddUnitOfWork<MyIdentityDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<MyIdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<AppSettings>(Configuration);
             services.AddMvc();
 
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Identity API", Version = "v1" });
+            });
+            //var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddIdentityServer(x => x.IssuerUri = "null")
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-                        sqlServerOptionsAction: sqlOptions =>
-                        {
-                            sqlOptions.MigrationsAssembly(migrationsAssembly);
-                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
-                                errorNumbersToAdd: null);
-                        });
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-                        sqlServerOptionsAction: sqlOptions =>
-                        {
-                            sqlOptions.MigrationsAssembly(migrationsAssembly);
-                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
-                                errorNumbersToAdd: null);
-                        });
-                });
+            //services.AddIdentityServer(x => x.IssuerUri = "null")
+            //    .AddAspNetIdentity<ApplicationUser>()
+            //    .AddConfigurationStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+            //            sqlServerOptionsAction: sqlOptions =>
+            //            {
+            //                sqlOptions.MigrationsAssembly(migrationsAssembly);
+            //                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+            //                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
+            //                    errorNumbersToAdd: null);
+            //            });
+            //    })
+            //    .AddOperationalStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+            //            sqlServerOptionsAction: sqlOptions =>
+            //            {
+            //                sqlOptions.MigrationsAssembly(migrationsAssembly);
+            //                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+            //                sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
+            //                    errorNumbersToAdd: null);
+            //            });
+            //    });
 
             var container = new ContainerBuilder();
+            ConfigureContainer(container);
             container.Populate(services);
 
             return new AutofacServiceProvider(container.Build());
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new DepedencyModule());
+            builder.RegisterModule(new MediatorModule());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,15 +98,15 @@ namespace MyNote.Identity.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
 
             var pathBase = Configuration["PATH_BASE"];
             if (!string.IsNullOrEmpty(pathBase))
@@ -96,8 +116,12 @@ namespace MyNote.Identity.API
             }
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseIdentityServer();
-
+            //app.UseIdentityServer();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/MyNote.Identity.API/swagger/v1/swagger.json", "Identity V1");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
