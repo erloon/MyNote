@@ -252,7 +252,9 @@ namespace MyNote.Identity.API.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(200);
 
-                    b.Property<TimeSpan>("TimeSpan");
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<Guid>("UpdateBy");
 

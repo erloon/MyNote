@@ -10,6 +10,7 @@ using MyNote.Identity.Domain.Model.DomainEvents;
 using MyNote.Identity.Infrastructure;
 using MyNote.Infrastructure.Model;
 using MyNote.Identity.Infrastructure.Services.Contracts;
+using MyNote.Infrastructure.Model.Time;
 using Remotion.Linq.Clauses;
 
 namespace MyNote.Identity.API.Application.DomainHandler
@@ -19,48 +20,45 @@ namespace MyNote.Identity.API.Application.DomainHandler
         private readonly IDataRepository<Organization> _organizationRepository;
         private readonly IRegisterService _registerService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITimeService _timeService;
+        private readonly IOrganizationService _organizationService;
 
-        public CreateFirstUserCommandHandler(IDataRepository<Organization> organizationRepository,
-                                                 IRegisterService registerService,
-                                                 UserManager<ApplicationUser> userManager,
-                                                 MyIdentityDbContext context)
-            : base(context)
+        public CreateFirstUserCommandHandler(
+                                             IRegisterService registerService,
+                                             UserManager<ApplicationUser> userManager,
+                                             ITimeService timeService,
+                                             IOrganizationService organizationService)
         {
-            if (organizationRepository == null) throw new ArgumentNullException(nameof(organizationRepository));
             if (registerService == null) throw new ArgumentNullException(nameof(registerService));
             if (userManager == null) throw new ArgumentNullException(nameof(userManager));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+            if (organizationService == null) throw new ArgumentNullException(nameof(organizationService));
 
-            _organizationRepository = organizationRepository;
             _registerService = registerService;
             _userManager = userManager;
+            _timeService = timeService;
+            _organizationService = organizationService;
         }
-        private ApplicationUser CreateUser(CreateFirstUserCommand notification, Organization organization)
+        private void CreateUser(CreateFirstUserCommand notification, Organization organization)
         {
-            var appUser = _registerService.Register(notification.RegisterUserCommand, organization);
-            if (!appUser.Result.Succeeded) throw new ApplicationException("Nie udało się utworzyć użytkownika");
-            return _userManager.FindByEmailAsync(notification.RegisterUserCommand.Email).Result;
+            var identityResult = _registerService.Register(notification.RegisterUserCommand, organization);
+            if (identityResult == null) throw new ApplicationException("Nie udało się utworzyć użytkownika");
+            _userManager.FindByNameAsync(notification.RegisterUserCommand.Email);
+
         }
+
 
         public async Task<bool> Handle(CreateFirstUserCommand request, CancellationToken cancellationToken)
         {
-
             try
             {
-                Organization organization = new Organization(request.CreateOrganizationCommand);
-                await _organizationRepository.AddAsync(organization);
-                _organizationRepository.Save();
+                var organization = _organizationService.Create(request.CreateOrganizationCommand, _timeService);
+                CreateUser(request, organization);
             }
             catch (Exception ex)
             {
-              
-                throw;
+                return false;
             }
-           
-            //var user = CreateUser(request, organization);
-            //organization.AddUser(user);
-            //_organizationRepository.Update(organization);
-            // _organizationRepository.Save();
-
             return true;
         }
     }

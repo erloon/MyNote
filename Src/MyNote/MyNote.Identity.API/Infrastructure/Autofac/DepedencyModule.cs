@@ -7,6 +7,7 @@ using MyNote.Identity.Infrastructure.SeedWork;
 using MyNote.Identity.Infrastructure.Services;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
+using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.API.Infrastructure.Autofac
 {
@@ -30,6 +31,14 @@ namespace MyNote.Identity.API.Infrastructure.Autofac
                 .RegisterAssemblyTypes(typeof(CreateFirstUserCommandHandler).Assembly)
                 .Where(t => t.IsClosedTypeOf(typeof(IRequestHandler<,>)))
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<OrganizationService>()
+                .As<IOrganizationService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TimeService>()
+                .As<ITimeService>()
+                .InstancePerLifetimeScope();
 
             base.Load(builder);
         }

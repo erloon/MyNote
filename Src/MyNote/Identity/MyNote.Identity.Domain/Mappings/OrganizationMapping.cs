@@ -20,7 +20,7 @@ namespace MyNote.Identity.Domain.Mappings
             entityTypeBuilder.HasMany(x => x.Resources)
                 .WithOne(x => x.Organization)
                 .HasForeignKey(x => x.OrganizationId);
-
+            entityTypeBuilder.Property(x => x.Timestamp).IsRowVersion();
         }
     }
 }

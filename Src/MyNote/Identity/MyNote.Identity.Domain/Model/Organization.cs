@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MyNote.Identity.Domain.Model.Commands;
 using MyNote.Infrastructure.Model.Entity;
+using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Model
 {
@@ -27,11 +28,13 @@ namespace MyNote.Identity.Domain.Model
             this.Users.Add(new User(applicationUser, this));
         }
 
-        public Organization(CreateOrganizationCommand command)
+        public Organization(CreateOrganizationCommand command, ITimeService timeService)
         {
             this.Name = command.Name;
+            this.Create = timeService.GetCurrent();
+            this.Modyfication = timeService.GetCurrent();
             this.Address = new Address(command.Country, command.City, command.Street, command.Number);
-            this.Company = new Company(command.CreateCompanyCommand, this.Address,this.Id);
+            this.Company = new Company(command.CreateCompanyCommand, this.Address, this.Id);
         }
     }
 }

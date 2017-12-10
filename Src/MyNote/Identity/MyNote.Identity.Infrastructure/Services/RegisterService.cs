@@ -8,7 +8,7 @@ using MyNote.Infrastructure.Model;
 
 namespace MyNote.Identity.Infrastructure.Services
 {
-    public class RegisterService :BaseService<MyIdentityDbContext>, IRegisterService
+    public class RegisterService : BaseService<MyIdentityDbContext>, IRegisterService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IDataRepository<Organization> _organizationRepository;
@@ -28,30 +28,20 @@ namespace MyNote.Identity.Infrastructure.Services
         }
         public Task<IdentityResult> Register(RegisterUserCommand command, Organization organization)
         {
+            if (organization == null) throw new ArgumentNullException(nameof(organization));
+
             ApplicationUser applicationUser = null;
-            try
-            {
-                applicationUser = new ApplicationUser(command);
-                //var organization = GetOrganization(command.Organization);
-                if (organization == null) throw new ArgumentNullException(nameof(organization));
+            applicationUser = new ApplicationUser(command);
 
-                PerformCommand(() =>
-                {
-                    User user = new User(applicationUser, organization);
-                    _useRepository.Add(user);
-                });
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return _userManager.CreateAsync(applicationUser, command.Password);
+            var identity = _userManager.CreateAsync(applicationUser, command.Password);
+
+            User user = new User(applicationUser, organization);
+            _useRepository.Add(user);
+            _useRepository.Save();
+
+            return identity;
 
         }
 
-        private Organization GetOrganization(string organizationName)
-        {
-            return _organizationRepository.FirstOrDefault(x => x.Name.Equals(organizationName));
-        }
     }
 }

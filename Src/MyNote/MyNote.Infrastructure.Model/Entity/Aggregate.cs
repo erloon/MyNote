@@ -4,6 +4,6 @@ namespace MyNote.Infrastructure.Model.Entity
 {
     public class Aggregate: BaseEntity
     {
-        public TimeSpan TimeSpan { get; set; }
+        public byte[] Timestamp { get; set; }
     }
 }
