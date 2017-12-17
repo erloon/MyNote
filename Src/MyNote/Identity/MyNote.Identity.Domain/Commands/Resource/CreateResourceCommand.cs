@@ -1,10 +1,12 @@
 ﻿using System;
+using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Resource
 {
-    public class CreateResourceCommand
+    public class CreateResourceCommand : BaseCommand
     {
-        public string UserId { get; set; }
+        public string OwnerId { get; set; }
         public Guid OrganizationId { get; set; }
+        public Guid? ContentId { get; set; }
     }
 }
