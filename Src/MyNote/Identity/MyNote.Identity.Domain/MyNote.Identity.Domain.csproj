@@ -167,10 +167,11 @@
     <Compile Include="Model\ApplicationUser.cs" />
     <Compile Include="Model\Commands\CreateCompanyCommand.cs" />
     <Compile Include="Model\Commands\CreateOrganizationCommand.cs" />
-    <Compile Include="Model\Commands\CreateUserCommand.cs" />
-    <Compile Include="Model\DomainEvents\CreateFirstUserCommand.cs" />
+    <Compile Include="Model\Commands\User\CreateUserCommand.cs" />
+    <Compile Include="Model\Commands\User\CreateFirstUserCommand.cs" />
     <Compile Include="Model\Commands\User\RegisterUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
+    <Compile Include="Model\DomainEvents\OrganizationCreated.cs" />
     <Compile Include="Model\DTOs\Company.cs" />
     <Compile Include="Model\DTOs\Login.cs" />
     <Compile Include="Model\Organization.cs" />

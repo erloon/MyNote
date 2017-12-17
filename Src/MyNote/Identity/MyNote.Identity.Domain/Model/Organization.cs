@@ -8,33 +8,35 @@ namespace MyNote.Identity.Domain.Model
 {
     public class Organization : Aggregate
     {
-        public string Name { get; set; }
-        public Address Address { get; private set; }
-        public Guid CompanyId { get; set; }
-        public Company Company { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Resource> Resources { get; set; }
+        public string Name { get; protected set; }
+        public Address Address { get; protected set; }
+        public Guid CompanyId { get; protected set; }
+        public Company Company { get; protected set; }
+        public virtual ICollection<Project> Projects { get; protected set; }
+        public virtual ICollection<User> Users { get; protected set; }
+        public virtual ICollection<Resource> Resources { get; protected set; }
 
-        protected Organization()
+        protected Organization() { }
+
+        public void CreateUser(ITimeService timeService, ApplicationUser applicationUser)
         {
+            var now = timeService.GetCurrent();
+            User user = new User(applicationUser, this);
+            user.Create = now;
+            user.Modyfication = now;
 
-        }
-
-        public void AddUser(ApplicationUser applicationUser)
-        {
-            if (Users == null) this.Users = new List<User>();
-
-            this.Users.Add(new User(applicationUser, this));
         }
 
         public Organization(CreateOrganizationCommand command, ITimeService timeService)
         {
+            var now = timeService.GetCurrent();
+            this.Id = Guid.NewGuid();
             this.Name = command.Name;
-            this.Create = timeService.GetCurrent();
-            this.Modyfication = timeService.GetCurrent();
+            this.Create = now;
+            this.Modyfication = now;
             this.Address = new Address(command.Country, command.City, command.Street, command.Number);
             this.Company = new Company(command.CreateCompanyCommand, this.Address, this.Id);
+
         }
     }
 }

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyNote.Identity.Domain.Model.DomainEvents;
+using MyNote.Identity.Domain.Model.Commands;
+using MyNote.Identity.Domain.Model.Commands.User;
 using MyNote.Identity.Domain.Model.DTOs;
 
 namespace MyNote.Identity.API.Controllers

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Model.Commands;
 using MyNote.Identity.Domain.Model.Commands.User;
-using MyNote.Identity.Domain.Model.DomainEvents;
 using MyNote.Identity.Infrastructure;
 using MyNote.Infrastructure.Model;
 using MyNote.Identity.Infrastructure.Services.Contracts;

@@ -2,7 +2,8 @@
 using Autofac;
 using MediatR;
 using System.Reflection;
-using MyNote.Identity.Domain.Model.DomainEvents;
+using MyNote.Identity.Domain.Model.Commands;
+using MyNote.Identity.Domain.Model.Commands.User;
 using Module = Autofac.Module;
 
 namespace MyNote.Identity.API.Infrastructure.Mediator

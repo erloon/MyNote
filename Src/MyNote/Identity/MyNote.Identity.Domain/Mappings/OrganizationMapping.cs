@@ -9,6 +9,7 @@ namespace MyNote.Identity.Domain.Mappings
         public void Configure(EntityTypeBuilder<Organization> entityTypeBuilder)
         {
             entityTypeBuilder.HasKey(x => x.Id);
+
             entityTypeBuilder.HasMany(x => x.Projects)
                 .WithOne(x => x.Organization)
                 .HasForeignKey(x => x.OrganizationId);
