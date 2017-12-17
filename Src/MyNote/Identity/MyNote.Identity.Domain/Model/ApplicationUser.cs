@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using MyNote.Identity.Domain.Model.Commands.User;
+using MyNote.Identity.Domain.Commands.User;
 
 namespace MyNote.Identity.Domain.Model
 {

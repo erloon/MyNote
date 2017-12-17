@@ -90,18 +90,6 @@
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.EntityFrameworkCore.Relational.2.0.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Hosting.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
     </Reference>
@@ -111,41 +99,14 @@
     <Reference Include="Microsoft.Extensions.Identity.Stores, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Identity.Stores.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.Headers.2.0.1\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
-    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -154,24 +115,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mappings\AddressMapping.cs" />
-    <Compile Include="Mappings\UserMapping.cs" />
-    <Compile Include="Mappings\CompanyMapping.cs" />
-    <Compile Include="Mappings\OrganizationMapping.cs" />
-    <Compile Include="Mappings\ProjectMapping.cs" />
-    <Compile Include="Mappings\ResourceMapping.cs" />
-    <Compile Include="Mappings\TeamMapping.cs" />
-    <Compile Include="Mappings\UserProjrctMapping.cs" />
-    <Compile Include="Mappings\UserTeamMapping.cs" />
+    <Compile Include="Commands\Address\CreateAddressCommand.cs" />
+    <Compile Include="Commands\Address\DeleteAddressCommand.cs" />
+    <Compile Include="Commands\Address\UpdateAddressCommand.cs" />
+    <Compile Include="Commands\Company\AddAddressToCompanyCommand.cs" />
+    <Compile Include="Commands\Company\DeleteUserCommand.cs" />
+    <Compile Include="Commands\Company\UpdateCompanyCommand.cs" />
+    <Compile Include="Commands\Organization\AddAddressToOrganizationCommand.cs" />
+    <Compile Include="Commands\Organization\DeleteOrganizationCommand.cs" />
+    <Compile Include="Commands\Organization\UpdateOrganizationCommand.cs" />
+    <Compile Include="Commands\Project\AddResourceToProjectCommand.cs" />
+    <Compile Include="Commands\Project\AddUserToProjectCommand.cs" />
+    <Compile Include="Commands\Project\CreateProjectCommand.cs" />
+    <Compile Include="Commands\Project\DeleteProjectCommand.cs" />
+    <Compile Include="Commands\Project\RemoveResourceFromProjectCommand.cs" />
+    <Compile Include="Commands\Project\RemoveUserFromProjectCommand.cs" />
+    <Compile Include="Commands\Project\UpdateProjectCommands.cs" />
+    <Compile Include="Commands\Resource\CreateResourceCommand.cs" />
+    <Compile Include="Commands\Team\AddUserToTeamCommand.cs" />
+    <Compile Include="Commands\Team\CreateTeamCommand.cs" />
+    <Compile Include="Commands\Team\DeleteTeamCommand.cs" />
+    <Compile Include="Commands\Team\RemoveUserFromTeamCommand.cs" />
+    <Compile Include="Commands\Team\UpdateTeamCommand.cs" />
+    <Compile Include="Commands\User\DeleteUserCommand.cs" />
+    <Compile Include="Commands\User\UpdateUserCommand.cs" />
+    <Compile Include="Model\ResourceProject.cs" />
+    <Compile Include="Model\ResourceTeam.cs" />
+    <Compile Include="Model\ResourceUser.cs" />
+    <Compile Include="Queries\Mappings\AddressMapping.cs" />
+    <Compile Include="Queries\Mappings\ResourceProjectMapping.cs" />
+    <Compile Include="Queries\Mappings\ResourceTeamMapping.cs" />
+    <Compile Include="Queries\Mappings\ResourceUserMapping.cs" />
+    <Compile Include="Queries\Mappings\UserMapping.cs" />
+    <Compile Include="Queries\Mappings\CompanyMapping.cs" />
+    <Compile Include="Queries\Mappings\OrganizationMapping.cs" />
+    <Compile Include="Queries\Mappings\ProjectMapping.cs" />
+    <Compile Include="Queries\Mappings\ResourceMapping.cs" />
+    <Compile Include="Queries\Mappings\TeamMapping.cs" />
+    <Compile Include="Queries\Mappings\UserProjrctMapping.cs" />
+    <Compile Include="Queries\Mappings\UserTeamMapping.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\ApplicationUser.cs" />
-    <Compile Include="Model\Commands\CreateCompanyCommand.cs" />
-    <Compile Include="Model\Commands\CreateOrganizationCommand.cs" />
-    <Compile Include="Model\Commands\User\CreateUserCommand.cs" />
-    <Compile Include="Model\Commands\User\CreateFirstUserCommand.cs" />
-    <Compile Include="Model\Commands\User\RegisterUserCommand.cs" />
+    <Compile Include="Commands\Company\CreateCompanyCommand.cs" />
+    <Compile Include="Commands\Organization\CreateOrganizationCommand.cs" />
+    <Compile Include="Commands\User\CreateUserCommand.cs" />
+    <Compile Include="Commands\User\CreateFirstUserCommand.cs" />
+    <Compile Include="Commands\User\RegisterUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
-    <Compile Include="Model\DomainEvents\OrganizationCreated.cs" />
     <Compile Include="Model\DTOs\Company.cs" />
     <Compile Include="Model\DTOs\Login.cs" />
     <Compile Include="Model\Organization.cs" />

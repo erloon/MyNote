@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyNote.Identity.Domain.Mappings;
 using MyNote.Identity.Domain.Model;
+using MyNote.Identity.Domain.Queries.Mappings;
 
 namespace MyNote.Identity.Infrastructure
 {
@@ -20,6 +20,11 @@ namespace MyNote.Identity.Infrastructure
         public DbSet<UserProject> UserProjects { get; set; }
         public DbSet<UserTeam> UserTeams { get; set; }
         public DbSet<Resource> Resources { get; set; }
+        public DbSet<ResourceTeam> ResourceTeams { get; set; }
+        public DbSet<ResourceUser> ResourceUsers { get; set; }
+        public DbSet<ResourceProject> ResourceProjects { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserMapping());
@@ -30,6 +35,9 @@ namespace MyNote.Identity.Infrastructure
             builder.ApplyConfiguration(new UserProjrctMapping());
             builder.ApplyConfiguration(new UserTeamMapping());
             builder.ApplyConfiguration(new AddressMapping());
+            builder.ApplyConfiguration(new ResourceTeamMapping());
+            builder.ApplyConfiguration(new ResourceProjectMapping());
+            builder.ApplyConfiguration(new ResourceUserMapping());
 
             base.OnModelCreating(builder);
         }

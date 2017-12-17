@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyNote.Identity.Domain.Model.Commands;
+using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Time;
 

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
-using MyNote.Identity.Domain.Model.Commands.User;
 
 namespace MyNote.Identity.Infrastructure.Services.Contracts
 {

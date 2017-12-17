@@ -4,13 +4,13 @@ using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Model
 {
-    public class Team :BaseEntity
+    public class Team : BaseEntity
     {
-        public string Name { get; set; }
-        public DateTime CreateDate { get; set; }
-        public Guid OwnerId { get; set; }
-        public ApplicationUser User { get; set; }
-        public virtual ICollection<UserTeam> UserTeams { get; set; }
-        public virtual ICollection<Resource> Resources { get; set; }
+        public string Name { get; protected set; }
+        public DateTime CreateDate { get; protected set; }
+        public Guid OwnerId { get; protected set; }
+        public ApplicationUser User { get; protected set; }
+        public virtual ICollection<UserTeam> UserTeams { get; protected set; }
+        public virtual ICollection<ResourceTeam> ResourceTeams { get; protected set; }
     }
 }

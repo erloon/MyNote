@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyNote.Identity.Domain.Model.Commands;
 using MyNote.Infrastructure.Model;
 using MyNote.Infrastructure.Model.Entity;
 
@@ -8,11 +7,11 @@ namespace MyNote.Identity.Domain.Model
 {
     public class Address : ValueObject
     {
-        public Guid Id { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string Number { get; set; }
+        public Guid Id { get; protected set; }
+        public string Country { get; protected set; }
+        public string City { get; protected set; }
+        public string Street { get; protected set; }
+        public string Number { get; protected set; }
 
         private Address()
         {

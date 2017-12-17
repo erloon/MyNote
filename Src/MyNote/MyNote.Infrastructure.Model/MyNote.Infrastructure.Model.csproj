@@ -114,11 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
-    <Compile Include="DomainEvent.cs" />
+    <Compile Include="Domain\BaseCommand.cs" />
+    <Compile Include="Domain\IDomainEvent.cs" />
     <Compile Include="Entity\Aggregate.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
-    <Compile Include="ICommand.cs" />
-    <Compile Include="IDataRepository.cs" />
+    <Compile Include="Domain\ICommand.cs" />
+    <Compile Include="Database\IDataRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity\ValueObject.cs" />
     <Compile Include="Time\ITimeService.cs" />

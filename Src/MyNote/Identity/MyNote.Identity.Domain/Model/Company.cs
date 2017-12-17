@@ -1,17 +1,17 @@
 ﻿using System;
-using MyNote.Identity.Domain.Model.Commands;
+using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Model
 {
     public class Company : BaseEntity
     {
-        public string Name { get; set; }
+        public string Name { get; protected set; }
         public Address Address { get; private set; }
-        public string VatNumber { get; set; }
-        public string RegistrationNumber { get; set; }
-        public Guid OrganizationId { get; set; }
-        public Organization Organization { get; set; }
+        public string VatNumber { get; protected set; }
+        public string RegistrationNumber { get; protected set; }
+        public Guid OrganizationId { get; protected set; }
+        public Organization Organization { get; protected set; }
 
         protected Company()
         {

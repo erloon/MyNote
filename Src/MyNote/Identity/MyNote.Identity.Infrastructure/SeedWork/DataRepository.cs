@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using MyNote.Infrastructure.Model;
+using MyNote.Infrastructure.Model.Database;
 using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Infrastructure.SeedWork

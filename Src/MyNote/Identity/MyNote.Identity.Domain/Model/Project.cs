@@ -6,14 +6,14 @@ namespace MyNote.Identity.Domain.Model
 {
     public class Project : BaseEntity
     {
-        public string Name { get; set; }
-        public DateTime StartDate { get; set; }
-        public string Subject { get; set; }
-        public string Description { get; set; }
-        public Organization Organization { get; set; }
-        public Guid OrganizationId { get; set; }
+        public string Name { get; protected set; }
+        public DateTime StartDate { get; protected set; }
+        public string Subject { get; protected set; }
+        public string Description { get; protected set; }
+        public Organization Organization { get; protected set; }
+        public Guid OrganizationId { get; protected set; }
 
-        public virtual ICollection<UserProject> UserProjects { get; set; }
-        public virtual ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<UserProject> UserProjects { get; protected set; }
+        public virtual ICollection<ResourceProject> ResourceProjects { get; protected set; }
     }
 }

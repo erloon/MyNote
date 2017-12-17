@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
-using MyNote.Identity.Domain.Model.Commands.User;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
+using MyNote.Infrastructure.Model.Database;
 
 namespace MyNote.Identity.Infrastructure.Services
 {

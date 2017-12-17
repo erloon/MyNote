@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
-using MyNote.Identity.Domain.Model.Commands;
-using MyNote.Identity.Domain.Model.Commands.User;
 using MyNote.Identity.Infrastructure;
 using MyNote.Infrastructure.Model;
 using MyNote.Identity.Infrastructure.Services.Contracts;
+using MyNote.Infrastructure.Model.Database;
 using MyNote.Infrastructure.Model.Time;
 using Remotion.Linq.Clauses;
 

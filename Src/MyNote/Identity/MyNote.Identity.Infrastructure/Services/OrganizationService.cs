@@ -1,11 +1,11 @@
 ﻿using System;
 using MyNote.Identity.Domain.Model;
-using MyNote.Identity.Domain.Model.Commands;
-using MyNote.Identity.Domain.Model.DomainEvents;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
 using MyNote.Infrastructure.Model.Time;
 using MediatR;
+using MyNote.Identity.Domain.Commands.Organization;
+using MyNote.Infrastructure.Model.Database;
 
 namespace MyNote.Identity.Infrastructure.Services
 {
@@ -29,8 +29,8 @@ namespace MyNote.Identity.Infrastructure.Services
             _organizationRepository.AddAsync(organization);
             _organizationRepository.Save();
 
-            OrganizationCreated organizationCreated = new OrganizationCreated(organization,command,_timeService);
-            _mediator.Publish(organizationCreated);
+            //OrganizationCreated organizationCreated = new OrganizationCreated(organization,command,_timeService);
+            //_mediator.Publish(organizationCreated);
 
             return organization;
         }

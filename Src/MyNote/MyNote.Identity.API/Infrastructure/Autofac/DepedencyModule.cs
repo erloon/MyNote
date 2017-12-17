@@ -7,6 +7,7 @@ using MyNote.Identity.Infrastructure.SeedWork;
 using MyNote.Identity.Infrastructure.Services;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
+using MyNote.Infrastructure.Model.Database;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.API.Infrastructure.Autofac

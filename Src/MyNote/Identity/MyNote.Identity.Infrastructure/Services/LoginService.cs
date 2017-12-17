@@ -6,6 +6,7 @@ using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Model.DTOs;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
+using MyNote.Infrastructure.Model.Database;
 
 namespace MyNote.Identity.Infrastructure.Services
 {

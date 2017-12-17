@@ -303,7 +303,8 @@ namespace MyNote.Identity.API.Migrations
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Resource", b =>
                 {
-                    b.Property<Guid>("Id");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("ContentId");
 
@@ -315,23 +316,58 @@ namespace MyNote.Identity.API.Migrations
 
                     b.Property<Guid>("OrganizationId");
 
-                    b.Property<Guid?>("ProjectId");
+                    b.Property<string>("OwnerId");
 
-                    b.Property<Guid?>("TeamId");
+                    b.Property<Guid?>("OwnerId1");
 
                     b.Property<Guid>("UpdateBy");
-
-                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("OwnerId1");
+
+                    b.ToTable("Resources");
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceProject", b =>
+                {
+                    b.Property<Guid>("ProjectId");
+
+                    b.Property<Guid>("ResourceId");
+
+                    b.HasKey("ProjectId", "ResourceId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("ResourceProjects");
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceTeam", b =>
+                {
+                    b.Property<Guid>("ResourceId");
+
+                    b.Property<Guid>("TeamId");
+
+                    b.HasKey("ResourceId", "TeamId");
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("ResourceTeams");
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceUser", b =>
+                {
+                    b.Property<Guid>("ResourceId");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("ResourceId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ResourceUsers");
                 });
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Team", b =>
@@ -493,23 +529,53 @@ namespace MyNote.Identity.API.Migrations
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Resource", b =>
                 {
-                    b.HasOne("MyNote.Identity.Domain.Model.User", "User")
-                        .WithMany("Resources")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
                         .WithMany("Resources")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("MyNote.Identity.Domain.Model.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId1");
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceProject", b =>
+                {
                     b.HasOne("MyNote.Identity.Domain.Model.Project", "Project")
-                        .WithMany("Resources")
-                        .HasForeignKey("ProjectId");
+                        .WithMany("ResourceProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyNote.Identity.Domain.Model.Resource", "Resource")
+                        .WithMany("ResourceProjects")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceTeam", b =>
+                {
+                    b.HasOne("MyNote.Identity.Domain.Model.Resource", "Resource")
+                        .WithMany("ResourceTeams")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyNote.Identity.Domain.Model.Team", "Team")
-                        .WithMany("Resources")
-                        .HasForeignKey("TeamId");
+                        .WithMany("ResourceTeams")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MyNote.Identity.Domain.Model.ResourceUser", b =>
+                {
+                    b.HasOne("MyNote.Identity.Domain.Model.Resource", "Resource")
+                        .WithMany("ResourceUsers")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MyNote.Identity.Domain.Model.User", "User")
+                        .WithMany("ResourceUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Team", b =>

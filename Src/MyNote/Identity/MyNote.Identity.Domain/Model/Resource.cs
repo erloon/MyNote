@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Model
 {
     public class Resource : BaseEntity
     {
-        public string UserId { get; set; }
-        public User User { get; set; }
-        public Guid OrganizationId { get; set; }
-        public Organization Organization { get; set; }
-        public Guid? ProjectId { get; set; }
-        public Project Project { get; set; }
-        public Guid? TeamId { get; set; }
-        public Team Team { get; set; }
-        public Guid? ContentId { get; set; }
+        public string OwnerId { get;protected set; }
+        public User Owner { get;protected set; }
+        public Guid OrganizationId { get;protected set; }
+        public Organization Organization { get; protected set; }
+        public Guid? ContentId { get; protected set; }
+
+        public virtual ICollection<ResourceUser> ResourceUsers { get; protected set; }
+        public virtual ICollection<ResourceProject> ResourceProjects { get; protected set; }
+        public virtual ICollection<ResourceTeam> ResourceTeams { get; protected set; }
     }
 }
