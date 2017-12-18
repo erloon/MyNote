@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Infrastructure.Model;
 using MyNote.Infrastructure.Model.Entity;
 
@@ -13,15 +14,27 @@ namespace MyNote.Identity.Domain.Model
         public string Street { get; protected set; }
         public string Number { get; protected set; }
 
-        private Address()
+        public Address()
         {
         }
-        public Address(string country, string city, string street, string number)
+        public Address(CreateAddressCommand command)
         {
-            this.Country = country;
-            this.City = city;
-            this.Street = street;
-            this.Number = number;
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            this.Country = command.Country;
+            this.City = command.City;
+            this.Street = command.Street;
+            this.Number = command.Number;
+        }
+
+        public void Update(UpdateAddressCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            this.Country = command.Country;
+            this.City = command.City;
+            this.Street = command.Street;
+            this.Number = command.Number;
         }
 
         protected override IEnumerable<object> GetAtomicValues()

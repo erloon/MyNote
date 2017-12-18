@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyNote.Identity.Domain.Commands.Address;
+using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Infrastructure.Model.Entity;
+using MyNote.Infrastructure.Model.Exceptions;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Model
@@ -34,9 +37,25 @@ namespace MyNote.Identity.Domain.Model
             this.Name = command.Name;
             this.Create = now;
             this.Modyfication = now;
-            this.Address = new Address(command.Country, command.City, command.Street, command.Number);
-            this.Company = new Company(command.CreateCompanyCommand, this.Address, this.Id);
+           
+        }
 
+        public void AddAddress(CreateAddressCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (this.Address !=null) throw new DomainException("Organization already have address set",this.Id);
+            {
+                
+            }
+        }
+
+        public void AddCompany(CreateCompanyCommand command, Guid addressId)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            if (this.Company != null) throw new DomainException("Organization already have company set", this.Id);
+
+            this.Company = new Company(command, addressId, this.Id);
         }
     }
 }
