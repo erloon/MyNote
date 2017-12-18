@@ -20,5 +20,9 @@ namespace MyNote.Identity.Domain.Model
             this.Organization = organization;
             this.ApplicationUser = applicationUser;
         }
+
+        public User()
+        { 
+        }
     }
 }

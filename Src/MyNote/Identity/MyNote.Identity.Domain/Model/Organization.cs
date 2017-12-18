@@ -16,7 +16,7 @@ namespace MyNote.Identity.Domain.Model
         public virtual ICollection<User> Users { get; protected set; }
         public virtual ICollection<Resource> Resources { get; protected set; }
 
-        protected Organization() { }
+        public Organization() { }
 
         public void CreateUser(ITimeService timeService, ApplicationUser applicationUser)
         {
