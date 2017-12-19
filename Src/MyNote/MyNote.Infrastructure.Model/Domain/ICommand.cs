@@ -1,7 +1,11 @@
-﻿namespace MyNote.Infrastructure.Model.Domain
+﻿using System;
+using MediatR;
+
+namespace MyNote.Infrastructure.Model.Domain
 {
-    public interface ICommand
+    public interface ICommand : IRequest<bool>
     {
-        string Type { get; }
+        Guid Id { get; }
+        DateTime CreateDate { get; }
     }
 }

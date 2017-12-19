@@ -2,7 +2,7 @@
 
 namespace MyNote.Identity.Domain.Commands.Organization
 {
-    public class UpdateOrganizationCommand : BaseCommand
+    public class UpdateOrganizationCommand : Command
     {
         public string Name { get; set; }
         public string Country { get; set; }

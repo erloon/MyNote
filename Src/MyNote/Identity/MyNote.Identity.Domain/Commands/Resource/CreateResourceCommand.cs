@@ -3,7 +3,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Resource
 {
-    public class CreateResourceCommand : BaseCommand
+    public class CreateResourceCommand : Command
     {
         public string OwnerId { get; set; }
         public Guid OrganizationId { get; set; }

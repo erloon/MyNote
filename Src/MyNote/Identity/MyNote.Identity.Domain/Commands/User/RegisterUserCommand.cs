@@ -2,7 +2,7 @@
 
 namespace MyNote.Identity.Domain.Commands.User
 {
-    public class RegisterUserCommand : BaseCommand
+    public class RegisterUserCommand : Command
     {
         public string Email { get; set; }
         public string Password { get; set; }

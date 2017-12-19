@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Model
@@ -15,5 +16,14 @@ namespace MyNote.Identity.Domain.Model
 
         public virtual ICollection<UserProject> UserProjects { get; protected set; }
         public virtual ICollection<ResourceProject> ResourceProjects { get; protected set; }
+
+        public Project()
+        {
+        }
+
+        public Project(CreateProjectCommand command)
+        {
+            
+        }
     }
 }

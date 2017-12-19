@@ -1,9 +1,9 @@
 ﻿using System;
 using MyNote.Infrastructure.Model.Domain;
 
-namespace MyNote.Identity.Domain.Commands.Address
+namespace MyNote.Identity.Domain.Events.Address
 {
-    public class UpdateAddressCommand : Command
+    public class AddresCreated : IDomainEvent
     {
         public Guid AddressId { get; set; }
         public string Country { get; set; }

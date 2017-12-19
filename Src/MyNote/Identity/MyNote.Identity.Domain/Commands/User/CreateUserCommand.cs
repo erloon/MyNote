@@ -4,7 +4,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.User
 {
-    public class CreateUserCommand : BaseCommand
+    public class CreateUserCommand : Command
     {
         public string UserName { get; set; }
         public bool IsAdministrator { get; set; }

@@ -3,7 +3,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Resource
 {
-    public class RemoveResourceFromTeamCommand : BaseCommand
+    public class RemoveResourceFromTeamCommand : Command
     {
         public Guid OwnerId { get; set; }
         public Guid ResourceId { get; set; }

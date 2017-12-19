@@ -4,7 +4,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Organization
 {
-    public class CreateOrganizationCommand :ICommand
+    public class CreateOrganizationCommand : Command
     {
         public string Name { get; set; }
         public string Country { get; set; }
@@ -12,7 +12,5 @@ namespace MyNote.Identity.Domain.Commands.Organization
         public string Street { get; set; }
         public string Number { get; set; }
         public CreateCompanyCommand CreateCompanyCommand { get; set; }
-
-        public string Type { get; set; }
     }
 }

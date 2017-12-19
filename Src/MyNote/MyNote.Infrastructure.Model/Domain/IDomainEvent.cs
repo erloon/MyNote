@@ -1,13 +1,11 @@
 ﻿using System;
+using MediatR;
 
 namespace MyNote.Infrastructure.Model.Domain
 {
-    public interface IDomainEvent
+    public interface IDomainEvent : INotification
     {
-        string  Payload { get; set; }
-        Guid AggregateId { get; set; }
-        string Type { get; set; }
-        string PayloadType { get; set; }
-
+        Guid Id { get; }
+        DateTime CreateDate { get; }
     }
 }

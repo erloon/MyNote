@@ -169,6 +169,8 @@
     <Compile Include="Commands\Team\UpdateTeamCommand.cs" />
     <Compile Include="Commands\User\DeleteUserCommand.cs" />
     <Compile Include="Commands\User\UpdateUserCommand.cs" />
+    <Compile Include="Events\Address\AddresCreated.cs" />
+    <Compile Include="Events\Organization\OrganizationCreated.cs" />
     <Compile Include="Events\User\UserCreated.cs" />
     <Compile Include="Model\ResourceProject.cs" />
     <Compile Include="Model\ResourceTeam.cs" />

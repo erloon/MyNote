@@ -114,7 +114,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
-    <Compile Include="Domain\BaseCommand.cs" />
+    <Compile Include="Exception\DomainException.cs" />
+    <Compile Include="Domain\Command.cs" />
+    <Compile Include="Domain\DomainEvent.cs" />
     <Compile Include="Domain\IDomainEvent.cs" />
     <Compile Include="Entity\Aggregate.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
