@@ -5,6 +5,7 @@ using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Events.Address;
+using MyNote.Identity.Domain.Events.Company;
 using MyNote.Identity.Domain.Events.Organization;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Exception;
@@ -74,8 +75,10 @@ namespace MyNote.Identity.Domain.Model
 
             if (this.Company != null) throw new DomainException("Organization already have company set", this.Id);
 
-            this.Company = new Company(command, this.AddressId, this.Id);
+            this.Company = new Company(command);
         }
+
+
 
         public void AddProject(CreateProjectCommand command)
         {

@@ -30,14 +30,14 @@ namespace MyNote.Identity.Domain.Model
             this.Create = timeService.GetCurrent();
         }
 
-        public void Update(UpdateAddressCommand command)
+        public void Apply(AddressUpdated @event)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
 
-            this.Country = command.Country;
-            this.City = command.City;
-            this.Street = command.Street;
-            this.Number = command.Number;
+            this.Country = @event.Country;
+            this.City = @event.City;
+            this.Street = @event.Street;
+            this.Number = @event.Number;
         }
 
         protected IEnumerable<object> GetAtomicValues()

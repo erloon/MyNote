@@ -1,5 +1,6 @@
 ﻿using System;
 using MyNote.Identity.Domain.Commands.Company;
+using MyNote.Identity.Domain.Events.Company;
 using MyNote.Infrastructure.Model.Entity;
 
 namespace MyNote.Identity.Domain.Model
@@ -16,24 +17,34 @@ namespace MyNote.Identity.Domain.Model
 
         protected Company()
         {
-
-        }
-        public Company(CreateCompanyCommand command, Guid addressId, Guid organizationId)
-        {
-            this.Name = command.Name;
-            this.VatNumber = command.VatNumber;
-            this.RegistrationNumber = command.RegistrationNumber;
-            this.OrganizationId = organizationId;
-            this.AddressId = addressId;
         }
 
-        public void Update(UpdateCompanyCommand command, Guid organizationId)
+        public Company(CreateCompanyCommand command)
         {
-            this.Name = command.Name;
-            this.VatNumber = command.VatNumber;
-            this.RegistrationNumber = command.RegistrationNumber;
-            this.OrganizationId = organizationId;
-            this.AddressId = command.AddressId;
+            Apply(new CompanyCreated(command));
+        }
+
+        public void Update(UpdateCompanyCommand command)
+        {
+            Apply(new CompanyUpdated(command));
+        }
+
+        public void Apply(CompanyCreated @event)
+        {
+            this.Name = @event.Name;
+            this.VatNumber = @event.VatNumber;
+            this.RegistrationNumber = @event.RegistrationNumber;
+            this.OrganizationId = @event.OrganizationId;
+            this.AddressId = @event.AddressId;
+        }
+
+        public void Apply(CompanyUpdated @event)
+        {
+            this.Name = @event.Name;
+            this.VatNumber = @event.VatNumber;
+            this.RegistrationNumber = @event.RegistrationNumber;
+            this.OrganizationId = @event.OrganizationId;
+            this.AddressId = @event.AddressId;
         }
     }
 }
