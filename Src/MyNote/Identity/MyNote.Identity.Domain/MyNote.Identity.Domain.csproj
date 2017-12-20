@@ -170,6 +170,10 @@
     <Compile Include="Commands\User\DeleteUserCommand.cs" />
     <Compile Include="Commands\User\UpdateUserCommand.cs" />
     <Compile Include="Events\Address\AddresCreated.cs" />
+    <Compile Include="Events\Address\AddressDeleted.cs" />
+    <Compile Include="Events\Address\AddressUpdated.cs" />
+    <Compile Include="Events\Company\CompanyCreated.cs" />
+    <Compile Include="Events\Company\CompanyUpdated.cs" />
     <Compile Include="Events\Organization\OrganizationCreated.cs" />
     <Compile Include="Events\User\UserCreated.cs" />
     <Compile Include="Model\ResourceProject.cs" />

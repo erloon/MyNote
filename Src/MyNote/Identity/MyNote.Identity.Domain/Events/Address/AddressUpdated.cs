@@ -1,6 +1,7 @@
 ﻿using System;
 using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Infrastructure.Model.Domain;
+using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.Address
 {
@@ -11,14 +12,16 @@ namespace MyNote.Identity.Domain.Events.Address
         public string City { get; set; }
         public string Street { get; set; }
         public string Number { get; set; }
+        public DateTime Modyfication { get; set; }
 
-        public AddressUpdated(UpdateAddressCommand command)
+        public AddressUpdated(UpdateAddressCommand command, ITimeService timeService)
         {
             this.AddressId = command.AddressId;
             this.Country = command.Country;
             this.City = command.City;
-            this.Street = command.Street;
             this.Number = command.Number;
+            this.Street = command.Street;
+            this.Modyfication = timeService.GetCurrent();
         }
     }
 }

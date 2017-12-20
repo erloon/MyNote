@@ -19,7 +19,16 @@ namespace MyNote.Identity.Domain.Model
         public Address()
         {
         }
-        public Address(AddresCreated @event,ITimeService timeService)
+        public Address(CreateAddressCommand command,ITimeService timeService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            var @event = new AddresCreated(command);
+
+            Append(@event);
+            Apply(@event, timeService);
+        }
+
+        public void Apply(AddresCreated @event, ITimeService timeService)
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
@@ -30,6 +39,15 @@ namespace MyNote.Identity.Domain.Model
             this.Create = timeService.GetCurrent();
         }
 
+        public void Update(UpdateAddressCommand command, ITimeService timeService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            var @event = new AddressUpdated(command, timeService);
+
+            Append(@event);
+            Apply(@event);
+        }
+
         public void Apply(AddressUpdated @event)
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
@@ -38,6 +56,7 @@ namespace MyNote.Identity.Domain.Model
             this.City = @event.City;
             this.Street = @event.Street;
             this.Number = @event.Number;
+            this.Modification = @event.Modyfication;
         }
 
         protected IEnumerable<object> GetAtomicValues()

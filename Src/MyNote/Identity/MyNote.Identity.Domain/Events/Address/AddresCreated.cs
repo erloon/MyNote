@@ -1,6 +1,7 @@
 ﻿using System;
 using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Infrastructure.Model.Domain;
+using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.Address
 {

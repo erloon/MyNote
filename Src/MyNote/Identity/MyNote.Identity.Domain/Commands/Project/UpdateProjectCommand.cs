@@ -3,7 +3,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Project
 {
-    public class UpdateProjectCommands : Command
+    public class UpdateProjectCommand : Command
     {
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
