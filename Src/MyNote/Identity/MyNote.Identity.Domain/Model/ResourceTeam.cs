@@ -9,5 +9,11 @@ namespace MyNote.Identity.Domain.Model
         public Guid ResourceId { get; protected set; }
         public Team Team { get; protected set; }
         public Guid TeamId { get; protected set; }
+
+        public ResourceTeam(Guid resourceId, Guid teamId)
+        {
+            this.ResourceId = resourceId;
+            this.TeamId = teamId;
+        }
     }
 }

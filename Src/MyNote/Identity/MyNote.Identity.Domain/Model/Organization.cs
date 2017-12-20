@@ -5,8 +5,7 @@ using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Commands.Resource;
-using MyNote.Identity.Domain.Events.Address;
-using MyNote.Identity.Domain.Events.Company;
+using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events.Organization;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Exception;
@@ -29,6 +28,9 @@ namespace MyNote.Identity.Domain.Model
 
         public Organization(CreateOrganizationCommand command, ITimeService timeService)
         {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+
             var @event = new OrganizationCreated(command);
             Append(@event);
             Apply(@event);
@@ -39,6 +41,8 @@ namespace MyNote.Identity.Domain.Model
 
         public void Apply(OrganizationCreated @event)
         {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
             this.Id = @event.OrganizationId;
             this.Name = @event.Name;
         }
@@ -46,6 +50,8 @@ namespace MyNote.Identity.Domain.Model
         public void AddAddress(CreateAddressCommand command, ITimeService timeService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+
             if (this.Address != null) throw new DomainException("Organization already have address set", this.Id);
 
             this.Address = new Address(command, timeService);
@@ -63,14 +69,19 @@ namespace MyNote.Identity.Domain.Model
         public void AddProject(CreateProjectCommand command, ITimeService timeService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             if (this.Projects == null) this.Projects = new List<Project>();
 
             this.Projects.Add(new Project(command, timeService));
         }
 
-        public void CreateUser(ITimeService timeService, ApplicationUser applicationUser)
+        public void AddUser(CreateUserCommand command, ITimeService timeService, ApplicationUser applicationUser)
         {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+            if (applicationUser == null) throw new ArgumentNullException(nameof(applicationUser));
+
             var now = timeService.GetCurrent();
             User user = new User(applicationUser, this);
             user.Create = now;
@@ -79,7 +90,14 @@ namespace MyNote.Identity.Domain.Model
 
         public void AddResource(CreateResourceCommand command, ITimeService timeService)
         {
-            
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+
+            if (this.Resources == null) this.Resources = new List<Resource>();
+
+            this.Resources.Add(new Resource(command, timeService));
         }
+
+
     }
 }

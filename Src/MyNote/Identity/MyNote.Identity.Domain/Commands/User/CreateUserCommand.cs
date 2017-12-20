@@ -8,6 +8,5 @@ namespace MyNote.Identity.Domain.Commands.User
     {
         public string UserName { get; set; }
         public bool IsAdministrator { get; set; }
-        public Guid AppliCationUserId { get; set; }
     }
 }
