@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Commands.Team;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events.User;
@@ -44,7 +45,25 @@ namespace MyNote.Identity.Domain.Model
             Apply(@event);
         }
 
-        
+        public void AddToTeam(AddUserToTeamCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            var @event = new UserToTeamAdded(command);
+            Append(@event);
+            Apply(@event);
+        }
+
+        public void AddToProject(AddUserToProjectCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            var @event = new UserToProjectAdded(command);
+
+            Append(@event);
+            Apply(@event);
+        }
+
         #region Events apply methods
 
         public void Apply(UserCreated @event)
@@ -65,6 +84,19 @@ namespace MyNote.Identity.Domain.Model
             this.Modification = @event.Modification;
         }
 
+        public void Apply(UserToTeamAdded @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+            this.UserTeams.Add(new UserTeam(@event));
+        }
+
+        public void Apply(UserToProjectAdded @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+            this.UserProjects.Add(new UserProject(@event));
+        }
         #endregion
 
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using MyNote.Infrastructure.Model.Domain;
 
-namespace MyNote.Identity.Domain.Commands.Team
+namespace MyNote.Identity.Domain.Commands.User
 {
     public class RemoveUserFromTeamCommand : Command
     {

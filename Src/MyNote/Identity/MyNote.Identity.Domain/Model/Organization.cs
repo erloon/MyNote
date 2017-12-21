@@ -39,13 +39,6 @@ namespace MyNote.Identity.Domain.Model
             AddCompany(command.CreateCompanyCommand);
         }
 
-        public void Apply(OrganizationCreated @event)
-        {
-            if (@event == null) throw new ArgumentNullException(nameof(@event));
-
-            this.Id = @event.OrganizationId;
-            this.Name = @event.Name;
-        }
 
         public void AddAddress(CreateAddressCommand command, ITimeService timeService)
         {
@@ -82,10 +75,9 @@ namespace MyNote.Identity.Domain.Model
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
             if (applicationUser == null) throw new ArgumentNullException(nameof(applicationUser));
 
-            var now = timeService.GetCurrent();
-            User user = new User(applicationUser, this);
-            user.Create = now;
-            user.Modification = now;
+            if (this.Users == null) this.Users = new List<User>();
+
+            this.Users.Add(new User(command, applicationUser, this.Id, timeService));
         }
 
         public void AddResource(CreateResourceCommand command, ITimeService timeService)
@@ -97,6 +89,15 @@ namespace MyNote.Identity.Domain.Model
 
             this.Resources.Add(new Resource(command, timeService));
         }
+
+        public void Apply(OrganizationCreated @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+            this.Id = @event.OrganizationId;
+            this.Name = @event.Name;
+        }
+
 
 
     }

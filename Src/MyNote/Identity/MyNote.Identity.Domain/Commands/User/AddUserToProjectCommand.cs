@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyNote.Identity.Domain.Commands.Project
+namespace MyNote.Identity.Domain.Commands.User
 {
     public class AddUserToProjectCommand
     {

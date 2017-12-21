@@ -1,4 +1,5 @@
 ﻿using System;
+using MyNote.Identity.Domain.Events.User;
 
 namespace MyNote.Identity.Domain.Model
 {
@@ -8,5 +9,11 @@ namespace MyNote.Identity.Domain.Model
         public Team Team { get; protected set; }
         public Guid UserId { get; protected set; }
         public User User { get; protected set; }
+
+        public UserTeam(UserToTeamAdded @event)
+        {
+            this.TeamId = @event.TeamId;
+            this.UserId = @event.UserId;
+        }
     }
 }

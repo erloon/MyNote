@@ -2,6 +2,7 @@
 using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Events.Company;
 using MyNote.Infrastructure.Model.Entity;
+using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Model
 {
@@ -19,9 +20,9 @@ namespace MyNote.Identity.Domain.Model
         {
         }
 
-        public Company(CreateCompanyCommand command)
+        public Company(CreateCompanyCommand command, ITimeService timeService)
         {
-            Apply(new CompanyCreated(command));
+            Apply(new CompanyCreated(command, timeService));
         }
 
         public void Update(UpdateCompanyCommand command)
