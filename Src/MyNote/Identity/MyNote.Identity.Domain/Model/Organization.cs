@@ -36,7 +36,7 @@ namespace MyNote.Identity.Domain.Model
             Apply(@event);
 
             AddAddress(new CreateAddressCommand(command.Country, command.City, command.Street, command.Number, this.Id), timeService);
-            AddCompany(command.CreateCompanyCommand);
+            AddCompany(command.CreateCompanyCommand, timeService);
         }
 
 
@@ -50,13 +50,13 @@ namespace MyNote.Identity.Domain.Model
             this.Address = new Address(command, timeService);
         }
 
-        public void AddCompany(CreateCompanyCommand command)
+        public void AddCompany(CreateCompanyCommand command, ITimeService timeService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             if (this.Company != null) throw new DomainException("Organization already have company set", this.Id);
 
-            this.Company = new Company(command);
+            this.Company = new Company(command,timeService);
         }
 
         public void AddProject(CreateProjectCommand command, ITimeService timeService)
