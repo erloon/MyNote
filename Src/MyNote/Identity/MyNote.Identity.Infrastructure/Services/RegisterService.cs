@@ -36,9 +36,9 @@ namespace MyNote.Identity.Infrastructure.Services
 
             var identity = _userManager.CreateAsync(applicationUser, command.Password);
 
-            User user = new User(applicationUser, organization);
-            _useRepository.Add(user);
-            _useRepository.Save();
+            //User user = new User(applicationUser, organization);
+            //_useRepository.Add(user);
+            //_useRepository.Save();
 
             return identity;
 

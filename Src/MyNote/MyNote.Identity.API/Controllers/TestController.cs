@@ -23,23 +23,7 @@ namespace MyNote.Identity.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var myEvent = new UserCreated()
-            {
-                IsAdministrator = true
-            };
-
-            var eventId = Guid.NewGuid();
-
-            try
-            {
-                _store.Append(eventId, myEvent);
-                _session.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-              
-                throw;
-            }
+          
             return new OkResult();
         }
     }
