@@ -27,18 +27,15 @@ namespace MyNote.Identity.Infrastructure.Services
             _organizationRepository = organizationRepository;
             _useRepository = useRepository;
         }
-        public Task<IdentityResult> Register(RegisterUserCommand command, Organization organization)
+        public Task<IdentityResult> Register(RegisterUserCommand command)
         {
-            if (organization == null) throw new ArgumentNullException(nameof(organization));
 
             ApplicationUser applicationUser = null;
             applicationUser = new ApplicationUser(command);
 
             var identity = _userManager.CreateAsync(applicationUser, command.Password);
 
-            //User user = new User(applicationUser, organization);
-            //_useRepository.Add(user);
-            //_useRepository.Save();
+
 
             return identity;
 

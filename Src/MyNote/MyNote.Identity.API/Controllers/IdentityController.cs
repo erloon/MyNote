@@ -24,11 +24,31 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrganization([FromBody] CreateFirstUserCommand command)
+        public async Task<IActionResult> Register(RegisterUserCommand command)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            var result = await _mediator.Send(command);
+
+            if (result)
+            {
+                return new OkResult();
+            }
+            return new BadRequestResult();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            var result = await _mediator.Send(command);
+
+            if (result)
+            {
+                return new OkResult();
+            }
+            return new BadRequestResult();
         }
     }
 }

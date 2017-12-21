@@ -40,9 +40,9 @@ namespace MyNote.Identity.API.Application.DomainHandler
         }
         private void CreateUser(CreateFirstUserCommand notification, Organization organization)
         {
-            var identityResult = _registerService.Register(notification.RegisterUserCommand, organization);
-            if (identityResult == null) throw new ApplicationException("Nie udało się utworzyć użytkownika");
-            _userManager.FindByNameAsync(notification.RegisterUserCommand.Email);
+            //var identityResult = _registerService.Register(notification.RegisterUserCommand, organization);
+            //if (identityResult == null) throw new ApplicationException("Nie udało się utworzyć użytkownika");
+            //_userManager.FindByNameAsync(notification.RegisterUserCommand.Email);
 
         }
 

@@ -151,6 +151,7 @@
     <Compile Include="Commands\Project\CreateProjectCommand.cs" />
     <Compile Include="Commands\Project\DeleteProjectCommand.cs" />
     <Compile Include="Commands\Project\RemoveResourceFromProjectCommand.cs" />
+    <Compile Include="Commands\User\LoginCommand.cs" />
     <Compile Include="Commands\User\RemoveUserFromProjectCommand.cs" />
     <Compile Include="Commands\Project\UpdateProjectCommand.cs" />
     <Compile Include="Commands\Resource\CreateResourceCommand.cs" />

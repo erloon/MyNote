@@ -33,7 +33,11 @@ namespace MyNote.Identity.API.Infrastructure.Mediator
 
             builder.RegisterAssemblyTypes(typeof(CreateFirstUserCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(RequestHandler<>));
-                
+
+            builder.RegisterAssemblyTypes(typeof(RegisterUserCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(RequestHandler<>));
+            builder.RegisterAssemblyTypes(typeof(LoginCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(RequestHandler<>));
 
             base.Load(builder);
         }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Model.DTOs;
 using MyNote.Identity.Infrastructure.Services.Contracts;
@@ -43,10 +46,13 @@ namespace MyNote.Identity.Infrastructure.Services
             return user.ApplicationUser;
         }
 
-        public  Task SignIn(Login login)
+        public Task SignIn(LoginCommand command)
         {
-            var user = FindByUsernameAndOrganization(login);
-            return _signInManager.SignInAsync(user.Result, true);
+            var appUser = _signInManager.UserManager.Users.FirstOrDefault(x => x.Email.Equals(command.Email));
+
+            if (appUser == null) throw new SecurityException("User not found");
+
+            return _signInManager.SignInAsync(appUser, command.RememberMe);
         }
     }
 }

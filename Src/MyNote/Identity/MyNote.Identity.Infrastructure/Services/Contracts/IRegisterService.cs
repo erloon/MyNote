@@ -7,6 +7,6 @@ namespace MyNote.Identity.Infrastructure.Services.Contracts
 {
     public interface IRegisterService
     {
-        Task<IdentityResult> Register(RegisterUserCommand register, Organization organization);
+        Task<IdentityResult> Register(RegisterUserCommand register);
     }
 }
