@@ -11,9 +11,10 @@ using System;
 namespace MyNote.Identity.API.Migrations
 {
     [DbContext(typeof(MyIdentityDbContext))]
-    partial class MyIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171221204015_DomainToEventChanges")]
+    partial class DomainToEventChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
