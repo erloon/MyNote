@@ -45,14 +45,5 @@ namespace MyNote.Identity.Infrastructure.Services
                 s => s.Include(x => x.Organization));
             return user.ApplicationUser;
         }
-
-        public Task SignIn(LoginCommand command)
-        {
-            var appUser = _signInManager.UserManager.Users.FirstOrDefault(x => x.Email.Equals(command.Email));
-
-            if (appUser == null) throw new SecurityException("User not found");
-
-            return _signInManager.SignInAsync(appUser, command.RememberMe);
-        }
     }
 }

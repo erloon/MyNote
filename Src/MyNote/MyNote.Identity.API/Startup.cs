@@ -33,7 +33,7 @@ namespace MyNote.Identity.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration["ConnectionString"];
-           
+
 
             services.AddDbContext<MyIdentityDbContext>(options =>
                 options.UseSqlServer(connectionString,
@@ -76,10 +76,9 @@ namespace MyNote.Identity.API
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-        
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+         
+            app.UseStaticFiles();
+            app.UseAuthentication();
 
             var pathBase = Configuration["PATH_BASE"];
             if (!string.IsNullOrEmpty(pathBase))

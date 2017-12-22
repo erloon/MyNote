@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Infrastructure.Services.Contracts;
@@ -10,8 +11,7 @@ using MyNote.Infrastructure.Model.Database;
 namespace MyNote.Identity.API.Application.DomainHandler
 {
     public class IdentityHandler
-        : IRequestHandler<RegisterUserCommand, bool>,
-        IRequestHandler<LoginCommand, bool>
+        : IRequestHandler<RegisterUserCommand, bool>
 
     {
         private readonly IRegisterService _registerService;
@@ -33,32 +33,15 @@ namespace MyNote.Identity.API.Application.DomainHandler
             _loginService = loginService;
         }
 
-        public Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = _registerService.Register(request).Result;
+            IdentityResult result = null;
 
-                return new Task<bool>(() => result.Succeeded);
-            }
-            catch (Exception ex)
-            {
-                return new Task<bool>(() => false);
-            }
+            result = await _registerService.Register(request);
+
+            return result.Succeeded;
+
         }
 
-
-        public Task<bool> Handle(LoginCommand request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                _loginService.SignIn(request);
-                return new Task<bool>(() => true);
-            }
-            catch (Exception ex)
-            {
-                return new Task<bool>(() => false);
-            }
-        }
     }
 }

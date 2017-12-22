@@ -9,6 +9,5 @@ namespace MyNote.Identity.Infrastructure.Services.Contracts
     {
         Task<bool> ValidateCredentials(ApplicationUser user, string password);
         Task<ApplicationUser> FindByUsernameAndOrganization(Login login);
-        Task SignIn(LoginCommand command);
     }
 }
