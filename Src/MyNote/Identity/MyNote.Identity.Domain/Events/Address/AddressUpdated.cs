@@ -12,7 +12,8 @@ namespace MyNote.Identity.Domain.Events.Address
         public string City { get; set; }
         public string Street { get; set; }
         public string Number { get; set; }
-        public DateTime Modyfication { get; set; }
+        public DateTime Modification { get; set; }
+        public Guid UpdateBy { get; set; }
 
         public AddressUpdated(UpdateAddressCommand command, ITimeService timeService)
         {
@@ -21,7 +22,8 @@ namespace MyNote.Identity.Domain.Events.Address
             this.City = command.City;
             this.Number = command.Number;
             this.Street = command.Street;
-            this.Modyfication = timeService.GetCurrent();
+            this.Modification = timeService.GetCurrent();
+            this.UpdateBy = command.UpdateBy;
         }
     }
 }

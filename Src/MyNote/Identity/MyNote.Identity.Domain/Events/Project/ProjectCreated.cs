@@ -12,7 +12,10 @@ namespace MyNote.Identity.Domain.Events.Project
         public string Subject { get; set; }
         public string Description { get; set; }
         public Guid OrganizationId { get; set; }
+        public Guid CreateBy { get; set; }
+        public Guid UpdateBy { get; set; }
         public DateTime Create { get; set; }
+        public DateTime Modification { get; set; }
 
         public ProjectCreated(CreateProjectCommand command, ITimeService timeService)
         {
@@ -21,7 +24,10 @@ namespace MyNote.Identity.Domain.Events.Project
             this.Subject = command.Subject;
             this.Description = command.Description;
             this.OrganizationId = OrganizationId;
+            this.CreateBy = command.CreateBy;
+            this.UpdateBy = command.UpdateBy;
             this.Create = timeService.GetCurrent();
+            this.Modification = timeService.GetCurrent();
         }
     }
 }

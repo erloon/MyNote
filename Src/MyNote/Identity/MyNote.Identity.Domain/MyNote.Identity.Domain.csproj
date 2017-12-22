@@ -169,7 +169,7 @@
     <Compile Include="Commands\Team\UpdateTeamCommand.cs" />
     <Compile Include="Commands\User\DeleteUserCommand.cs" />
     <Compile Include="Commands\User\UpdateUserCommand.cs" />
-    <Compile Include="Events\Address\AddresCreated.cs" />
+    <Compile Include="Events\Address\AddressCreated.cs" />
     <Compile Include="Events\Address\AddressDeleted.cs" />
     <Compile Include="Events\Address\AddressUpdated.cs" />
     <Compile Include="Events\Company\CompanyCreated.cs" />
@@ -191,6 +191,7 @@
     <Compile Include="Model\ResourceProject.cs" />
     <Compile Include="Model\ResourceTeam.cs" />
     <Compile Include="Model\ResourceUser.cs" />
+    <Compile Include="Queries\IOrganizationQuery.cs" />
     <Compile Include="Queries\Mappings\AddressMapping.cs" />
     <Compile Include="Queries\Mappings\ResourceProjectMapping.cs" />
     <Compile Include="Queries\Mappings\ResourceTeamMapping.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Model\UserProject.cs" />
     <Compile Include="Model\UserTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\OrganizationQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyNote.Infrastructure.Model\MyNote.Infrastructure.Model.csproj">
@@ -232,6 +234,8 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Queries\Handlers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

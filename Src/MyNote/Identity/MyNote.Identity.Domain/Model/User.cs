@@ -4,6 +4,7 @@ using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Commands.Team;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events.User;
+using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Time;
 
@@ -20,47 +21,44 @@ namespace MyNote.Identity.Domain.Model
         public virtual ICollection<UserProject> UserProjects { get; protected set; }
         public virtual ICollection<ResourceUser> ResourceUsers { get; protected set; }
 
-        public User()
-        {
-        }
-        public User(CreateUserCommand command, ApplicationUser applicationUser, Guid organizationId, ITimeService timeService)
+        public User(CreateUserCommand command, ApplicationUser applicationUser, Guid organizationId, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (applicationUser == null) throw new ArgumentNullException(nameof(applicationUser));
             if (organizationId == null) throw new ArgumentNullException(nameof(organizationId));
 
             var @event = new UserCreated(command, applicationUser, organizationId, timeService);
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void Update(UpdateUserCommand command, ITimeService timeService)
+        public void Update(UpdateUserCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             var @event = new UserUpdated(command, timeService);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void AddToTeam(AddUserToTeamCommand command)
+        public void AddToTeam(AddUserToTeamCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new UserToTeamAdded(command);
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void AddToProject(AddUserToProjectCommand command)
+        public void AddToProject(AddUserToProjectCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new UserToProjectAdded(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 

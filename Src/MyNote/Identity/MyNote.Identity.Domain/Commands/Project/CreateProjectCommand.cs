@@ -10,5 +10,7 @@ namespace MyNote.Identity.Domain.Commands.Project
         public string Subject { get; set; }
         public string Description { get; set; }
         public Guid OrganizationId { get; set; }
+        public Guid UpdateBy { get; set; }
+        public Guid CreateBy { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using MyNote.Infrastructure.Model.Time;
 using MediatR;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Infrastructure.Model.Database;
+using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Infrastructure.Services
 {
@@ -13,24 +14,26 @@ namespace MyNote.Identity.Infrastructure.Services
     {
         private readonly IDataRepository<Organization> _organizationRepository;
         private readonly IMediator _mediator;
+        private readonly IDomainEventsService _domainEventsService;
         private readonly ITimeService _timeService;
 
         public OrganizationService(IDataRepository<Organization> organizationRepository,
-                                    IMediator mediator)
+                                    IMediator mediator,
+                                    IDomainEventsService domainEventsService)
         {
             if (organizationRepository == null) throw new ArgumentNullException(nameof(organizationRepository));
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+
             _organizationRepository = organizationRepository;
             _mediator = mediator;
+            _domainEventsService = domainEventsService;
         }
         public Organization Create(CreateOrganizationCommand command, ITimeService timeService)
         {
-            Organization organization = new Organization(command, timeService);
+            Organization organization = new Organization(command, timeService, _domainEventsService);
             _organizationRepository.AddAsync(organization);
             _organizationRepository.Save();
-
-            //OrganizationCreated organizationCreated = new OrganizationCreated(organization,command,_timeService);
-            //_mediator.Publish(organizationCreated);
 
             return organization;
         }

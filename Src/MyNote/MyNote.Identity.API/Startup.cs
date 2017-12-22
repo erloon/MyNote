@@ -54,6 +54,8 @@ namespace MyNote.Identity.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Identity API", Version = "v1" });
+                c.DescribeAllEnumsAsStrings();
+              
             });
           
 
@@ -95,6 +97,7 @@ namespace MyNote.Identity.API
             {
                 c.SwaggerEndpoint("/MyNote.Identity.API/swagger/v1/swagger.json", "Identity V1");
             });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

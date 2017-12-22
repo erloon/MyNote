@@ -7,6 +7,7 @@ using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Commands.Resource;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events.Organization;
+using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
@@ -24,52 +25,50 @@ namespace MyNote.Identity.Domain.Model
         public virtual ICollection<User> Users { get; protected set; }
         public virtual ICollection<Resource> Resources { get; protected set; }
 
-        public Organization() { }
-
-        public Organization(CreateOrganizationCommand command, ITimeService timeService)
+        public Organization()
+        {
+        }
+        public Organization(CreateOrganizationCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
-            var @event = new OrganizationCreated(command);
-            Append(@event);
+            var @event = new OrganizationCreated(command, timeService);
+            Save(@event, domainEventsService);
             Apply(@event);
-
-            AddAddress(new CreateAddressCommand(command.Country, command.City, command.Street, command.Number, this.Id), timeService);
-            AddCompany(command.CreateCompanyCommand, timeService);
         }
 
 
-        public void AddAddress(CreateAddressCommand command, ITimeService timeService)
+        public void AddAddress(CreateAddressCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             if (this.Address != null) throw new DomainException("Organization already have address set", this.Id);
 
-            this.Address = new Address(command, timeService);
+            this.Address = new Address(command, timeService, domainEventsService);
         }
 
-        public void AddCompany(CreateCompanyCommand command, ITimeService timeService)
+        public void AddCompany(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             if (this.Company != null) throw new DomainException("Organization already have company set", this.Id);
 
-            this.Company = new Company(command,timeService);
+            this.Company = new Company(command, timeService, domainEventsService);
         }
 
-        public void AddProject(CreateProjectCommand command, ITimeService timeService)
+        public void AddProject(CreateProjectCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             if (this.Projects == null) this.Projects = new List<Project>();
 
-            this.Projects.Add(new Project(command, timeService));
+            this.Projects.Add(new Project(command, timeService, domainEventsService));
         }
 
-        public void AddUser(CreateUserCommand command, ITimeService timeService, ApplicationUser applicationUser)
+        public void AddUser(CreateUserCommand command, ITimeService timeService, ApplicationUser applicationUser, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
@@ -77,17 +76,17 @@ namespace MyNote.Identity.Domain.Model
 
             if (this.Users == null) this.Users = new List<User>();
 
-            this.Users.Add(new User(command, applicationUser, this.Id, timeService));
+            this.Users.Add(new User(command, applicationUser, this.Id, timeService, domainEventsService));
         }
 
-        public void AddResource(CreateResourceCommand command, ITimeService timeService)
+        public void AddResource(CreateResourceCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             if (this.Resources == null) this.Resources = new List<Resource>();
 
-            this.Resources.Add(new Resource(command, timeService));
+            this.Resources.Add(new Resource(command, timeService, domainEventsService));
         }
 
         public void Apply(OrganizationCreated @event)
@@ -96,6 +95,10 @@ namespace MyNote.Identity.Domain.Model
 
             this.Id = @event.OrganizationId;
             this.Name = @event.Name;
+            this.Modification = @event.Modification;
+            this.CreateBy = @event.CreateBy.Value;
+            this.UpdateBy = @event.UpdateBy.Value;
+            this.Create = @event.Create;
         }
 
 

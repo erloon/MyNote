@@ -12,6 +12,7 @@ namespace MyNote.Identity.Domain.Events.User
         public string Name { get; set; }
         public Model.ApplicationUser ApplicationUser { get; set; }
         public DateTime Modification { get; set; }
+        public Guid UpdateBy { get; set; }
 
         public UserUpdated(UpdateUserCommand command, ITimeService timeService)
         {
@@ -23,6 +24,7 @@ namespace MyNote.Identity.Domain.Events.User
             this.Name = command.Name;
             this.ApplicationUser = command.ApplicationUser;
             this.Modification = timeService.GetCurrent();
+            this.UpdateBy = command.UpdateBy;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyNote.Identity.Domain.Commands.Resource;
 using MyNote.Identity.Domain.Events.Resource;
+using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
@@ -26,70 +27,70 @@ namespace MyNote.Identity.Domain.Model
         {
         }
 
-        public Resource(CreateResourceCommand command, ITimeService timeService)
+        public Resource(CreateResourceCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             var @event = new ResourceCreated(command, timeService);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void AddUser(ShareResourceToUserCommand command)
+        public void AddUser(ShareResourceToUserCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceToUserShared(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void RemoveUser(RemoveResourceFromUserCommand command)
+        public void RemoveUser(RemoveResourceFromUserCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceFromUserRemoved(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void AddProject(ShareResourceToProjectCommand command)
+        public void AddProject(ShareResourceToProjectCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceToProjectShared(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void RemoveProject(RemoveResourceFromProjectCommand command)
+        public void RemoveProject(RemoveResourceFromProjectCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceFromProjectRemoved(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void AddTeam(ShareResourceToTeamCommand command)
+        public void AddTeam(ShareResourceToTeamCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new ResourceToTeamShared(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void RemoveTeam(RemoveResourceFromTeamCommand command)
+        public void RemoveTeam(RemoveResourceFromTeamCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new ResourceFromTeamRemoved(command);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
@@ -104,6 +105,9 @@ namespace MyNote.Identity.Domain.Model
             this.OwnerId = @event.OwnerId;
             this.ContentId = @event.ContentId;
             this.Id = @event.ResourceId;
+            this.Modification = @event.Modification;
+            this.CreateBy = @event.CreateBy;
+            this.UpdateBy = @event.UpdateBy;
         }
 
         public void Apply(ResourceToUserShared @event)

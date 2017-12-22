@@ -1,8 +1,9 @@
-﻿using MyNote.Infrastructure.Model.Domain;
+﻿using MediatR;
+using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Organization
 {
-    public class UpdateOrganizationCommand : Command
+    public class UpdateOrganizationCommand : Command, IRequest<Model.Organization>
     {
         public string Name { get; set; }
         public string Country { get; set; }

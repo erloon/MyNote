@@ -13,6 +13,7 @@ namespace MyNote.Identity.Domain.Events.Project
         public string Description { get; set; }
         public Guid OrganizationId { get; set; }
         public DateTime Modification { get; set; }
+        public Guid UpdateBy { get; set; }
 
         public ProjectUpdated(UpdateProjectCommand command,ITimeService timeService)
         {
@@ -22,6 +23,7 @@ namespace MyNote.Identity.Domain.Events.Project
             this.Description = command.Description;
             this.OrganizationId = OrganizationId;
             this.Modification = timeService.GetCurrent();
+            this.UpdateBy = command.UpdateBy;
         }
     }
 }

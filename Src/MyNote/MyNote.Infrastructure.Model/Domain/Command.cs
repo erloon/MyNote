@@ -9,7 +9,7 @@ namespace MyNote.Infrastructure.Model.Domain
             this.Id = Guid.NewGuid();
             this.CreateDate = DateTime.Now;
         }
-        public Guid Id { get; }
+        public Guid? Id { get; }
         public DateTime CreateDate { get;}
     }
 }

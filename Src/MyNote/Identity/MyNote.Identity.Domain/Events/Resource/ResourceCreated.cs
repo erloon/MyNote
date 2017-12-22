@@ -12,14 +12,20 @@ namespace MyNote.Identity.Domain.Events.Resource
         public Guid OrganizationId { get; set; }
         public Guid? ContentId { get; set; }
         public DateTime Create { get; set; }
+        public DateTime Modification { get; set; }
+        public Guid CreateBy { get; set; }
+        public Guid UpdateBy { get; set; }
 
         public ResourceCreated(CreateResourceCommand command, ITimeService timeService)
         {
             this.OrganizationId = command.OrganizationId;
-            this.Create = timeService.GetCurrent();
             this.OwnerId = command.OwnerId;
             this.ContentId = command.ContentId;
             this.ResourceId = Guid.NewGuid();
+            this.Create = timeService.GetCurrent();
+            this.Modification = timeService.GetCurrent();
+            this.CreateBy = command.CreateBy;
+            this.UpdateBy = command.UpdateBy;
         }
     }
 }

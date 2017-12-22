@@ -9,6 +9,6 @@ namespace MyNote.Identity.Domain.Commands.User
         public Guid OrganizationId { get; set; }
         public string Name { get; set; }
         public Model.ApplicationUser ApplicationUser { get; set; }
-        public DateTime Modification { get; set; }
+        public Guid UpdateBy { get; set; }
     }
 }

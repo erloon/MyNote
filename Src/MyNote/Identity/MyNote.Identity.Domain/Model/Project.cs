@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Marten.Events.Projections;
 using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Events.Project;
+using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Entity;
 using MyNote.Infrastructure.Model.Time;
 
@@ -24,21 +25,21 @@ namespace MyNote.Identity.Domain.Model
         {
         }
 
-        public Project(CreateProjectCommand command, ITimeService timeService)
+        public Project(CreateProjectCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ProjectCreated(command,timeService);
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
-        public void Update(UpdateProjectCommand command, ITimeService timeService)
+        public void Update(UpdateProjectCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new ProjectUpdated(command, timeService);
 
-            Append(@event);
+            Save(@event, domainEventsService);
             Apply(@event);
         }
 
@@ -50,6 +51,7 @@ namespace MyNote.Identity.Domain.Model
             this.Description = @event.Description;
             this.OrganizationId = @event.OrganizationId;
             this.Modification = @event.Modification;
+            this.UpdateBy = @event.UpdateBy;
         }
 
         public void Apply(ProjectCreated @event)
@@ -60,6 +62,9 @@ namespace MyNote.Identity.Domain.Model
             this.Description = @event.Description;
             this.OrganizationId = @event.OrganizationId;
             this.Create = @event.Create;
+            this.Modification = @event.Modification;
+            this.CreateBy = @event.CreateBy;
+            this.UpdateBy = @event.UpdateBy;
         }
     }
 }

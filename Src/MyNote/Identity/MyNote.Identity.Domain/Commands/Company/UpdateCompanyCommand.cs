@@ -10,5 +10,6 @@ namespace MyNote.Identity.Domain.Commands.Company
         public string RegistrationNumber { get; set; }
         public Guid AddressId { get; set; }
         public Guid OrganizationId { get; set; }
+        public Guid UpdateBy { get; set; }
     }
 }

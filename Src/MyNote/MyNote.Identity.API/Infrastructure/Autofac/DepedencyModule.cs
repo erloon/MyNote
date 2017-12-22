@@ -2,12 +2,14 @@
 using Autofac;
 using MediatR;
 using MyNote.Identity.API.Application.DomainHandler;
+using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure;
 using MyNote.Identity.Infrastructure.SeedWork;
 using MyNote.Identity.Infrastructure.Services;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
 using MyNote.Infrastructure.Model.Database;
+using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.API.Infrastructure.Autofac
@@ -39,6 +41,14 @@ namespace MyNote.Identity.API.Infrastructure.Autofac
 
             builder.RegisterType<TimeService>()
                 .As<ITimeService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<OrganizationQuery>()
+                .As<IOrganizationQuery>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<DomainEventsService>()
+                .As<IDomainEventsService>()
                 .InstancePerLifetimeScope();
 
             base.Load(builder);

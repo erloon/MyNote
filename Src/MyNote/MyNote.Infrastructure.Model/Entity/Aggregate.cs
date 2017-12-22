@@ -4,9 +4,8 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Infrastructure.Model.Entity
 {
-    public class Aggregate : BaseEntity
+    public abstract class Aggregate : BaseEntity
     {
         public byte[] Timestamp { get; set; }
-
     }
 }
