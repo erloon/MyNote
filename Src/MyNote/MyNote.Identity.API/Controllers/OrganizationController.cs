@@ -24,6 +24,7 @@ namespace MyNote.Identity.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
+        private Guid UserContext;
 
         public OrganizationController(IMediator mediator, IOrganizationQuery organizationQuery, UserManager<ApplicationUser> userManager) : base(userManager)
         {
@@ -32,6 +33,8 @@ namespace MyNote.Identity.API.Controllers
 
             _mediator = mediator;
             _organizationQuery = organizationQuery;
+
+            UserContext = GetUserId(this.HttpContext.User.Identity.Name);
         }
 
         [HttpPost]
@@ -54,8 +57,8 @@ namespace MyNote.Identity.API.Controllers
         public async Task<IActionResult> Address([FromBody] CreateAddressCommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = UserContext;
+            command.UpdateBy = UserContext;
 
             var result = await _mediator.Send(command);
 
@@ -70,8 +73,8 @@ namespace MyNote.Identity.API.Controllers
         public async Task<IActionResult> Company([FromBody] CreateCompanyCommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = UserContext;
+            command.UpdateBy = UserContext;
 
             var result = await _mediator.Send(command);
 
@@ -86,8 +89,8 @@ namespace MyNote.Identity.API.Controllers
         public async Task<IActionResult> User([FromBody] CreateUserCommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = UserContext;
+            command.UpdateBy = UserContext;
 
             var result = await _mediator.Send(command);
 
