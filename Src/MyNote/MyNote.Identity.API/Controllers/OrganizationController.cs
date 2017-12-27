@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyNote.Identity.API.Infrastructure;
+using MyNote.Identity.API.Model;
 using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
-using MyNote.Identity.Domain.Commands.Resource;
-using MyNote.Identity.Domain.Commands.Team;
 using MyNote.Identity.Domain.Commands.User;
+using MyNote.Identity.Domain.Events;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
+using RawRabbit;
+
 
 namespace MyNote.Identity.API.Controllers
 {
@@ -24,22 +24,37 @@ namespace MyNote.Identity.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
+        private readonly IMapper _mapper;
+        private readonly IBusClient _busClient;
 
-        public OrganizationController(IMediator mediator, IOrganizationQuery organizationQuery, UserManager<ApplicationUser> userManager) : base(userManager)
+        public OrganizationController(IMediator mediator,
+                                     IOrganizationQuery organizationQuery,
+                                     UserManager<ApplicationUser> userManager,
+                                     IMapper mapper,
+                                     IBusClient busClient)
+            : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
+            if (mapper == null) throw new ArgumentNullException(nameof(mapper));
+            if (busClient == null) throw new ArgumentNullException(nameof(busClient));
+
 
             _mediator = mediator;
             _organizationQuery = organizationQuery;
+            _mapper = mapper;
+            _busClient = busClient;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateOrganizationCommand command)
+        public async Task<IActionResult> Create([FromBody]CreateOrganization model)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var command = _mapper.Map<CreateOrganizationCommand>(model);
+            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = userId;
+            command.UpdateBy = userId;
 
             var result = await _mediator.Send(command);
 
@@ -51,11 +66,14 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Address([FromBody] CreateAddressCommand command)
+        public async Task<IActionResult> Address([FromBody] CreateAddress model)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var command = _mapper.Map<CreateAddressCommand>(model);
+            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = userId;
+            command.UpdateBy = userId;
 
             var result = await _mediator.Send(command);
 
@@ -67,11 +85,14 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Company([FromBody] CreateCompanyCommand command)
+        public async Task<IActionResult> Company([FromBody] CreateCompany model)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var command = _mapper.Map<CreateCompanyCommand>(model);
+            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = userId;
+            command.UpdateBy = userId;
 
             var result = await _mediator.Send(command);
 
@@ -83,11 +104,14 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> User([FromBody] CreateUserCommand command)
+        public async Task<IActionResult> User([FromBody] CreateUser model)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            command.CreateBy = GetUserId(this.HttpContext.User.Identity.Name);
-            command.UpdateBy = GetUserId(this.HttpContext.User.Identity.Name);
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            var command = _mapper.Map<CreateUserCommand>(model);
+            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            command.CreateBy = userId;
+            command.UpdateBy = userId;
 
             var result = await _mediator.Send(command);
 

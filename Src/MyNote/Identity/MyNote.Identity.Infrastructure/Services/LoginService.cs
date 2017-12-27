@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
-using MyNote.Identity.Domain.Model.DTOs;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model;
 using MyNote.Infrastructure.Model.Database;
@@ -37,7 +36,7 @@ namespace MyNote.Identity.Infrastructure.Services
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task<ApplicationUser> FindByUsernameAndOrganization(Login login)
+        public async Task<ApplicationUser> FindByUsernameAndOrganization(LoginCommand login)
         {
 
             var user = await _useRepository.FirstOrDefaultAsync(

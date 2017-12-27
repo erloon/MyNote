@@ -117,6 +117,9 @@
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="RawRabbit">
+      <HintPath>C:\Users\macie\.nuget\packages\rawrabbit\1.10.4\lib\net451\RawRabbit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -184,6 +187,7 @@
     <Compile Include="Events\Resource\ResourceToProjectShared.cs" />
     <Compile Include="Events\Resource\ResourceToTeamShared.cs" />
     <Compile Include="Events\Resource\ResourceToUserShared.cs" />
+    <Compile Include="Events\TestEvent.cs" />
     <Compile Include="Events\User\UserCreated.cs" />
     <Compile Include="Events\User\UserToProjectAdded.cs" />
     <Compile Include="Events\User\UserToTeamAdded.cs" />
@@ -212,8 +216,6 @@
     <Compile Include="Commands\User\CreateFirstUserCommand.cs" />
     <Compile Include="Commands\User\RegisterUserCommand.cs" />
     <Compile Include="Model\Company.cs" />
-    <Compile Include="Model\DTOs\Company.cs" />
-    <Compile Include="Model\DTOs\Login.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Resource.cs" />

@@ -8,15 +8,23 @@ using System.Reflection;
 using Autofac;
 using MediatR;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
+using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Infrastructure.Autofac;
 using MyNote.Identity.API.Infrastructure.Configs;
 using MyNote.Identity.API.Infrastructure.Marten;
 using MyNote.Identity.API.Infrastructure.Mediator;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Infrastructure;
+using RawRabbit.Common;
+using RawRabbit.Configuration;
+using RawRabbit.Configuration.Exchange;
+using RawRabbit.Context;
+using RawRabbit.DependencyInjection.Autofac;
+using RawRabbit.Extensions.Client;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MyNote.Identity.API
@@ -49,17 +57,24 @@ namespace MyNote.Identity.API
                 .AddDefaultTokenProviders();
 
             services.Configure<AppSettings>(Configuration);
+            services.AddAutoMapper(x => x.AddProfile(new ModelMapping()));
+            services.AddRawRabbit();
+
+
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Identity API", Version = "v1" });
                 c.DescribeAllEnumsAsStrings();
-              
+
             });
-          
+
 
             var container = new ContainerBuilder();
+
+
             ConfigureContainer(container);
             container.Populate(services);
 
@@ -68,6 +83,37 @@ namespace MyNote.Identity.API
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.RegisterRawRabbit(new RawRabbitConfiguration()
+            {
+                Username = "guest",
+                Password = "guest",
+                VirtualHost = "/",
+                Port = 5672,
+                Hostnames = { "localhost" },
+                RequestTimeout = new TimeSpan(0,0,0,10),
+                PublishConfirmTimeout = new TimeSpan(0,0,0,10),
+                RecoveryInterval = new TimeSpan(0,0,0,10),
+                PersistentDeliveryMode = true,
+                AutoCloseConnection = true,
+                AutomaticRecovery = true,
+                TopologyRecovery = true,
+                Exchange = new GeneralExchangeConfiguration()
+                {
+                    
+                    AutoDelete = true,
+                    Durable = true,
+                    Type = ExchangeType.Topic
+                },
+                
+                Queue = new GeneralQueueConfiguration()
+                {
+                    AutoDelete = true,
+                    Durable = true,
+                    Exclusive = true
+                }
+
+
+            });
 
             builder.RegisterModule(new DepedencyModule());
             builder.RegisterModule(new MediatorModule());
@@ -78,7 +124,7 @@ namespace MyNote.Identity.API
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-         
+
             app.UseStaticFiles();
             app.UseAuthentication();
 

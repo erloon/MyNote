@@ -8,8 +8,6 @@ namespace MyNote.Identity.Domain.Commands.User
         public string Password { get; set; }
         public bool RememberMe { get; set; }
         public string Organization { get; set; }
-        public string ReturnUrl { get; set; }
-
 
     }
 }
