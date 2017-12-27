@@ -1,35 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MyNote.Identity.Domain.Model;
+using MyNote.Infrastructure.Model.Database;
 
 namespace MyNote.Identity.Domain.Queries
 {
     public class OrganizationQuery : IOrganizationQuery
     {
-        public Task<IEnumerable<Organization>> GetAllAsync()
+        private readonly IDataRepository<Organization> _organizationRepository;
+        private readonly IDataRepository<User> _userRepository;
+
+        public OrganizationQuery(IDataRepository<Organization> organizationRepository,
+                                    IDataRepository<User> userRepository)
         {
-            throw new NotImplementedException();
+            if (organizationRepository == null) throw new ArgumentNullException(nameof(organizationRepository));
+            if (userRepository == null) throw new ArgumentNullException(nameof(userRepository));
+
+            _organizationRepository = organizationRepository;
+            _userRepository = userRepository;
+        }
+        public async Task<IPagedList<Organization>> GetAllAsync()
+        {
+            return await _organizationRepository.GetAsync();
         }
 
-        public Task<Organization> GetAsync(Guid id)
+        public async Task<Organization> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _organizationRepository.FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
-        public Task<Organization> GetAsync(string name)
+        public async Task<Organization> GetAsync(string name)
         {
-            throw new NotImplementedException();
+            return await _organizationRepository.FirstOrDefaultAsync(x => x.Name.Equals(name));
         }
 
-        public Task<IEnumerable<User>> GetUsersAsync(Guid organizationId)
+        public async Task<IPagedList<User>> GetUsersAsync(Guid organizationId)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetAsync(x => x.OrganizationId.Equals(organizationId));
         }
 
-        public Task<User> GetUserAsync(Guid organizationId, Guid userId)
+        public async Task<User> GetUserAsync(Guid organizationId, Guid userId)
         {
-            throw new NotImplementedException();
+            return await _userRepository.FirstOrDefaultAsync(
+                x => x.OrganizationId.Equals(organizationId) && x.Id.Equals(userId));
         }
     }
 }

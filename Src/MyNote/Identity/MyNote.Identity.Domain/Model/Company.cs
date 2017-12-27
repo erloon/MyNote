@@ -17,7 +17,7 @@ namespace MyNote.Identity.Domain.Model
         public Guid OrganizationId { get; protected set; }
         public Organization Organization { get; protected set; }
 
-        protected Company()
+        public Company()
         {
         }
 

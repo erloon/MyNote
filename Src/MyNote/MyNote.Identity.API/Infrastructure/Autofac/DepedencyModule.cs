@@ -51,6 +51,18 @@ namespace MyNote.Identity.API.Infrastructure.Autofac
                 .As<IDomainEventsService>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<TeamService>()
+                .As<ITeamService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TeamQuery>()
+                .As<ITeamQuery>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<OrganizationContextService>()
+                .As<IOrganizationContextService>()
+                .InstancePerLifetimeScope();
+
             base.Load(builder);
         }
     }

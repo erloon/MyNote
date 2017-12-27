@@ -18,8 +18,8 @@ namespace MyNote.Identity.Domain.Model
     {
         public string Name { get; protected set; }
         public Address Address { get; protected set; }
-        public Guid AddressId { get; protected set; }
-        public Guid CompanyId { get; protected set; }
+        public Guid? AddressId { get; protected set; }
+        public Guid? CompanyId { get; protected set; }
         public Company Company { get; protected set; }
         public virtual ICollection<Project> Projects { get; protected set; }
         public virtual ICollection<User> Users { get; protected set; }
@@ -38,7 +38,15 @@ namespace MyNote.Identity.Domain.Model
             Apply(@event);
         }
 
+        public void Update(UpdateOrganizationCommand command, IDomainEventsService domainEventsService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
+            var @event = new OrganizationUpdated(command);
+            Save(@event, domainEventsService);
+            Apply(@event);
+        }
         public void AddAddress(CreateAddressCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -47,6 +55,7 @@ namespace MyNote.Identity.Domain.Model
             if (this.Address != null) throw new DomainException("Organization already have address set", this.Id);
 
             this.Address = new Address(command, timeService, domainEventsService);
+            
         }
 
         public void AddCompany(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
@@ -99,6 +108,18 @@ namespace MyNote.Identity.Domain.Model
             this.CreateBy = @event.CreateBy.Value;
             this.UpdateBy = @event.UpdateBy.Value;
             this.Create = @event.Create;
+        }
+
+        public void Apply(OrganizationUpdated @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+            this.Name = @event.Name;
+            this.AddressId = @event.AddressId;
+            this.CompanyId = @event.CompanyId;
+            this.Modification = @event.Modification;
+            this.UpdateBy = @event.UpdateBy.Value;
+
         }
 
 

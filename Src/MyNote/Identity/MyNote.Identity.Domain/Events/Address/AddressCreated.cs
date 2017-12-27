@@ -17,9 +17,9 @@ namespace MyNote.Identity.Domain.Events.Address
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }
 
-        public AddressCreated(CreateAddressCommand command, ITimeService timeService)
+        public AddressCreated(CreateAddressCommand command, ITimeService timeService, Guid id)
         {
-            this.AddressId = Guid.NewGuid();
+            this.AddressId = id;
             this.Country = command.Country;
             this.City = command.City;
             this.Number = command.Number;

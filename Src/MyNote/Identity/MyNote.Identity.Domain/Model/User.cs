@@ -21,6 +21,10 @@ namespace MyNote.Identity.Domain.Model
         public virtual ICollection<UserProject> UserProjects { get; protected set; }
         public virtual ICollection<ResourceUser> ResourceUsers { get; protected set; }
 
+        public User()
+        {
+            
+        }
         public User(CreateUserCommand command, ApplicationUser applicationUser, Guid organizationId, ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));

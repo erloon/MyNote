@@ -22,7 +22,7 @@ namespace MyNote.Identity.Domain.Model
         public Address(CreateAddressCommand command,ITimeService timeService, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            var @event = new AddressCreated(command, timeService);
+            var @event = new AddressCreated(command, timeService, Guid.NewGuid());
 
             Save(@event, domainEventsService);
             Apply(@event);
@@ -32,6 +32,7 @@ namespace MyNote.Identity.Domain.Model
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
+            this.Id = @event.Id;
             this.Country = @event.Country;
             this.City = @event.City;
             this.Street = @event.Street;

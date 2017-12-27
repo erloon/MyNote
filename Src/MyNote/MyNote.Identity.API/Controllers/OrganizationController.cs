@@ -25,25 +25,21 @@ namespace MyNote.Identity.API.Controllers
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
         private readonly IMapper _mapper;
-        private readonly IBusClient _busClient;
 
         public OrganizationController(IMediator mediator,
                                      IOrganizationQuery organizationQuery,
                                      UserManager<ApplicationUser> userManager,
-                                     IMapper mapper,
-                                     IBusClient busClient)
+                                     IMapper mapper)
             : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
             if (mapper == null) throw new ArgumentNullException(nameof(mapper));
-            if (busClient == null) throw new ArgumentNullException(nameof(busClient));
 
 
             _mediator = mediator;
             _organizationQuery = organizationQuery;
             _mapper = mapper;
-            _busClient = busClient;
         }
 
         [HttpPost]
@@ -150,10 +146,10 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpGet]
-        [Route("{organizationId}/{UserId}")]
-        public async Task<IActionResult> Users(Guid organizationId, Guid UserId)
+        [Route("{organizationId}/{userId}")]
+        public async Task<IActionResult> Users(Guid organizationId, Guid userId)
         {
-            return new OkObjectResult(await _organizationQuery.GetUserAsync(organizationId, UserId));
+            return new OkObjectResult(await _organizationQuery.GetUserAsync(organizationId, userId));
         }
 
 

@@ -56,6 +56,9 @@ namespace MyNote.Identity.API.Application.DomainHandler
                                         throw new DomainException("Organization not exists", request.OrganizationId);
 
             organization.AddAddress(request, _timeService, _domainEventsService);
+
+            
+            organization.Update(new UpdateOrganizationCommand(organization.Id,organization.Address.Id, organization.CompanyId, organization.Name, _timeService), _domainEventsService);
             return organization;
         }
 
@@ -64,6 +67,8 @@ namespace MyNote.Identity.API.Application.DomainHandler
             Organization organization = await _organizationQuery.GetAsync(request.OrganizationId) ??
                                         throw new DomainException("Organization not exists", request.OrganizationId);
             organization.AddCompany(request, _timeService, _domainEventsService);
+
+            organization.Update(new UpdateOrganizationCommand(organization.Id,organization.AddressId, organization.Company.Id, organization.Name, _timeService), _domainEventsService);
             return organization;
         }
 

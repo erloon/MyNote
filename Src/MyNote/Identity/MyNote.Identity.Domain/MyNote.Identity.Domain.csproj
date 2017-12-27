@@ -99,6 +99,7 @@
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.EntityFrameworkCore.Relational.2.0.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.UnitOfWork, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Hosting.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
     </Reference>
@@ -178,6 +179,7 @@
     <Compile Include="Events\Company\CompanyCreated.cs" />
     <Compile Include="Events\Company\CompanyUpdated.cs" />
     <Compile Include="Events\Organization\OrganizationCreated.cs" />
+    <Compile Include="Events\Organization\OrganizationUpdated.cs" />
     <Compile Include="Events\Project\ProjectCreated.cs" />
     <Compile Include="Events\Project\ProjectUpdated.cs" />
     <Compile Include="Events\Resource\ResourceCreated.cs" />
@@ -195,7 +197,11 @@
     <Compile Include="Model\ResourceProject.cs" />
     <Compile Include="Model\ResourceTeam.cs" />
     <Compile Include="Model\ResourceUser.cs" />
+    <Compile Include="OrganizationContext.cs" />
+    <Compile Include="Queries\Handlers\OrganizationEventHandler.cs" />
     <Compile Include="Queries\IOrganizationQuery.cs" />
+    <Compile Include="Queries\ITeamQuery.cs" />
+    <Compile Include="Queries\IUserQuery.cs" />
     <Compile Include="Queries\Mappings\AddressMapping.cs" />
     <Compile Include="Queries\Mappings\ResourceProjectMapping.cs" />
     <Compile Include="Queries\Mappings\ResourceTeamMapping.cs" />
@@ -225,6 +231,8 @@
     <Compile Include="Model\UserTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
+    <Compile Include="Queries\TeamQuery.cs" />
+    <Compile Include="Queries\UserQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyNote.Infrastructure.Model\MyNote.Infrastructure.Model.csproj">
@@ -236,8 +244,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queries\Handlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
