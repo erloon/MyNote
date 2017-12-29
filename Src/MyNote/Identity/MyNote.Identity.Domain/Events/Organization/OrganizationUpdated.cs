@@ -1,4 +1,5 @@
 ﻿using System;
+using MediatR;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Time;

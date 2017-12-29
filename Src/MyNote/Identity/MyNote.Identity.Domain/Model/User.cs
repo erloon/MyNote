@@ -32,7 +32,8 @@ namespace MyNote.Identity.Domain.Model
             if (organizationId == null) throw new ArgumentNullException(nameof(organizationId));
 
             var @event = new UserCreated(command, applicationUser, organizationId, timeService);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -43,7 +44,8 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new UserUpdated(command, timeService);
 
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -52,7 +54,8 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new UserToTeamAdded(command);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -62,7 +65,8 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new UserToProjectAdded(command);
 
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 

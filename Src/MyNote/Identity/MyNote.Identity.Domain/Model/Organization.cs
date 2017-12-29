@@ -34,8 +34,10 @@ namespace MyNote.Identity.Domain.Model
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             var @event = new OrganizationCreated(command, timeService);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
+
         }
 
         public void Update(UpdateOrganizationCommand command, IDomainEventsService domainEventsService)
@@ -44,27 +46,9 @@ namespace MyNote.Identity.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new OrganizationUpdated(command);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
-        }
-        public void AddAddress(CreateAddressCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
-        {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
-
-            if (this.Address != null) throw new DomainException("Organization already have address set", this.Id);
-
-            this.Address = new Address(command, timeService, domainEventsService);
-            
-        }
-
-        public void AddCompany(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
-        {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-
-            if (this.Company != null) throw new DomainException("Organization already have company set", this.Id);
-
-            this.Company = new Company(command, timeService, domainEventsService);
         }
 
         public void AddProject(CreateProjectCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
@@ -104,6 +88,17 @@ namespace MyNote.Identity.Domain.Model
 
             this.Id = @event.OrganizationId;
             this.Name = @event.Name;
+
+            Address address = new Address();
+            address.Apply(@event.Address);
+            this.Address = address;
+            this.AddressId = address.Id;
+
+            Company company = new Company();
+            company.Apply(@event.Company);
+            this.Company = company;
+            this.CompanyId = CompanyId;
+
             this.Modification = @event.Modification;
             this.CreateBy = @event.CreateBy.Value;
             this.UpdateBy = @event.UpdateBy.Value;

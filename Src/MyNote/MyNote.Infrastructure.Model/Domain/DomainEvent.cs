@@ -1,8 +1,9 @@
 ﻿using System;
+using MediatR;
 
 namespace MyNote.Infrastructure.Model.Domain
 {
-    public abstract class DomainEvent : IDomainEvent
+    public abstract class DomainEvent : IDomainEvent, INotification
     {
         public DomainEvent()
         {

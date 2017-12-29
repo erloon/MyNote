@@ -29,7 +29,8 @@ namespace MyNote.Identity.Domain.Model
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ProjectCreated(command,timeService);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -39,7 +40,8 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new ProjectUpdated(command, timeService);
 
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 

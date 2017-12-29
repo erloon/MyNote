@@ -21,22 +21,23 @@ namespace MyNote.Identity.Domain.Model
         {
         }
 
-        public Company(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
-        {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
-            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+        //public Company(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
+        //{
+        //    if (command == null) throw new ArgumentNullException(nameof(command));
+        //    if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+        //    if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
-            var @event = new CompanyCreated(command, timeService);
-            Save(@event, domainEventsService);
-            Apply(@event);
+        //    var @event = new CompanyCreated(command, timeService);
+        //    Save(@event);
+        //    Apply(@event);
 
-        }
+        //}
 
         public void Update(UpdateCompanyCommand command, IDomainEventsService domainEventsService, ITimeService timeService)
         {
             var @event = new CompanyUpdated(command, timeService);
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -45,12 +46,15 @@ namespace MyNote.Identity.Domain.Model
             this.Name = @event.Name;
             this.VatNumber = @event.VatNumber;
             this.RegistrationNumber = @event.RegistrationNumber;
-            this.OrganizationId = @event.OrganizationId;
-            this.AddressId = @event.AddressId;
             this.Create = @event.Create;
             this.CreateBy = @event.CreateBy;
             this.Modification = @event.Modification;
             this.UpdateBy = @event.UpdateBy;
+
+            Address address = new Address();
+            address.Apply(@event.Address);
+            this.Address = address;
+            this.AddressId = address.Id;
         }
 
         public void Apply(CompanyUpdated @event)

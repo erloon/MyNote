@@ -2,6 +2,7 @@
 using Baseline.Reflection;
 using Marten.Events;
 using Marten.Events.Projections;
+using MediatR;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
 using MyNote.Infrastructure.Model.Domain;
@@ -9,7 +10,7 @@ using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.User
 {
-    public class UserCreated : DomainEvent
+    public class UserCreated : DomainEvent, INotification
     {
         public Guid UserId { get; set; }
         public bool IsAdministrator { get; set; }

@@ -19,20 +19,21 @@ namespace MyNote.Identity.Domain.Model
         public Address()
         {
         }
-        public Address(CreateAddressCommand command,ITimeService timeService, IDomainEventsService domainEventsService)
-        {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-            var @event = new AddressCreated(command, timeService, Guid.NewGuid());
+        //public Address(CreateAddressCommand command,ITimeService timeService, IDomainEventsService domainEventsService)
+        //{
+        //    if (command == null) throw new ArgumentNullException(nameof(command));
+        //    var @event = new AddressCreated(command, timeService);
 
-            Save(@event, domainEventsService);
-            Apply(@event);
-        }
+        //    Save(@event);
+        //    domainEventsService.Save(@event);
+        //    Apply(@event);
+        //}
 
         public void Apply(AddressCreated @event)
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
-            this.Id = @event.Id;
+            this.Id = @event.AddressId;
             this.Country = @event.Country;
             this.City = @event.City;
             this.Street = @event.Street;
@@ -48,7 +49,8 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new AddressUpdated(command, timeService);
 
-            Save(@event, domainEventsService);
+            Save(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 

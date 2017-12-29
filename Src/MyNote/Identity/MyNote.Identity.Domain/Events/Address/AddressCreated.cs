@@ -5,7 +5,7 @@ using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.Address
 {
-    public class AddressCreated : DomainEvent
+    public class AddressCreated
     {
         public Guid AddressId { get; set; }
         public string Country { get; set; }
@@ -17,9 +17,9 @@ namespace MyNote.Identity.Domain.Events.Address
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }
 
-        public AddressCreated(CreateAddressCommand command, ITimeService timeService, Guid id)
+        public AddressCreated(CreateAddressCommand command, ITimeService timeService)
         {
-            this.AddressId = id;
+            this.AddressId = Guid.NewGuid();
             this.Country = command.Country;
             this.City = command.City;
             this.Number = command.Number;

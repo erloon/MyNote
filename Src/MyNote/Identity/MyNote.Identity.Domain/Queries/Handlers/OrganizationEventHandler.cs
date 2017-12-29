@@ -13,15 +13,11 @@ using MyNote.Infrastructure.Model.Database;
 namespace MyNote.Identity.Domain.Queries.Handlers
 {
     public class OrganizationEventHandler : INotificationHandler<OrganizationCreated>,
-                                            INotificationHandler<AddressCreated>,
-                                            INotificationHandler<CompanyCreated>,
                                             INotificationHandler<UserCreated>,
                                             INotificationHandler<OrganizationUpdated>
 
     {
         private readonly IDataRepository<Organization> _organizationRepository;
-        private readonly IDataRepository<Address> _addressRepository;
-        private readonly IDataRepository<Company> _companyRepository;
         private readonly IDataRepository<User> _userRepository;
 
         public OrganizationEventHandler(IDataRepository<Organization> organizationRepository,
@@ -35,8 +31,6 @@ namespace MyNote.Identity.Domain.Queries.Handlers
             if (userRepository == null) throw new ArgumentNullException(nameof(userRepository));
 
             _organizationRepository = organizationRepository;
-            _addressRepository = addressRepository;
-            _companyRepository = companyRepository;
             _userRepository = userRepository;
         }
         public Task Handle(OrganizationCreated notification, CancellationToken cancellationToken)
@@ -47,26 +41,7 @@ namespace MyNote.Identity.Domain.Queries.Handlers
             _organizationRepository.Save();
             return Task.CompletedTask;
         }
-
-
-        public Task Handle(AddressCreated notification, CancellationToken cancellationToken)
-        {
-            Address address = new Address();
-            address.Apply(notification);
-            _addressRepository.Add(address);
-            _addressRepository.Save();
-            return Task.CompletedTask;
-        }
-
-        public Task Handle(CompanyCreated notification, CancellationToken cancellationToken)
-        {
-            Company company = new Company();
-            company.Apply(notification);
-            _companyRepository.Add(company);
-            _companyRepository.Save();
-            return Task.CompletedTask;
-        }
-
+        
         public Task Handle(UserCreated notification, CancellationToken cancellationToken)
         {
             User user = new User();
@@ -79,6 +54,8 @@ namespace MyNote.Identity.Domain.Queries.Handlers
         public Task Handle(OrganizationUpdated notification, CancellationToken cancellationToken)
         {
             Organization organization = _organizationRepository.GetById(notification.OrganizationId);
+
+
             organization.Apply(notification);
             _organizationRepository.Update(organization);
             _organizationRepository.Save();

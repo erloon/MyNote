@@ -17,19 +17,16 @@ namespace MyNote.Infrastructure.Model.Domain
             _mediator = mediator;
         }
 
-        public void Save(IDomainEvent @event)
+        public void Publish(INotification @event)
         {
-            try
-            {
-                store.Append(@event.Id, @event);
-                _session.SaveChanges();
-                _mediator.Publish(@event);
-            }
-            catch (System.Exception ex)
-            {
+            _mediator.Publish(@event);
+        }
+        public void Save(DomainEvent @event)
+        {
+            store.Append(@event.Id, @event);
+            _session.SaveChanges();
+            _mediator.Publish(@event);
 
-            }
-          
         }
     }
 }

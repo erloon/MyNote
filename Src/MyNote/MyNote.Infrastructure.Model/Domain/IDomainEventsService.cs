@@ -1,7 +1,10 @@
-﻿namespace MyNote.Infrastructure.Model.Domain
+﻿using MediatR;
+
+namespace MyNote.Infrastructure.Model.Domain
 {
     public interface IDomainEventsService
     {
-        void Save(IDomainEvent @event);
+        void Save(DomainEvent @event);
+        void Publish(INotification notification);
     }
 }

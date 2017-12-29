@@ -4,7 +4,7 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Address
 {
-    public class CreateAddressCommand : Command, IRequest<Model.Organization>
+    public class CreateAddressCommand : Command
     {
         public string Country { get; set; }
         public string City { get; set; }
@@ -15,6 +15,10 @@ namespace MyNote.Identity.Domain.Commands.Address
         public Guid CreateBy { get; set; }
         public Guid UpdateBy { get; set; }
 
+        public CreateAddressCommand()
+        {
+            
+        }
         public CreateAddressCommand(string country, string city, string street, string number, Guid organizationId)
         {
             this.Country = country;

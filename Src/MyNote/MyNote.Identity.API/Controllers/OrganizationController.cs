@@ -11,8 +11,10 @@ using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events;
+using MyNote.Identity.Domain.Events.Organization;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
+using MyNote.Infrastructure.Model.Time;
 using RawRabbit;
 
 
@@ -25,29 +27,35 @@ namespace MyNote.Identity.API.Controllers
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
         private readonly IMapper _mapper;
+        private readonly ITimeService _timeService;
 
         public OrganizationController(IMediator mediator,
                                      IOrganizationQuery organizationQuery,
                                      UserManager<ApplicationUser> userManager,
-                                     IMapper mapper)
+                                     IMapper mapper,
+                                     ITimeService timeService)
             : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
             if (mapper == null) throw new ArgumentNullException(nameof(mapper));
+            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
 
             _mediator = mediator;
             _organizationQuery = organizationQuery;
             _mapper = mapper;
+            _timeService = timeService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CreateOrganization model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
+            CreateOrganizationCommand command;
 
-            var command = _mapper.Map<CreateOrganizationCommand>(model);
+            command = _mapper.Map<CreateOrganizationCommand>(model);
+
             var userId = GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;
             command.UpdateBy = userId;
@@ -61,43 +69,7 @@ namespace MyNote.Identity.API.Controllers
             return new BadRequestResult();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Address([FromBody] CreateAddress model)
-        {
-            if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var command = _mapper.Map<CreateAddressCommand>(model);
-            var userId = GetUserId(this.HttpContext.User.Identity.Name);
-            command.CreateBy = userId;
-            command.UpdateBy = userId;
-
-            var result = await _mediator.Send(command);
-
-            if (result != null)
-            {
-                return new OkObjectResult(result);
-            }
-            return new BadRequestResult();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Company([FromBody] CreateCompany model)
-        {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-
-            var command = _mapper.Map<CreateCompanyCommand>(model);
-            var userId = GetUserId(this.HttpContext.User.Identity.Name);
-            command.CreateBy = userId;
-            command.UpdateBy = userId;
-
-            var result = await _mediator.Send(command);
-
-            if (result != null)
-            {
-                return new OkObjectResult(result);
-            }
-            return new BadRequestResult();
-        }
 
         [HttpPost]
         public async Task<IActionResult> User([FromBody] CreateUser model)

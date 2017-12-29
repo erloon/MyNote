@@ -19,8 +19,6 @@ namespace MyNote.Identity.API.Application.DomainHandler
 {
     public class OrganizationHandler
         : IRequestHandler<CreateOrganizationCommand, Organization>,
-          IRequestHandler<CreateAddressCommand, Organization>,
-          IRequestHandler<CreateCompanyCommand, Organization>,
           IRequestHandler<CreateUserCommand, User>
     {
         private readonly ITimeService _timeService;
@@ -48,28 +46,6 @@ namespace MyNote.Identity.API.Application.DomainHandler
         {
             Organization organization = new Organization(request, _timeService, _domainEventsService);
             return await Task.FromResult(organization);
-        }
-
-        public async Task<Organization> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
-        {
-            Organization organization = await _organizationQuery.GetAsync(request.OrganizationId) ??
-                                        throw new DomainException("Organization not exists", request.OrganizationId);
-
-            organization.AddAddress(request, _timeService, _domainEventsService);
-
-            
-            organization.Update(new UpdateOrganizationCommand(organization.Id,organization.Address.Id, organization.CompanyId, organization.Name, _timeService), _domainEventsService);
-            return organization;
-        }
-
-        public async Task<Organization> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
-        {
-            Organization organization = await _organizationQuery.GetAsync(request.OrganizationId) ??
-                                        throw new DomainException("Organization not exists", request.OrganizationId);
-            organization.AddCompany(request, _timeService, _domainEventsService);
-
-            organization.Update(new UpdateOrganizationCommand(organization.Id,organization.AddressId, organization.Company.Id, organization.Name, _timeService), _domainEventsService);
-            return organization;
         }
 
         public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)

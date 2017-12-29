@@ -1,5 +1,8 @@
 ﻿using System;
+using MediatR;
 using MyNote.Identity.Domain.Commands.Organization;
+using MyNote.Identity.Domain.Events.Address;
+using MyNote.Identity.Domain.Events.Company;
 using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Time;
 
@@ -11,7 +14,8 @@ namespace MyNote.Identity.Domain.Events.Organization
         public string Name { get; set; }
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }
-
+        public AddressCreated Address { get; set; }
+        public CompanyCreated Company { get; set; }
         public Guid? CreateBy { get; set; }
         public Guid? UpdateBy { get; set; }
 
@@ -23,6 +27,8 @@ namespace MyNote.Identity.Domain.Events.Organization
             this.Modification = timeService.GetCurrent();
             this.CreateBy = command.CreateBy;
             this.UpdateBy = command.UpdateBy;
+            this.Company = new CompanyCreated(command.Company,timeService);
+            this.Address = new AddressCreated(command.Address,timeService);
         }
 
     }
