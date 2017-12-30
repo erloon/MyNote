@@ -19,6 +19,8 @@ namespace MyNote.Identity.API.Infrastructure
             CreateMap<CreateCompanyCommand, CreateCompany>()
                 .ForMember(x=>x.Address,o=>o.MapFrom(s=>s.Address))
                 .ReverseMap();
+            CreateMap<CreateUserCommand, CreateUser>()
+                .ReverseMap();
             CreateMap<LoginCommand, Login>()
                 .ReverseMap();
             CreateMap<RegisterUserCommand, RegisterUser>()

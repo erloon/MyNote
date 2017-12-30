@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using MyNote.Identity.Domain.Model;
 using MyNote.Infrastructure.Model.Database;
 
@@ -23,7 +25,7 @@ namespace MyNote.Identity.Domain.Queries
         }
         public async Task<IPagedList<Organization>> GetAllAsync()
         {
-            return await _organizationRepository.GetAsync();
+            return await _organizationRepository.GetAsync(include:x=>x.Include(c=>c.Projects));
         }
 
         public async Task<Organization> GetAsync(Guid id)

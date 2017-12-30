@@ -25,6 +25,10 @@ namespace MyNote.Identity.Domain.Queries.Mappings
                 .WithOne(x => x.Organization)
                 .HasForeignKey(x => x.OrganizationId);
 
+            entityTypeBuilder.HasMany(x => x.Users)
+                .WithOne(x => x.Organization)
+                .HasForeignKey(x => x.OrganizationId);
+
             entityTypeBuilder.Property(x => x.Timestamp).IsRowVersion();
         }
     }

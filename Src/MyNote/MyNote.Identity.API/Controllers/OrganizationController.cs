@@ -75,8 +75,16 @@ namespace MyNote.Identity.API.Controllers
         public async Task<IActionResult> User([FromBody] CreateUser model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
+            CreateUserCommand command = null;
+            try
+            {
+                command = _mapper.Map<CreateUserCommand>(model);
+            }
+            catch (Exception e)
+            {
 
-            var command = _mapper.Map<CreateUserCommand>(model);
+            }
+
             var userId = GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;
             command.UpdateBy = userId;
@@ -97,7 +105,7 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             return new OkObjectResult(await _organizationQuery.GetAsync(id));
