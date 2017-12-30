@@ -16,9 +16,9 @@ namespace MyNote.Identity.Domain.Events.Company
         public Guid UpdateBy { get; set; }
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }
+        public Guid OrganizationId { get; set; }
 
-
-        public CompanyCreated(CreateCompanyCommand command, ITimeService timeService)
+        public CompanyCreated(CreateCompanyCommand command, ITimeService timeService, Guid organizationId)
         {
             this.Name = command.Name;
             this.VatNumber = command.VatNumber;
@@ -28,6 +28,7 @@ namespace MyNote.Identity.Domain.Events.Company
             this.Address = new AddressCreated(command.Address, timeService);
             this.Create = timeService.GetCurrent();
             this.Modification = timeService.GetCurrent();
+            this.OrganizationId = organizationId;
         }
     }
 }

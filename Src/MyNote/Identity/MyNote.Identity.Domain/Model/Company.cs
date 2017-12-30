@@ -21,22 +21,9 @@ namespace MyNote.Identity.Domain.Model
         {
         }
 
-        //public Company(CreateCompanyCommand command, ITimeService timeService, IDomainEventsService domainEventsService)
-        //{
-        //    if (command == null) throw new ArgumentNullException(nameof(command));
-        //    if (timeService == null) throw new ArgumentNullException(nameof(timeService));
-        //    if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
-
-        //    var @event = new CompanyCreated(command, timeService);
-        //    Save(@event);
-        //    Apply(@event);
-
-        //}
-
         public void Update(UpdateCompanyCommand command, IDomainEventsService domainEventsService, ITimeService timeService)
         {
             var @event = new CompanyUpdated(command, timeService);
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -50,8 +37,16 @@ namespace MyNote.Identity.Domain.Model
             this.CreateBy = @event.CreateBy;
             this.Modification = @event.Modification;
             this.UpdateBy = @event.UpdateBy;
+            this.OrganizationId = @event.OrganizationId;
+            AddAddress(@event);
+        }
 
+        private void AddAddress(CompanyCreated @event)
+        {
             Address address = new Address();
+            @event.Address.UpdateBy = @event.UpdateBy;
+            @event.Address.CreateBy = @event.CreateBy;
+            @event.Address.OrganizationId = @event.OrganizationId;
             address.Apply(@event.Address);
             this.Address = address;
             this.AddressId = address.Id;

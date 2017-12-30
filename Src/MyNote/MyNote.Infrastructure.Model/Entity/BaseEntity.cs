@@ -7,17 +7,11 @@ namespace MyNote.Infrastructure.Model.Entity
 {
     public abstract class BaseEntity
     {
-        
+
         protected BaseEntity()
         {
-            this.Events = new Queue<IDomainEvent>();
-        }
-        public Queue<IDomainEvent> Events { get; private set; }
-        protected void Save(DomainEvent @event)
-        {
-            this.Events.Enqueue(@event);
-        }
 
+        }
         public Guid Id { get; set; }
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }

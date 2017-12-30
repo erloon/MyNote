@@ -49,7 +49,6 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new AddressUpdated(command, timeService);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }

@@ -25,6 +25,7 @@ namespace MyNote.Identity.Domain.Commands.Company
             VatNumber = vatNumber;
             RegistrationNumber = registrationNumber;
             this.Address = address;
+
         }
     }
 }

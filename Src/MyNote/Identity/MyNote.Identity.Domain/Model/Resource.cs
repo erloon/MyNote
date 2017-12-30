@@ -34,7 +34,6 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new ResourceCreated(command, timeService);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -44,7 +43,6 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceToUserShared(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -54,7 +52,6 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceFromUserRemoved(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -64,7 +61,6 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceToProjectShared(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -74,7 +70,6 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceFromProjectRemoved(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -85,7 +80,6 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new ResourceToTeamShared(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -96,7 +90,6 @@ namespace MyNote.Identity.Domain.Model
 
             var @event = new ResourceFromTeamRemoved(command);
 
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }

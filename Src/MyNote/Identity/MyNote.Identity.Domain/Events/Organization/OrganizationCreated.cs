@@ -27,7 +27,7 @@ namespace MyNote.Identity.Domain.Events.Organization
             this.Modification = timeService.GetCurrent();
             this.CreateBy = command.CreateBy;
             this.UpdateBy = command.UpdateBy;
-            this.Company = new CompanyCreated(command.Company,timeService);
+            this.Company = new CompanyCreated(command.Company,timeService,this.OrganizationId);
             this.Address = new AddressCreated(command.Address,timeService);
         }
 

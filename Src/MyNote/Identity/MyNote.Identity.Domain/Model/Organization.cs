@@ -34,7 +34,6 @@ namespace MyNote.Identity.Domain.Model
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
             var @event = new OrganizationCreated(command, timeService);
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
 
@@ -46,7 +45,6 @@ namespace MyNote.Identity.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new OrganizationUpdated(command);
-            Save(@event);
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -88,21 +86,35 @@ namespace MyNote.Identity.Domain.Model
 
             this.Id = @event.OrganizationId;
             this.Name = @event.Name;
+            AddAddress(@event);
 
-            Address address = new Address();
-            address.Apply(@event.Address);
-            this.Address = address;
-            this.AddressId = address.Id;
-
-            Company company = new Company();
-            company.Apply(@event.Company);
-            this.Company = company;
-            this.CompanyId = CompanyId;
+            AddCompany(@event);
 
             this.Modification = @event.Modification;
             this.CreateBy = @event.CreateBy.Value;
             this.UpdateBy = @event.UpdateBy.Value;
             this.Create = @event.Create;
+        }
+
+        private void AddCompany(OrganizationCreated @event)
+        {
+            Company company = new Company();
+            @event.Company.CreateBy = @event.CreateBy.Value;
+            @event.Company.UpdateBy = @event.UpdateBy.Value;
+            company.Apply(@event.Company);
+            this.Company = company;
+            this.CompanyId = CompanyId;
+        }
+
+        private void AddAddress(OrganizationCreated @event)
+        {
+            Address address = new Address();
+            @event.Address.CreateBy = @event.CreateBy.Value;
+            @event.Address.UpdateBy = @event.UpdateBy.Value;
+            @event.Address.OrganizationId = @event.OrganizationId;
+            address.Apply(@event.Address);
+            this.Address = address;
+            this.AddressId = address.Id;
         }
 
         public void Apply(OrganizationUpdated @event)

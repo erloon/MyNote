@@ -8,6 +8,7 @@ namespace MyNote.Identity.Domain.Events.Address
     public class AddressCreated
     {
         public Guid AddressId { get; set; }
+        public Guid OrganizationId { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
@@ -20,6 +21,7 @@ namespace MyNote.Identity.Domain.Events.Address
         public AddressCreated(CreateAddressCommand command, ITimeService timeService)
         {
             this.AddressId = Guid.NewGuid();
+            this.OrganizationId = command.OrganizationId;
             this.Country = command.Country;
             this.City = command.City;
             this.Number = command.Number;
