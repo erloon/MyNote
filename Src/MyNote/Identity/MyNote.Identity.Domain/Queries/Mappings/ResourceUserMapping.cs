@@ -9,8 +9,8 @@ namespace MyNote.Identity.Domain.Queries.Mappings
         public void Configure(EntityTypeBuilder<ResourceUser> builder)
         {
             builder.HasKey(x => new { x.ResourceId, x.UserId });
-            builder.HasOne(x => x.User).WithMany(x => x.ResourceUsers).HasForeignKey(x => x.UserId);
-            builder.HasOne(x => x.Resource).WithMany(x => x.ResourceUsers).HasForeignKey(x => x.ResourceId);
+            //builder.HasOne(x => x.User).WithMany(x => x.ResourceUsers).HasForeignKey(x => x.UserId);
+            //builder.HasOne(x => x.Resource).WithMany(x => x.ResourceUsers).HasForeignKey(x => x.ResourceId);
         }
     }
 }

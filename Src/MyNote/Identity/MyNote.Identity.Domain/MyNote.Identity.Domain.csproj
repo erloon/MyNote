@@ -209,6 +209,7 @@
     <Compile Include="Queries\Handlers\UserEventHandler.cs" />
     <Compile Include="Queries\IOrganizationQuery.cs" />
     <Compile Include="Queries\IProjectQuery.cs" />
+    <Compile Include="Queries\IResourceQuery.cs" />
     <Compile Include="Queries\ITeamQuery.cs" />
     <Compile Include="Queries\IUserQuery.cs" />
     <Compile Include="Queries\Mappings\AddressMapping.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
     <Compile Include="Queries\ProjectQuery.cs" />
+    <Compile Include="Queries\ResourceQuery.cs" />
     <Compile Include="Queries\TeamQuery.cs" />
     <Compile Include="Queries\UserQuery.cs" />
   </ItemGroup>
