@@ -1,10 +1,8 @@
 ﻿using System;
-using MediatR;
-using MyNote.Infrastructure.Model.Domain;
 
-namespace MyNote.Identity.Domain.Commands.Project
+namespace MyNote.Identity.API.Model
 {
-    public class UpdateProjectCommand : Command, IRequest<Model.Project>
+    public class UpdateProject
     {
         public Guid ProjectId { get; set; }
         public string Name { get; set; }
@@ -12,6 +10,5 @@ namespace MyNote.Identity.Domain.Commands.Project
         public string Subject { get; set; }
         public string Description { get; set; }
         public Guid OrganizationId { get; set; }
-        public Guid UpdateBy { get; set; }
     }
 }

@@ -5,14 +5,14 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Infrastructure.Model.Entity
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : Entity
     {
 
         protected BaseEntity()
         {
 
         }
-        public Guid Id { get; set; }
+        
         public DateTime Create { get; set; }
         public DateTime Modification { get; set; }
         public Guid CreateBy { get; set; }

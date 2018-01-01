@@ -146,7 +146,6 @@
     <Compile Include="Commands\Address\UpdateAddressCommand.cs" />
     <Compile Include="Commands\ApplicationUser\RegisterNewUserCommand.cs" />
     <Compile Include="Commands\Company\AddAddressToCompanyCommand.cs" />
-    <Compile Include="Commands\Company\DeleteUserCommand.cs" />
     <Compile Include="Commands\Company\UpdateCompanyCommand.cs" />
     <Compile Include="Commands\Organization\AddAddressToOrganizationCommand.cs" />
     <Compile Include="Commands\Organization\DeleteOrganizationCommand.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="Events\Organization\OrganizationCreated.cs" />
     <Compile Include="Events\Organization\OrganizationUpdated.cs" />
     <Compile Include="Events\Project\ProjectCreated.cs" />
+    <Compile Include="Events\Project\ProjectDeleted.cs" />
     <Compile Include="Events\Project\ProjectUpdated.cs" />
     <Compile Include="Events\Resource\ResourceCreated.cs" />
     <Compile Include="Events\Resource\ResourceFromProjectRemoved.cs" />
@@ -193,16 +193,22 @@
     <Compile Include="Events\Team\TeamDeleted.cs" />
     <Compile Include="Events\Team\TeamUpdated.cs" />
     <Compile Include="Events\User\UserCreated.cs" />
+    <Compile Include="Events\User\UserDeleted.cs" />
+    <Compile Include="Events\User\UserFromProjectRemoved.cs" />
     <Compile Include="Events\User\UserToProjectAdded.cs" />
     <Compile Include="Events\User\UserToTeamAdded.cs" />
+    <Compile Include="Events\User\UserFromTeamRemoved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
     <Compile Include="Model\ResourceProject.cs" />
     <Compile Include="Model\ResourceTeam.cs" />
     <Compile Include="Model\ResourceUser.cs" />
     <Compile Include="OrganizationContext.cs" />
     <Compile Include="Queries\Handlers\OrganizationEventHandler.cs" />
+    <Compile Include="Queries\Handlers\ProjectEventHandler.cs" />
     <Compile Include="Queries\Handlers\TeamEventHandler.cs" />
+    <Compile Include="Queries\Handlers\UserEventHandler.cs" />
     <Compile Include="Queries\IOrganizationQuery.cs" />
+    <Compile Include="Queries\IProjectQuery.cs" />
     <Compile Include="Queries\ITeamQuery.cs" />
     <Compile Include="Queries\IUserQuery.cs" />
     <Compile Include="Queries\Mappings\AddressMapping.cs" />
@@ -234,6 +240,7 @@
     <Compile Include="Model\UserTeam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\OrganizationQuery.cs" />
+    <Compile Include="Queries\ProjectQuery.cs" />
     <Compile Include="Queries\TeamQuery.cs" />
     <Compile Include="Queries\UserQuery.cs" />
   </ItemGroup>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyNote.Identity.Domain.Commands.Project;
 using MyNote.Identity.Domain.Commands.Team;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Events.User;
 using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Entity;
+using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Model
@@ -23,7 +25,7 @@ namespace MyNote.Identity.Domain.Model
 
         public User()
         {
-            
+
         }
         public User(CreateUserCommand command, ApplicationUser applicationUser, Guid organizationId, ITimeService timeService, IDomainEventsService domainEventsService)
         {
@@ -40,8 +42,20 @@ namespace MyNote.Identity.Domain.Model
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new UserUpdated(command, timeService);
+
+            domainEventsService.Save(@event);
+            Apply(@event);
+        }
+
+        public void Delete(DeleteUserCommand command, IDomainEventsService domainEventsService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+
+            var @event = new UserDeleted(command);
 
             domainEventsService.Save(@event);
             Apply(@event);
@@ -52,6 +66,7 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new UserToTeamAdded(command);
+
             domainEventsService.Save(@event);
             Apply(@event);
         }
@@ -60,9 +75,34 @@ namespace MyNote.Identity.Domain.Model
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var @event = new UserToProjectAdded(command);
+            var userProject = new UserProject(command, domainEventsService);
 
-            domainEventsService.Save(@event);
+            if (this.UserProjects == null) this.UserProjects = new List<UserProject>();
+            this.UserProjects.Add(userProject);
+
+        }
+
+        public void RemoveFromTeam(RemoveUserFromTeamCommand command, IDomainEventsService domainEventsService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+
+            var @event = new UserFromTeamRemoved(command);
+            var userTeam = this.UserTeams.FirstOrDefault(x => x.TeamId.Equals(command.TeamId)) ?? throw new DomainException("Team not found", command.TeamId);
+            userTeam.Remove(command, domainEventsService);
+            Apply(@event);
+        }
+
+        public void RemoveFromProject(RemoveUserFromProjectCommand command, IDomainEventsService domainEventsService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+
+            var @event = new UserFromProjectRemoved(command);
+            var userProject = this.UserProjects.FirstOrDefault(x => x.ProjectId.Equals(command.ProjectId)) ??
+                              throw new DomainException("Project not found", command.ProjectId);
+
+            userProject.Remove(command, domainEventsService);
             Apply(@event);
         }
 
@@ -74,6 +114,9 @@ namespace MyNote.Identity.Domain.Model
             this.IsAdministrator = @event.IsAdministrator;
             this.ApplicationUser = @event.ApplicationUser;
             this.OrganizationId = @event.OrganizationId;
+            this.CreateBy = @event.CreateBy;
+            this.UpdateBy = @event.UpdateBy;
+            this.Modification = @event.Modification;
             this.Create = @event.Create;
         }
 
@@ -82,7 +125,6 @@ namespace MyNote.Identity.Domain.Model
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
             this.OrganizationId = @event.OrganizationId;
-            this.ApplicationUser = @event.ApplicationUser;
             this.Modification = @event.Modification;
         }
 
@@ -93,11 +135,38 @@ namespace MyNote.Identity.Domain.Model
             this.UserTeams.Add(new UserTeam(@event));
         }
 
-        public void Apply(UserToProjectAdded @event)
+        //public void Apply(UserToProjectAdded @event)
+        //{
+        //    if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+        //    UserProject userProject = new UserProject();
+        //    userProject.Apply(@event,do);
+        //    this.UserProjects.Add(new UserProject(@event));
+        //}
+
+        public void Apply(UserFromTeamRemoved @event)
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
+            var userTeam =
+                this.UserTeams.FirstOrDefault(x => x.UserId.Equals(@event.UserId) && x.TeamId.Equals(@event.TeamId)) ??
+                throw new DomainException("User in team not founded", @event.UserId);
 
-            this.UserProjects.Add(new UserProject(@event));
+            this.UserTeams.Remove(userTeam);
+        }
+
+        public void Apply(UserFromProjectRemoved @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+            var userProject =
+                this.UserProjects.FirstOrDefault(x => x.UserId.Equals(@event.UserId) && x.ProjectId.Equals(@event.ProjectId)) ??
+                throw new DomainException("User in team not founded", @event.UserId);
+
+            this.UserProjects.Remove(userProject);
+        }
+
+        public void Apply(UserDeleted @event)
+        {
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
         }
         #endregion
 

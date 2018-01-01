@@ -13,7 +13,6 @@ using MyNote.Infrastructure.Model.Database;
 namespace MyNote.Identity.Domain.Queries.Handlers
 {
     public class OrganizationEventHandler : INotificationHandler<OrganizationCreated>,
-                                            INotificationHandler<UserCreated>,
                                             INotificationHandler<OrganizationUpdated>
 
     {
@@ -42,14 +41,6 @@ namespace MyNote.Identity.Domain.Queries.Handlers
             return Task.CompletedTask;
         }
         
-        public Task Handle(UserCreated notification, CancellationToken cancellationToken)
-        {
-            User user = new User();
-            user.Apply(notification);
-            _userRepository.Add(user);
-            _userRepository.Save();
-            return Task.CompletedTask;
-        }
 
         public Task Handle(OrganizationUpdated notification, CancellationToken cancellationToken)
         {

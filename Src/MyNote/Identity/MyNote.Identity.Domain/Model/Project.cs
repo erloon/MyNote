@@ -43,6 +43,18 @@ namespace MyNote.Identity.Domain.Model
             Apply(@event);
         }
 
+        public void Delete(DeleteProjectCommand command,
+            IDomainEventsService domainEventsService)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+            if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
+
+            var @event = new ProjectDeleted(command);
+
+            domainEventsService.Save(@event);
+            
+        }
+
         public void Apply(ProjectUpdated @event)
         {
             this.Name = @event.Name;
@@ -56,6 +68,7 @@ namespace MyNote.Identity.Domain.Model
 
         public void Apply(ProjectCreated @event)
         {
+            this.Id = @event.ProjectId;
             this.Name = @event.Name;
             this.StartDate = @event.StartDate;
             this.Subject = @event.Subject;

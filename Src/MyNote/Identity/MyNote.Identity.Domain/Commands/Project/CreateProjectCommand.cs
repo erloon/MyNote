@@ -1,9 +1,10 @@
 ﻿using System;
+using MediatR;
 using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Commands.Project
 {
-    public class CreateProjectCommand : Command
+    public class CreateProjectCommand : Command, IRequest<Model.Project>
     {
         public string Name { get; set; }
         public DateTime StartDate { get; set; }

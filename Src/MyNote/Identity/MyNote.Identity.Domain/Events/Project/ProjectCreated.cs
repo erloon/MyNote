@@ -7,6 +7,7 @@ namespace MyNote.Identity.Domain.Events.Project
 {
     public class ProjectCreated : DomainEvent
     {
+        public Guid ProjectId { get; set; }
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public string Subject { get; set; }
@@ -19,11 +20,12 @@ namespace MyNote.Identity.Domain.Events.Project
 
         public ProjectCreated(CreateProjectCommand command, ITimeService timeService)
         {
+            this.ProjectId = Guid.NewGuid();
             this.Name = command.Name;
             this.StartDate = command.StartDate;
             this.Subject = command.Subject;
             this.Description = command.Description;
-            this.OrganizationId = OrganizationId;
+            this.OrganizationId = command.OrganizationId;
             this.CreateBy = command.CreateBy;
             this.UpdateBy = command.UpdateBy;
             this.Create = timeService.GetCurrent();

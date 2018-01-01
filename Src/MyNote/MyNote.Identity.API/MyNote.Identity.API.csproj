@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.UnitOfWork" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="RawRabbit" Version="1.10.4" />
     <PackageReference Include="RawRabbit.DependencyInjection.Autofac" Version="1.10.4" />
     <PackageReference Include="RawRabbit.Extensions" Version="1.10.4" />

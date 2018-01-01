@@ -11,7 +11,7 @@ using MyNote.Infrastructure.Model.Entity;
 namespace MyNote.Infrastructure.Model.Database
 {
     public interface IDataRepository<TEntity>
-        where TEntity : BaseEntity
+        where TEntity : Entity.Entity
     {
 
         void Add(TEntity entity);

@@ -4,20 +4,16 @@ using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Domain.Events.User
 {
-    public class UserToTeamAdded : DomainEvent
+    public class UserFromTeamRemoved : DomainEvent
     {
-        public Guid UserTeamId { get; set; }
         public Guid UserId { get; set; }
         public Guid TeamId { get; set; }
         public Guid OrganizationId { get; set; }
-        public UserToTeamAdded(AddUserToTeamCommand command)
+        public UserFromTeamRemoved(RemoveUserFromTeamCommand command)
         {
-            this.UserTeamId = Guid.NewGuid();
             this.TeamId = command.TeamId;
             this.UserId = command.UserId;
             this.OrganizationId = command.OrganizationId;
         }
-
-        
     }
 }

@@ -9,6 +9,7 @@ namespace MyNote.Identity.Domain.Commands.User
     {
         public string UserName { get; set; }
         public bool IsAdministrator { get; set; }
+        public Model.ApplicationUser ApplicationUser { get; set; }
         public Guid OrganizationId { get; set; }
         public Guid CreateBy { get; set; }
         public Guid UpdateBy { get; set; }

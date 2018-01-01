@@ -11,9 +11,10 @@ using System;
 namespace MyNote.Identity.API.Migrations
 {
     [DbContext(typeof(MyIdentityDbContext))]
-    partial class MyIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180101191036_AddIdToManyToManyTables")]
+    partial class AddIdToManyToManyTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

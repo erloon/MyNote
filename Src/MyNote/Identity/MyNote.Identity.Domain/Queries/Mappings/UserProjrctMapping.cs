@@ -10,13 +10,13 @@ namespace MyNote.Identity.Domain.Queries.Mappings
         {
             entityTypeBuilder.HasKey(x => new { x.ProjectId, x.UserId });
 
-            entityTypeBuilder.HasOne(x => x.Project)
-                .WithMany(x => x.UserProjects)
-                .HasForeignKey(x => x.ProjectId);
+            //entityTypeBuilder.HasOne(x => x.Project)
+            //    .WithMany(x => x.UserProjects)
+            //    .HasForeignKey(x => x.ProjectId);
 
-            entityTypeBuilder.HasOne(x => x.User)
-                .WithMany(x => x.UserProjects)
-                .HasForeignKey(x => x.UserId);
+            //entityTypeBuilder.HasOne(x => x.User)
+            //    .WithMany(x => x.UserProjects)
+            //    .HasForeignKey(x => x.UserId);
         }
     }
 }

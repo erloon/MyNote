@@ -13,7 +13,7 @@ using MyNote.Infrastructure.Model.Entity;
 namespace MyNote.Identity.Infrastructure.SeedWork
 {
     public class DataRepository<TEntity> : IDataRepository<TEntity>
-        where TEntity : BaseEntity
+        where TEntity : Entity
 
     {
         private readonly IUnitOfWork _unitOfWork;

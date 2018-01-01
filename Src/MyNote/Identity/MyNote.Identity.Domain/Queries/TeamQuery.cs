@@ -12,14 +12,17 @@ namespace MyNote.Identity.Domain.Queries
     public class TeamQuery : ITeamQuery
     {
         private readonly IDataRepository<Team> _teamRepository;
+        private readonly IDataRepository<User> _userRepository;
+
 
         public TeamQuery(IDataRepository<Team> teamRepository,
-                         IDataRepository<User> userRepository)
+                            IDataRepository<User> userRepository)
         {
             if (teamRepository == null) throw new ArgumentNullException(nameof(teamRepository));
             if (userRepository == null) throw new ArgumentNullException(nameof(userRepository));
 
             _teamRepository = teamRepository;
+            _userRepository = userRepository;
         }
         public async Task<IPagedList<Team>> GetAllAsync(Guid organizationId)
         {
@@ -36,24 +39,26 @@ namespace MyNote.Identity.Domain.Queries
             return await _teamRepository.FirstOrDefaultAsync(predicate: x => x.Name.Equals(name) && x.OrganizationId.Equals(organizationId));
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync(Guid teamId, Guid organizationId)
+        public async Task<IPagedList<User>> GetUsersAsync(Guid teamId, Guid organizationId)
         {
             var team = await _teamRepository.FirstOrDefaultAsync(predicate: x => x.Id.Equals(teamId) && x.OrganizationId.Equals(organizationId),
                 include: i => i.Include(x => x.UserTeams))
                 ?? throw new DomainException("team not found", teamId);
-            return team.UserTeams.Select(x => x.User);
+
+            var ids = team.UserTeams.Select(x => x.UserId);
+            return await _userRepository.GetAsync(predicate: x => ids.Contains(x.Id));
         }
 
         public async Task<User> GetUserAsync(Guid teamId, Guid userId, Guid organizationId)
         {
             var team = await _teamRepository.FirstOrDefaultAsync(predicate: x => x.Id.Equals(teamId) && x.OrganizationId.Equals(organizationId),
-                           include: i => i.Include(x => x.UserTeams).Include(u => u.UserTeams.Select(x => x.User)))
+                           include: i => i.Include(x => x.UserTeams))
                        ?? throw new DomainException("team not found", teamId);
 
-            var user = team.UserTeams.FirstOrDefault(x => x.UserId.Equals(userId)).User
+            var userTeam = team.UserTeams.FirstOrDefault(x => x.UserId.Equals(userId))
                 ?? throw new DomainException("User not found", userId);
 
-            return user;
+            return await _userRepository.FirstOrDefaultAsync(predicate:x=>x.Id.Equals(userTeam.UserId));
         }
     }
 }
