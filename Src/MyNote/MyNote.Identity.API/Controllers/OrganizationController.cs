@@ -27,25 +27,21 @@ namespace MyNote.Identity.API.Controllers
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
         private readonly IMapper _mapper;
-        private readonly ITimeService _timeService;
 
         public OrganizationController(IMediator mediator,
                                      IOrganizationQuery organizationQuery,
                                      UserManager<ApplicationUser> userManager,
-                                     IMapper mapper,
-                                     ITimeService timeService)
+                                     IMapper mapper)
             : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
             if (mapper == null) throw new ArgumentNullException(nameof(mapper));
-            if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
 
             _mediator = mediator;
             _organizationQuery = organizationQuery;
             _mapper = mapper;
-            _timeService = timeService;
         }
 
         [HttpPost]
@@ -76,14 +72,7 @@ namespace MyNote.Identity.API.Controllers
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             CreateUserCommand command = null;
-            try
-            {
-                command = _mapper.Map<CreateUserCommand>(model);
-            }
-            catch (Exception e)
-            {
-
-            }
+            command = _mapper.Map<CreateUserCommand>(model);
 
             var userId = GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;

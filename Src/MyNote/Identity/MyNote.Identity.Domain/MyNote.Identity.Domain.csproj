@@ -189,7 +189,9 @@
     <Compile Include="Events\Resource\ResourceToProjectShared.cs" />
     <Compile Include="Events\Resource\ResourceToTeamShared.cs" />
     <Compile Include="Events\Resource\ResourceToUserShared.cs" />
-    <Compile Include="Events\TestEvent.cs" />
+    <Compile Include="Events\Team\TeamCreated.cs" />
+    <Compile Include="Events\Team\TeamDeleted.cs" />
+    <Compile Include="Events\Team\TeamUpdated.cs" />
     <Compile Include="Events\User\UserCreated.cs" />
     <Compile Include="Events\User\UserToProjectAdded.cs" />
     <Compile Include="Events\User\UserToTeamAdded.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Model\ResourceUser.cs" />
     <Compile Include="OrganizationContext.cs" />
     <Compile Include="Queries\Handlers\OrganizationEventHandler.cs" />
+    <Compile Include="Queries\Handlers\TeamEventHandler.cs" />
     <Compile Include="Queries\IOrganizationQuery.cs" />
     <Compile Include="Queries\ITeamQuery.cs" />
     <Compile Include="Queries\IUserQuery.cs" />

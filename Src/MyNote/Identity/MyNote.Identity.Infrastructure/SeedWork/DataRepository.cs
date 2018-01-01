@@ -68,7 +68,7 @@ namespace MyNote.Identity.Infrastructure.SeedWork
                                             CancellationToken cancellationToken = default(CancellationToken))
         {
 
-            return _unitOfWork.GetRepository<TEntity>().GetPagedListAsync(predicate, orderBy, include, pageIndex,
+            return _unitOfWork.GetRepository<TEntity>(). GetPagedListAsync(predicate, orderBy, include, pageIndex,
                 pageSize, disableTracking, cancellationToken);
         }
 
@@ -90,6 +90,10 @@ namespace MyNote.Identity.Infrastructure.SeedWork
                 .GetFirstOrDefaultAsync(predicate, orderBy, include, disableTracking);
         }
 
+        public List<TEntity> GetAll()
+        {
+            return _unitOfWork.GetRepository<TEntity>().GetAll().ToList();
+        }
         public void Save()
         {
             _unitOfWork.SaveChanges();

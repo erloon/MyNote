@@ -27,12 +27,14 @@ namespace MyNote.Identity.Infrastructure.Services
         }
         public async Task<OrganizationContext> Get(string userName)
         {
-            var user = _userQuery.Get(userName);
-            var organization = await _organizationQuery.GetUserAsync(user.OrganizationId, user.Id);
+            User user = null;
+
+            user = _userQuery.Get(userName);
 
             var context = new OrganizationContext()
             {
-                OrganizationId = organization.Id,
+                UserId = user.Id,
+                OrganizationId = user.OrganizationId,
                 ProjectsOwnership = GetProjects(user),
                 TeamsOwnership = GetTeams(user)
             };

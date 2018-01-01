@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -44,6 +45,7 @@ namespace MyNote.Infrastructure.Model.Database
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
             bool disableTracking = true);
 
+        List<TEntity> GetAll();
         void Save();
     }
 }

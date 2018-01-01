@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Marten;
+using Microsoft.EntityFrameworkCore;
 using MyNote.Identity.Domain.Model;
 using MyNote.Infrastructure.Model.Database;
 
@@ -16,7 +19,9 @@ namespace MyNote.Identity.Domain.Queries
         }
         public User Get(string name)
         {
-            throw new System.NotImplementedException();
+            var user = _userRepository.FirstOrDefaultAsync(predicate: x => x.ApplicationUser.Email.Equals(name),
+                include: i => i.Include(x => x.ApplicationUser).Include(x=>x.UserTeams).Include(x=>x.UserProjects)).Result;
+            return user;
         }
     }
 }

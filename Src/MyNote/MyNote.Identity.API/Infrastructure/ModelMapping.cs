@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using MyNote.Identity.API.Model;
 using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Identity.Domain.Commands.Company;
@@ -17,16 +18,25 @@ namespace MyNote.Identity.API.Infrastructure
             CreateMap<CreateAddressCommand, CreateAddress>()
                 .ReverseMap();
             CreateMap<CreateCompanyCommand, CreateCompany>()
-                .ForMember(x=>x.Address,o=>o.MapFrom(s=>s.Address))
+                .ForMember(x => x.Address, o => o.MapFrom(s => s.Address))
                 .ReverseMap();
             CreateMap<CreateUserCommand, CreateUser>()
                 .ReverseMap();
+
             CreateMap<LoginCommand, Login>()
                 .ReverseMap();
             CreateMap<RegisterUserCommand, RegisterUser>()
                 .ReverseMap();
+
             CreateMap<CreateTeamCommand, CreateTeam>()
                 .ReverseMap();
+            CreateMap<UpdateTeamCommand, UpdateTeam>()
+                .ReverseMap();
+            CreateMap<DeleteTeamCommand, DeleteTeam>()
+                .ReverseMap();
+            CreateMap<AddUserToTeamCommand, AddUserToTeam>()
+                .ReverseMap();
+
         }
     }
 }

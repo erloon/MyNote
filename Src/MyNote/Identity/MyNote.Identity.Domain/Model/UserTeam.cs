@@ -10,6 +10,11 @@ namespace MyNote.Identity.Domain.Model
         public Guid UserId { get; protected set; }
         public User User { get; protected set; }
 
+        public UserTeam()
+        {
+            
+        }
+
         public UserTeam(UserToTeamAdded @event)
         {
             this.TeamId = @event.TeamId;

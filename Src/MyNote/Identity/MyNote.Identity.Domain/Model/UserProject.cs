@@ -10,6 +10,10 @@ namespace MyNote.Identity.Domain.Model
         public Guid ProjectId { get; protected set; }
         public Project Project { get; protected set; }
 
+        public UserProject()
+        {
+            
+        }
         public UserProject(UserToProjectAdded @event)
         {
             this.ProjectId = @event.ProjectId;
