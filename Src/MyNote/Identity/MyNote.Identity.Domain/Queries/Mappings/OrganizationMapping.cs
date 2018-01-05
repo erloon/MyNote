@@ -10,9 +10,9 @@ namespace MyNote.Identity.Domain.Queries.Mappings
         {
             entityTypeBuilder.HasKey(x => x.Id);
 
-            entityTypeBuilder.HasMany(x => x.Projects)
-                .WithOne(x => x.Organization)
-                .HasForeignKey(x => x.OrganizationId);
+            //entityTypeBuilder.HasMany(x => x.Projects)
+            //    .WithOne(x => x.Organization)
+            //    .HasForeignKey(x => x.OrganizationId);
 
             entityTypeBuilder.HasOne(x => x.Company)
                 .WithOne(x => x.Organization)
@@ -21,13 +21,13 @@ namespace MyNote.Identity.Domain.Queries.Mappings
             entityTypeBuilder.Property(x => x.Name)
                 .HasMaxLength(200);
 
-            entityTypeBuilder.HasMany(x => x.Resources)
-                .WithOne(x => x.Organization)
-                .HasForeignKey(x => x.OrganizationId);
+            //entityTypeBuilder.HasMany(x => x.Resources)
+            //    .WithOne(x => x.Organization)
+            //    .HasForeignKey(x => x.OrganizationId);
 
-            entityTypeBuilder.HasMany(x => x.Users)
-                .WithOne(x => x.Organization)
-                .HasForeignKey(x => x.OrganizationId);
+            //entityTypeBuilder.HasMany(x => x.Users)
+            //    .WithOne(x => x.Organization)
+            //    .HasForeignKey(x => x.OrganizationId);
 
             entityTypeBuilder.Property(x => x.Timestamp).IsRowVersion();
         }

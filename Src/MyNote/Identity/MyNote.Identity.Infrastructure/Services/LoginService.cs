@@ -38,10 +38,10 @@ namespace MyNote.Identity.Infrastructure.Services
 
         public async Task<ApplicationUser> FindByUsernameAndOrganization(LoginCommand login)
         {
-
-            var user = await _useRepository.FirstOrDefaultAsync(
-                x => x.Organization.Name.Equals(login.Organization) && x.ApplicationUser.Email.Equals(login.Email), null,
-                s => s.Include(x => x.Organization));
+            User user = new User();
+            //var user = await _useRepository.FirstOrDefaultAsync(
+            //    x => x.Organization.Name.Equals(login.Organization) && x.ApplicationUser.Email.Equals(login.Email), null,
+            //    s => s.Include(x => x.Organization));
             return user.ApplicationUser;
         }
     }

@@ -15,7 +15,6 @@ namespace MyNote.Identity.Domain.Model
         public DateTime StartDate { get; protected set; }
         public string Subject { get; protected set; }
         public string Description { get; protected set; }
-        public Organization Organization { get; protected set; }
         public Guid OrganizationId { get; protected set; }
 
         public virtual ICollection<UserProject> UserProjects { get; protected set; }

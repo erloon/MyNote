@@ -16,7 +16,6 @@ namespace MyNote.Identity.Domain.Model
     {
         public ApplicationUser ApplicationUser { get; protected set; }
         public Guid OrganizationId { get; protected set; }
-        public Organization Organization { get; protected set; }
         public bool IsAdministrator { get; protected set; }
         public bool IsConfirmByAdmin { get; protected set; }
         public virtual ICollection<UserTeam> UserTeams { get; protected set; }
@@ -134,15 +133,6 @@ namespace MyNote.Identity.Domain.Model
 
             this.UserTeams.Add(new UserTeam(@event));
         }
-
-        //public void Apply(UserToProjectAdded @event)
-        //{
-        //    if (@event == null) throw new ArgumentNullException(nameof(@event));
-
-        //    UserProject userProject = new UserProject();
-        //    userProject.Apply(@event,do);
-        //    this.UserProjects.Add(new UserProject(@event));
-        //}
 
         public void Apply(UserFromTeamRemoved @event)
         {

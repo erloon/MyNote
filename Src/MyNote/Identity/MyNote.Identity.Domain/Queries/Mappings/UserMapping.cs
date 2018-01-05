@@ -8,7 +8,7 @@ namespace MyNote.Identity.Domain.Queries.Mappings
     {
         public void Configure(EntityTypeBuilder<User> entityTypeBuilder)
         {
-            entityTypeBuilder.HasOne(x => x.Organization).WithMany(x => x.Users).HasForeignKey(x=>x.OrganizationId);
+            //entityTypeBuilder.HasOne(x => x.Organization).WithMany(x => x.Users).HasForeignKey(x=>x.OrganizationId);
 
 
 

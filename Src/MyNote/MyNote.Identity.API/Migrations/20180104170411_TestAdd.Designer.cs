@@ -11,9 +11,10 @@ using System;
 namespace MyNote.Identity.API.Migrations
 {
     [DbContext(typeof(MyIdentityDbContext))]
-    partial class MyIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180104170411_TestAdd")]
+    partial class TestAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,8 +347,6 @@ namespace MyNote.Identity.API.Migrations
 
                     b.Property<Guid>("ResourceId");
 
-                    b.Property<Guid>("Id");
-
                     b.HasKey("ProjectId", "ResourceId");
 
                     b.HasIndex("ResourceId");
@@ -361,8 +360,6 @@ namespace MyNote.Identity.API.Migrations
 
                     b.Property<Guid>("TeamId");
 
-                    b.Property<Guid>("Id");
-
                     b.HasKey("ResourceId", "TeamId");
 
                     b.HasIndex("TeamId");
@@ -375,8 +372,6 @@ namespace MyNote.Identity.API.Migrations
                     b.Property<Guid>("ResourceId");
 
                     b.Property<Guid>("UserId");
-
-                    b.Property<Guid>("Id");
 
                     b.HasKey("ResourceId", "UserId");
 
@@ -550,7 +545,7 @@ namespace MyNote.Identity.API.Migrations
 
             modelBuilder.Entity("MyNote.Identity.Domain.Model.Resource", b =>
                 {
-                    b.HasOne("MyNote.Identity.Domain.Model.Organization")
+                    b.HasOne("MyNote.Identity.Domain.Model.Organization", "Organization")
                         .WithMany("Resources")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -15,7 +15,7 @@ namespace MyNote.Identity.Domain.Model
         public string OwnerId { get; protected set; }
         public User Owner { get; protected set; }
         public Guid OrganizationId { get; protected set; }
-        public Organization Organization { get; protected set; }
+        //public Organization Organization { get; protected set; }
         public Guid? ContentId { get; protected set; }
 
         public virtual ICollection<ResourceUser> ResourceUsers { get; protected set; }
@@ -41,18 +41,24 @@ namespace MyNote.Identity.Domain.Model
         public void AddUser(ShareResourceToUserCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            var @event = new ResourceToUserShared(command);
 
+            var @event = new ResourceToUserShared(command);
             domainEventsService.Save(@event);
             Apply(@event);
+
         }
 
         public void RemoveUser(RemoveResourceFromUserCommand command, IDomainEventsService domainEventsService)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
-            var @event = new ResourceFromUserRemoved(command);
 
-            domainEventsService.Save(@event);
+            var resourceUser =
+                this.ResourceUsers.FirstOrDefault(x => x.ResourceId.Equals(command.ResourceId) &&
+                                                       x.UserId.Equals(command.UserId))
+                    ?? throw new DomainException($"User {command.UserId} with resource {command.ResourceId} not found", command.ResourceId);
+
+            var @event = new ResourceFromUserRemoved(command);
+            resourceUser.Remove(command, domainEventsService);
             Apply(@event);
         }
 
@@ -70,7 +76,11 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             var @event = new ResourceFromProjectRemoved(command);
 
-            domainEventsService.Save(@event);
+            var resourceProject = this.ResourceProjects.FirstOrDefault(x => x.ResourceId.Equals(command.ResourceId) &&
+                                                                         x.ProjectId.Equals(command.ProjectId))
+                                  ?? throw new DomainException($"Project {command.ProjectId} with resource {command.ResourceId} not found", command.ResourceId);
+
+            resourceProject.Remove(command, domainEventsService);
             Apply(@event);
         }
 
@@ -89,8 +99,11 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             var @event = new ResourceFromTeamRemoved(command);
+            var resourceeam = this.ResourceTeams.FirstOrDefault(x => x.ResourceId.Equals(command.ResourceId) &&
+                                                                            x.TeamId.Equals(command.TeamId))
+                                  ?? throw new DomainException($"Team {command.TeamId} with resource {command.ResourceId} not found", command.ResourceId);
 
-            domainEventsService.Save(@event);
+            resourceeam.Remove(command, domainEventsService);
             Apply(@event);
         }
 
@@ -114,7 +127,7 @@ namespace MyNote.Identity.Domain.Model
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
-            this.ResourceUsers.Add(new ResourceUser(@event.ResourceId, @event.UserId));
+            this.ResourceUsers.Add(new ResourceUser(@event));
         }
 
         public void Apply(ResourceFromUserRemoved @event)
@@ -132,7 +145,7 @@ namespace MyNote.Identity.Domain.Model
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
 
-            this.ResourceProjects.Add(new ResourceProject(@event.ResourceId, @event.ProjectId));
+            this.ResourceProjects.Add(new ResourceProject(@event));
         }
 
         public void Apply(ResourceFromProjectRemoved @event)
@@ -149,7 +162,7 @@ namespace MyNote.Identity.Domain.Model
         {
             if (@event == null) throw new ArgumentNullException(nameof(@event));
 
-            this.ResourceTeams.Add(new ResourceTeam(@event.ResourceId, @event.TeamId));
+            this.ResourceTeams.Add(new ResourceTeam(@event));
         }
 
         public void Apply(ResourceFromTeamRemoved @event)

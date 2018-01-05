@@ -63,6 +63,11 @@ namespace MyNote.Identity.API.Infrastructure.Autofac
                 .As<IOrganizationContextService>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ResourceQuery>()
+                .As<IResourceQuery>()
+                .InstancePerLifetimeScope();
+
+
             base.Load(builder);
         }
     }

@@ -5,6 +5,7 @@ using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.Project;
+using MyNote.Identity.Domain.Commands.Resource;
 using MyNote.Identity.Domain.Commands.Team;
 using MyNote.Identity.Domain.Commands.User;
 
@@ -21,7 +22,7 @@ namespace MyNote.Identity.API.Infrastructure
             CreateMap<CreateCompanyCommand, CreateCompany>()
                 .ForMember(x => x.Address, o => o.MapFrom(s => s.Address))
                 .ReverseMap();
-         
+
             CreateMap<LoginCommand, Login>()
                 .ReverseMap();
             CreateMap<RegisterUserCommand, RegisterUser>()
@@ -57,6 +58,22 @@ namespace MyNote.Identity.API.Infrastructure
                 .ReverseMap();
             CreateMap<RemoveUserFromTeamCommand, RemoveUserFromTeam>()
                 .ReverseMap();
+
+            CreateMap<ShareResourceToProjectCommand, ShareResourceToProject>()
+                .ReverseMap();
+            CreateMap<ShareResourceToUserCommand, ShareResourceToUser>()
+                .ReverseMap();
+            CreateMap<ShareResourceToTeamCommand, ShareResourceToTeam>()
+                .ReverseMap();
+            CreateMap<RemoveResourceFromProjectCommand, RemoveResourceFromProject>()
+                .ReverseMap();
+            CreateMap<RemoveResourceFromTeamCommand, RemoveResourceFromTeam>()
+                .ReverseMap();
+            CreateMap<RemoveResourceFromUserCommand, RemoveResourceFromUser>()
+                .ReverseMap();
+
+
+
 
         }
     }
