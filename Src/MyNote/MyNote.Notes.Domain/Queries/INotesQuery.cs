@@ -8,5 +8,6 @@ namespace MyNote.Notes.Domain.Queries
     {
         Note Get(Guid id);
         List<Note> Get(List<Guid> noteIds);
+        void GetFile(Guid fileId);
     }
 }

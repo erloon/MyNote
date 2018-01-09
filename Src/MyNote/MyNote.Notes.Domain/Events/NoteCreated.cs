@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Time;
 using MyNote.Notes.Domain.Commands;
+using MyNote.Notes.Domain.Model;
 
 namespace MyNote.Notes.Domain.Events
 {

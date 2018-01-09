@@ -26,6 +26,8 @@ namespace MyNote.Notes.Domain.Events
             this.Content = command.Content;
             this.Create = timeService.GetCurrent();
             this.Modification = timeService.GetCurrent();
+            this.CreateBy = command.CreateBy;
+            this.UpdateBy = command.UpdateBy;
         }
     }
 }

@@ -15,5 +15,10 @@ namespace MyNote.Notes.Domain.Queries
         {
             throw new NotImplementedException();
         }
+
+        public void GetFile(Guid fileId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
