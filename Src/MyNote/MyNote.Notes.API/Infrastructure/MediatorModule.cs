@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Autofac;
+using Autofac.Features.Variance;
 using MediatR;
 using System.Reflection;
-using Autofac.Features.Variance;
-using MyNote.Identity.Domain.Commands.Organization;
-using MyNote.Identity.Domain.Events.Organization;
+using MyNote.Notes.Domain.Commands;
+using MyNote.Notes.Domain.Events;
 using Module = Autofac.Module;
 
-namespace MyNote.Identity.API.Infrastructure.Mediator
+
+namespace MyNote.Notes.API.Infrastructure
 {
     public class MediatorModule : Module
     {
@@ -37,9 +38,9 @@ namespace MyNote.Identity.API.Infrastructure.Mediator
                 })
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<CreateOrganizationCommand>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<CreateNoteCommand>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(typeof(OrganizationCreated).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(NoteCreated).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             base.Load(builder);
         }

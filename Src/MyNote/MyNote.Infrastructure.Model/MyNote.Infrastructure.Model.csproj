@@ -201,8 +201,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
+    <Compile Include="Database\IDocumentRepository.cs" />
     <Compile Include="Domain\DomainEventsService.cs" />
     <Compile Include="Domain\IDomainEventsService.cs" />
+    <Compile Include="Entity\ConnectedNote.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Exception\DomainException.cs" />
     <Compile Include="Domain\Command.cs" />
