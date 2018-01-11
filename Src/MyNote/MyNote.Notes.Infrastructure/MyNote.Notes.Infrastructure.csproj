@@ -40,9 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INoteRepository.cs" />
-    <Compile Include="NoteRepository.cs" />
+    <Compile Include="IDocumentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyNote.Infrastructure.Model\MyNote.Infrastructure.Model.csproj">
+      <Project>{D64C4C88-1A5A-408D-8916-CD42056521F0}</Project>
+      <Name>MyNote.Infrastructure.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

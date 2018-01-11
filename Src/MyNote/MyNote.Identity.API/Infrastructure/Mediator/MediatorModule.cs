@@ -38,7 +38,7 @@ namespace MyNote.Identity.API.Infrastructure.Mediator
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<CreateOrganizationCommand>().AsImplementedInterfaces().InstancePerLifetimeScope();
-
+           
             builder.RegisterAssemblyTypes(typeof(OrganizationCreated).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             base.Load(builder);

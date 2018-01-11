@@ -33,7 +33,7 @@ namespace MyNote.Notes.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new FileCreated(command, timeService);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -42,7 +42,7 @@ namespace MyNote.Notes.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
             var @event = new FileDeleted(command);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
 
         }
 

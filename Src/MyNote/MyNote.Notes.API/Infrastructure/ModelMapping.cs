@@ -14,6 +14,16 @@ namespace MyNote.Notes.API.Infrastructure
                 .ReverseMap();
             CreateMap<DeleteNote, DeleteNoteCommand>()
                 .ReverseMap();
+
+            CreateMap<CreateImage, CreateImageCommand>()
+                .ReverseMap();
+            CreateMap<DeleteImage, DeleteImageCommand>()
+                .ReverseMap();
+
+            CreateMap<CreateFile, CreateFileCommand>()
+                .ReverseMap();
+            CreateMap<DeleteFile, DeleteFileCommand>()
+                .ReverseMap();
         }
     }
 }

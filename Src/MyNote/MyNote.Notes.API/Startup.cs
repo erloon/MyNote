@@ -39,7 +39,7 @@ namespace MyNote.Notes.API
 
             var container = new ContainerBuilder();
 
-
+            services.Configure<AppSettings>(Configuration);
             ConfigureContainer(container);
             container.Populate(services);
             return new AutofacServiceProvider(container.Build());
@@ -47,9 +47,10 @@ namespace MyNote.Notes.API
 
         private void ConfigureContainer(ContainerBuilder builder)
         {
+            var config = Configuration.GetSection("EventStore");
             builder.RegisterModule(new DepedencyModule());
             builder.RegisterModule(new MediatorModule());
-            builder.RegisterModule(new MartenModule(Configuration.GetSection("EventStore")));
+            builder.RegisterModule(new MartenModule(config));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

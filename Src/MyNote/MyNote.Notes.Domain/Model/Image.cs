@@ -27,7 +27,7 @@ namespace MyNote.Notes.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new ImageCreated(command, timeService);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
 
             Apply(@event);
         }
@@ -37,7 +37,7 @@ namespace MyNote.Notes.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
             var @event = new ImageDeleted(command);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
         }
         public void Apply(ImageCreated @event)
         {

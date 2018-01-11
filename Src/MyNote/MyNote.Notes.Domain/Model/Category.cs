@@ -2,7 +2,7 @@
 
 namespace MyNote.Notes.Domain.Model
 {
-    public class Category : BaseEntity
+    public class Category
     {
         public string Name { get; set; }
     }

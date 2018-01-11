@@ -30,13 +30,23 @@ namespace MyNote.Notes.API.Infrastructure
                 {
                     var schemaName = _configurationSection.GetValue<string>("ShemaName");
 
+                    //options.CreateDatabasesForTenants(o =>
+                    //{
+                    //    o.MaintenanceDatabase(_configurationSection.GetValue<string>("ConnectionString"));
+                    //    o.ForTenant()
+                    //        .CheckAgainstPgDatabase()
+                    //        .WithOwner("erloon")
+                    //        .WithEncoding("UTF-8")
+                    //        .ConnectionLimit(-1);
+
+                    //});
                     options.Connection(_configurationSection.GetValue<string>("ConnectionString"));
                     options.AutoCreateSchemaObjects = AutoCreate.All;
                     options.Events.DatabaseSchemaName = schemaName;
                     options.DatabaseSchemaName = schemaName;
                     options.Events.InlineProjections.AggregateStreamsWith<Note>();
 
-                    AddEventTypes(options.Events);
+                    //AddEventTypes(options.Events);
                 });
 
                 return documentStore.OpenSession();
@@ -45,14 +55,14 @@ namespace MyNote.Notes.API.Infrastructure
             base.Load(builder);
         }
 
-        private void AddEventTypes(EventGraph optionsEvents)
-        {
-            var type = typeof(IDomainEvent);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p));
+        //private void AddEventTypes(EventGraph optionsEvents)
+        //{
+        //    var type = typeof(IDomainEvent);
+        //    var types = AppDomain.CurrentDomain.GetAssemblies()
+        //        .SelectMany(s => s.GetTypes())
+        //        .Where(p => type.IsAssignableFrom(p));
 
-            optionsEvents.AddEventTypes(types);
-        }
+        //    optionsEvents.AddEventTypes(types);
+        //}
     }
 }

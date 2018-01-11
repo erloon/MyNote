@@ -11,7 +11,7 @@ namespace MyNote.Notes.Domain.Events
     {
         public Guid NoteId { get; set; }
         public string Name { get; set; }
-        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
         public string Title { get; set; }
         public string Subject { get; set; }
         public Guid HeaderImage { get; set; }
@@ -29,7 +29,7 @@ namespace MyNote.Notes.Domain.Events
         public NoteCreated(CreateNoteCommand command, ITimeService timeService)
         {
             this.Name = command.Name;
-            this.CategoryId = command.CategoryId;
+            this.Category = command.Category;
             this.Title = command.Title;
             this.ShortDescription = command.ShortDescription;
             this.Subject = command.Subject;

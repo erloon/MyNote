@@ -10,20 +10,20 @@ namespace MyNote.Notes.Domain.Model
 {
     public class Note : Aggregate
     {
-        public string Name { get; protected set; }
-        public Category Category { get; protected set; }
-        public string Title { get; protected set; }
-        public string Subject { get; protected set; }
-        public Image HeaderImage { get; protected set; }
-        public virtual List<Guid> Images { get; protected set; }
-        public string ShortDescription { get; protected set; }
-        public string Content { get; protected set; }
-        public int Version { get; protected set; }
-        public bool IsDeleted { get; protected set; }
-        public bool IsFinal { get; protected set; }
-        public Guid OwnerId { get; protected set; }
-        public Guid OrganizationId { get; protected set; }
-        public virtual List<Guid> Files { get; protected set; }
+        public string Name { get;  set; }
+        public Category Category { get;  set; }
+        public string Title { get;  set; }
+        public string Subject { get;  set; }
+        public Image HeaderImage { get;  set; }
+        public virtual List<Guid> Images { get;  set; }
+        public string ShortDescription { get;  set; }
+        public string Content { get;  set; }
+        public int Version { get;  set; }
+        public bool IsDeleted { get;  set; }
+        public bool IsFinal { get;  set; }
+        public Guid OwnerId { get;  set; }
+        public Guid OrganizationId { get;  set; }
+        public virtual List<Guid> Files { get;  set; }
 
         public Note()
         {
@@ -37,7 +37,7 @@ namespace MyNote.Notes.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new NoteCreated(command, timeService);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -49,7 +49,7 @@ namespace MyNote.Notes.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new NoteUpdated(command, timeService);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
             Apply(@event);
         }
 
@@ -59,7 +59,7 @@ namespace MyNote.Notes.Domain.Model
             if (domainEventsService == null) throw new ArgumentNullException(nameof(domainEventsService));
 
             var @event = new NoteDeleted(command);
-            domainEventsService.Publish(@event);
+            domainEventsService.Save(@event);
         }
 
         public void Apply(NoteCreated @event)
@@ -68,7 +68,7 @@ namespace MyNote.Notes.Domain.Model
             this.Name = @event.Name;
             this.Category = new Category()
             {
-                Id = @event.CategoryId
+                Name = @event.Category.Name
             };
             this.Title = @event.Title;
             this.ShortDescription = @event.ShortDescription;
@@ -94,7 +94,7 @@ namespace MyNote.Notes.Domain.Model
             this.Name = @event.Name;
             this.Category = new Category()
             {
-                Id = @event.CategoryId
+                Name = @event.Category.Name
             };
             this.Title = @event.Title;
             this.ShortDescription = @event.ShortDescription;

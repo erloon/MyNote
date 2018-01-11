@@ -9,7 +9,7 @@ namespace MyNote.Notes.Domain.Commands
     public class CreateNoteCommand : Command, IRequest<Note>
     {
         public string Name { get; set; }
-        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
         public string Title { get; set; }
         public string Subject { get; set; }
         public Guid HeaderImage { get; set; }

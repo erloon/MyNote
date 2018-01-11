@@ -12,12 +12,12 @@ using MyNote.Notes.Domain.Queries;
 namespace MyNote.Notes.API.Application
 {
     public class NotesHandler : IRequestHandler<CreateNoteCommand, Note>,
-        IRequestHandler<UpdateNoteCommand, Note>,
-        IRequestHandler<DeleteNoteCommand, bool>,
-        IRequestHandler<CreateFileCommand, File>,
-        IRequestHandler<DeleteFileCommand, bool>,
-        IRequestHandler<CreateImageCommand, Image>,
-        IRequestHandler<DeleteImageCommand, bool>
+                                IRequestHandler<UpdateNoteCommand, Note>,
+                                IRequestHandler<DeleteNoteCommand, bool>,
+                                IRequestHandler<CreateFileCommand, File>,
+                                IRequestHandler<DeleteFileCommand, bool>,
+                                IRequestHandler<CreateImageCommand, Image>,
+                                IRequestHandler<DeleteImageCommand, bool>
     {
         private readonly IDomainEventsService _domainEventsService;
         private readonly ITimeService _timeService;
@@ -49,26 +49,26 @@ namespace MyNote.Notes.API.Application
         public async Task<Note> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
         {
             var note = _notesQuery.Get(request.NoteId) ?? throw new DomainException("Note not exists", request.NoteId);
-            note.Update(request,_timeService,_domainEventsService);
+            note.Update(request, _timeService, _domainEventsService);
             return await Task.FromResult(note);
         }
 
         public async Task<bool> Handle(DeleteNoteCommand request, CancellationToken cancellationToken)
         {
             var note = _notesQuery.Get(request.NoteId) ?? throw new DomainException("Note not exists", request.NoteId);
-            note.Delete(request,_domainEventsService);
+            note.Delete(request, _domainEventsService);
             return await Task.FromResult(true);
         }
 
         public async Task<File> Handle(CreateFileCommand request, CancellationToken cancellationToken)
         {
-            var file = new File(request,_timeService,_domainEventsService);
+            var file = new File(request, _timeService, _domainEventsService);
             return await Task.FromResult(file);
         }
 
         public async Task<bool> Handle(DeleteFileCommand request, CancellationToken cancellationToken)
         {
-            var file = _fileQuery.Get(request.FileId) ?? throw new DomainException("Note not exists", request.FileId);
+            var file = _fileQuery.Get(request.FileId) ?? throw new DomainException("File not exists", request.FileId);
             file.Delete(request, _domainEventsService);
             return await Task.FromResult(true);
         }
@@ -81,7 +81,7 @@ namespace MyNote.Notes.API.Application
 
         public async Task<bool> Handle(DeleteImageCommand request, CancellationToken cancellationToken)
         {
-            var image = _imageQuery.Get(request.ImageId) ?? throw new DomainException("Note not exists", request.ImageId);
+            var image = _imageQuery.Get(request.ImageId) ?? throw new DomainException("Image not exists", request.ImageId);
             image.Delete(request, _domainEventsService);
             return await Task.FromResult(true);
         }
