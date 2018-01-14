@@ -15,7 +15,6 @@ using MyNote.Identity.Domain.Events.Organization;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Infrastructure.Model.Time;
-using RawRabbit;
 
 
 namespace MyNote.Identity.API.Controllers

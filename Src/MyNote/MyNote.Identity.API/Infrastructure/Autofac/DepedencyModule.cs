@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using MediatR;
+using MyNote.Identity.API.Application;
 using MyNote.Identity.API.Application.DomainHandler;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure;
@@ -66,8 +67,6 @@ namespace MyNote.Identity.API.Infrastructure.Autofac
             builder.RegisterType<ResourceQuery>()
                 .As<IResourceQuery>()
                 .InstancePerLifetimeScope();
-
-
             base.Load(builder);
         }
     }

@@ -25,9 +25,11 @@ namespace MyNote.Identity.Domain.Queries
         }
         public async Task<IPagedList<Resource>> GetAllAsync(Guid organizationId)
         {
-            return await _resourceRepository.GetAsync(predicate: x => x.OrganizationId.Equals(organizationId),
-                include: i => i.Include(x => x.ResourceProjects).Include(x => x.ResourceTeams)
-                    .Include(x => x.ResourceUsers));
+            IPagedList<Resource> res = null;
+            res = await _resourceRepository.GetAsync(predicate: x => x.OrganizationId.Equals(organizationId),
+                   include: i => i.Include(x => x.ResourceProjects).Include(x => x.ResourceTeams)
+                       .Include(x => x.ResourceUsers));
+            return res;
         }
 
         public async Task<Resource> GetAsync(Guid id, Guid organizationId)

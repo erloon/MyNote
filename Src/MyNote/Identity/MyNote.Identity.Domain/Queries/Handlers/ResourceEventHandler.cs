@@ -16,7 +16,8 @@ namespace MyNote.Identity.Domain.Queries.Handlers
                                         INotificationHandler<ResourceToUserShared>,
                                         INotificationHandler<ResourceFromUserRemoved>,
                                         INotificationHandler<ResourceFromProjectRemoved>,
-                                        INotificationHandler<ResourceFromTeamRemoved>
+                                        INotificationHandler<ResourceFromTeamRemoved>,
+                                        INotificationHandler<ResourceCreated>
     {
         private readonly IDataRepository<Resource> _resourceRepository;
         private readonly IResourceQuery _resourceQuery;
@@ -107,6 +108,15 @@ namespace MyNote.Identity.Domain.Queries.Handlers
 
             _resourceTeamRepository.Delete(resourceTeam);
             _resourceTeamRepository.Save();
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(ResourceCreated notification, CancellationToken cancellationToken)
+        {
+            Resource resource = new Resource();
+            resource.Apply(notification);
+            _resourceRepository.Add(resource);
+            _resourceRepository.Save();
             return Task.CompletedTask;
         }
     }

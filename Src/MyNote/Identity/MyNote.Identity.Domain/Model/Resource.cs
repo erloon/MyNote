@@ -12,7 +12,7 @@ namespace MyNote.Identity.Domain.Model
 {
     public class Resource : BaseEntity
     {
-        public string OwnerId { get; protected set; }
+        public Guid OwnerId { get; protected set; }
         public User Owner { get; protected set; }
         public Guid OrganizationId { get; protected set; }
         //public Organization Organization { get; protected set; }

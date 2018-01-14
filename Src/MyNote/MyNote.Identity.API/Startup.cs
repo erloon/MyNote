@@ -10,17 +10,17 @@ using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MyNote.Identity.API.Application;
 using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Infrastructure.Autofac;
 using MyNote.Identity.API.Infrastructure.Configs;
 using MyNote.Identity.API.Infrastructure.Marten;
 using MyNote.Identity.API.Infrastructure.Mediator;
+using MyNote.Identity.Domain.IntegrationEvents;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Infrastructure;
-using RawRabbit.Configuration;
-using RawRabbit.Configuration.Exchange;
-using RawRabbit.DependencyInjection.Autofac;
-using RawRabbit.Extensions.Client;
+using MyNote.Infrastructure.Model.EventBusRabbitMQ;
+using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MyNote.Identity.API
@@ -54,10 +54,40 @@ namespace MyNote.Identity.API
 
             services.Configure<AppSettings>(Configuration);
             services.AddAutoMapper(x => x.AddProfile(new ModelMapping()));
-            services.AddRawRabbit();
+            //services.AddRawRabbit();
 
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+            {
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
 
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, retryCount);
+            });
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersisterConnection>>();
+                var config = Configuration.GetSection("RawRabbit");
+                var factory = new ConnectionFactory()
+                {
+                    HostName = "localhost"
+                };
+
+                factory.UserName = "guest";
+                factory.Password = "guest";
+                var retryCount = 5;
+
+                return new DefaultRabbitMQPersisterConnection(factory, logger, retryCount);
+            });
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            services.AddTransient<NoteIntegrationEventHandler>();
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -79,37 +109,37 @@ namespace MyNote.Identity.API
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterRawRabbit(new RawRabbitConfiguration()
-            {
-                Username = "guest",
-                Password = "guest",
-                VirtualHost = "/",
-                Port = 5672,
-                Hostnames = { "localhost" },
-                RequestTimeout = new TimeSpan(0,0,0,10),
-                PublishConfirmTimeout = new TimeSpan(0,0,0,10),
-                RecoveryInterval = new TimeSpan(0,0,0,10),
-                PersistentDeliveryMode = true,
-                AutoCloseConnection = true,
-                AutomaticRecovery = true,
-                TopologyRecovery = true,
-                Exchange = new GeneralExchangeConfiguration()
-                {
-                    
-                    AutoDelete = true,
-                    Durable = true,
-                    Type = ExchangeType.Topic
-                },
-                
-                Queue = new GeneralQueueConfiguration()
-                {
-                    AutoDelete = true,
-                    Durable = true,
-                    Exclusive = true
-                }
+            //builder.RegisterRawRabbit(new RawRabbitConfiguration()
+            //{
+            //    Username = "guest",
+            //    Password = "guest",
+            //    VirtualHost = "/",
+            //    Port = 5672,
+            //    Hostnames = { "localhost" },
+            //    RequestTimeout = new TimeSpan(0, 0, 0, 10),
+            //    PublishConfirmTimeout = new TimeSpan(0, 0, 0, 10),
+            //    RecoveryInterval = new TimeSpan(0, 0, 0, 10),
+            //    PersistentDeliveryMode = true,
+            //    AutoCloseConnection = true,
+            //    AutomaticRecovery = true,
+            //    TopologyRecovery = true,
+            //    Exchange = new GeneralExchangeConfiguration()
+            //    {
+
+            //        AutoDelete = true,
+            //        Durable = true,
+            //        Type = ExchangeType.Topic
+            //    },
+
+            //    Queue = new GeneralQueueConfiguration()
+            //    {
+            //        AutoDelete = true,
+            //        Durable = true,
+            //        Exclusive = true
+            //    }
 
 
-            });
+            //});
 
             builder.RegisterModule(new DepedencyModule());
             builder.RegisterModule(new MediatorModule());
@@ -130,8 +160,6 @@ namespace MyNote.Identity.API
                 loggerFactory.CreateLogger("init").LogDebug($"Using PATH BASE '{pathBase}'");
                 app.UsePathBase(pathBase);
             }
-            app.UseStaticFiles();
-            app.UseAuthentication();
 
 
             app.UseSwagger();
@@ -139,13 +167,21 @@ namespace MyNote.Identity.API
             {
                 c.SwaggerEndpoint("/MyNote.Identity.API/swagger/v1/swagger.json", "Identity V1");
             });
-
+            ConfigureEventBus(app);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<NoteCreated, NoteIntegrationEventHandler>();
+
         }
     }
 }

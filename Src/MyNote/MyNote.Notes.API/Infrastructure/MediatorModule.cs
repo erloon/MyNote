@@ -44,6 +44,7 @@ namespace MyNote.Notes.API.Infrastructure
                 .RegisterAssemblyTypes(typeof(NotesHandler).Assembly)
                 .Where(t => t.IsClosedTypeOf(typeof(IRequestHandler<,>)))
                 .AsImplementedInterfaces();
+
             builder.RegisterAssemblyTypes(typeof(NoteCreated).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             base.Load(builder);

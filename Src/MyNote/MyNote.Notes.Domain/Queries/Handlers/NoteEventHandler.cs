@@ -3,11 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Marten.Linq.SoftDeletes;
 using MediatR;
+using MyNote.Infrastructure.Model.Domain;
+using MyNote.Infrastructure.Model.EventBusRabbitMQ;
 using MyNote.Infrastructure.Model.Exception;
 using MyNote.Notes.Domain.Events;
 using MyNote.Notes.Domain.Model;
 using MyNote.Notes.Domain.Repositories;
 using MyNote.Notes.Infrastructure;
+
 
 namespace MyNote.Notes.Domain.Queries.Handlers
 {
@@ -25,13 +28,15 @@ namespace MyNote.Notes.Domain.Queries.Handlers
         private readonly INotesQuery _notesQuery;
         private readonly IFIleQuery _fileQuery;
         private readonly IImageQuery _imageQuery;
+        private readonly IEventBus _eventBus;
 
         public NoteEventHandler(INoteRepository noteRepository,
                                 IFileRepository fileRepository,
-                                IImageRepository imageRepository, 
+                                IImageRepository imageRepository,
                                 INotesQuery notesQuery,
                                 IFIleQuery fileQuery,
-                                IImageQuery imageQuery)
+                                IImageQuery imageQuery,
+                                IEventBus eventBus)
         {
             if (noteRepository == null) throw new ArgumentNullException(nameof(noteRepository));
             if (fileRepository == null) throw new ArgumentNullException(nameof(fileRepository));
@@ -46,13 +51,17 @@ namespace MyNote.Notes.Domain.Queries.Handlers
             _notesQuery = notesQuery;
             _fileQuery = fileQuery;
             _imageQuery = imageQuery;
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
         public Task Handle(NoteCreated notification, CancellationToken cancellationToken)
         {
+
             Note note = new Note();
             note.Apply(notification);
             _noteRepository.Add(note);
             _noteRepository.Save();
+            notification.NoteId = note.Id;
+            PublishToBus(notification);
             return Task.CompletedTask;
         }
 
@@ -61,6 +70,7 @@ namespace MyNote.Notes.Domain.Queries.Handlers
             var note = _notesQuery.Get(notification.NoteId) ?? throw new DomainException("Note not exists", notification.NoteId);
             _noteRepository.Delete(note);
             _noteRepository.Save();
+            PublishToBus(notification);
             return Task.CompletedTask;
         }
 
@@ -70,6 +80,7 @@ namespace MyNote.Notes.Domain.Queries.Handlers
             note.Apply(notification);
             _noteRepository.Update(note);
             _noteRepository.Save();
+            PublishToBus(notification);
             return Task.CompletedTask;
         }
 
@@ -105,6 +116,11 @@ namespace MyNote.Notes.Domain.Queries.Handlers
             _imageRepository.Delete(image);
             _imageRepository.Save();
             return Task.CompletedTask;
+        }
+
+        public void PublishToBus(DomainEvent domainEvent)
+        {
+            _eventBus.Publish(domainEvent);
         }
     }
 }

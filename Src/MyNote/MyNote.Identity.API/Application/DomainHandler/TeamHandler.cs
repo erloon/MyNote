@@ -10,7 +10,6 @@ using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model.Domain;
 using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
-using RawRabbit.Extensions.TopologyUpdater.Model;
 
 namespace MyNote.Identity.API.Application.DomainHandler
 {

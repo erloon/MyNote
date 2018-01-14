@@ -16,7 +16,8 @@ namespace MyNote.Identity.API.Application.DomainHandler
                                     IRequestHandler<ShareResourceToUserCommand, bool>,
                                     IRequestHandler<RemoveResourceFromTeamCommand, bool>,
                                     IRequestHandler<RemoveResourceFromProjectCommand, bool>,
-                                    IRequestHandler<RemoveResourceFromUserCommand, bool>
+                                    IRequestHandler<RemoveResourceFromUserCommand, bool>,
+                                    IRequestHandler<CreateResourceCommand, Resource>
     {
         private readonly IDomainEventsService _domainEventsService;
         private readonly IResourceQuery _resourceQuery;
@@ -81,6 +82,12 @@ namespace MyNote.Identity.API.Application.DomainHandler
                        ?? throw new DomainException("Resource not found", request.ResourceId);
             resource.AddProject(request, _domainEventsService);
             return await Task.FromResult(true);
+        }
+
+        public Task<Resource> Handle(CreateResourceCommand request, CancellationToken cancellationToken)
+        {
+            Resource resource = new Resource(request, _timeService, _domainEventsService);
+            return Task.FromResult(resource);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MyNote.Identity.Domain.Events.Resource
     public class ResourceCreated : DomainEvent
     {
         public Guid ResourceId { get; set; }
-        public string OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
         public Guid OrganizationId { get; set; }
         public Guid? ContentId { get; set; }
         public DateTime Create { get; set; }
@@ -16,6 +16,10 @@ namespace MyNote.Identity.Domain.Events.Resource
         public Guid CreateBy { get; set; }
         public Guid UpdateBy { get; set; }
 
+        public ResourceCreated()
+        {
+            
+        }
         public ResourceCreated(CreateResourceCommand command, ITimeService timeService)
         {
             this.OrganizationId = command.OrganizationId;
