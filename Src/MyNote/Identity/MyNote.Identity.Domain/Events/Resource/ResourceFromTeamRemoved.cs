@@ -6,7 +6,7 @@ namespace MyNote.Identity.Domain.Events.Resource
 {
     public class ResourceFromTeamRemoved : DomainEvent
     {
-        public Guid OwnerId { get; set; }
+        public string OwnerId { get; set; }
         public Guid ResourceId { get; set; }
         public Guid TeamId { get; set; }
         public Guid OrganizationId { get; set; }
@@ -16,7 +16,7 @@ namespace MyNote.Identity.Domain.Events.Resource
             if (command == null) throw new ArgumentNullException(nameof(command));
 
             this.OrganizationId = command.OrganizationId;
-            this.OwnerId = command.OwnerId;
+            this.OwnerId = command.OwnerId.ToString();
             this.ResourceId = command.ResourceId;
             this.TeamId = command.TeamId;
         }

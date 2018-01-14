@@ -12,7 +12,7 @@ namespace MyNote.Identity.Domain.Model
 {
     public class Resource : BaseEntity
     {
-        public Guid OwnerId { get; protected set; }
+        public string OwnerId { get; protected set; }
         public User Owner { get; protected set; }
         public Guid OrganizationId { get; protected set; }
         //public Organization Organization { get; protected set; }
@@ -115,7 +115,7 @@ namespace MyNote.Identity.Domain.Model
 
             this.OrganizationId = @event.OrganizationId;
             this.Create = @event.Create;
-            this.OwnerId = @event.OwnerId;
+            this.OwnerId = @event.OwnerId.ToString();
             this.ContentId = @event.ContentId;
             this.Id = @event.ResourceId;
             this.Modification = @event.Modification;
