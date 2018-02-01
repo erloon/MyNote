@@ -28,6 +28,15 @@ namespace MyNote.Identity.Infrastructure.SeedWork
         {
             _unitOfWork.GetRepository<TEntity>().Insert(entity);
         }
+        public IPagedList<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            int pageIndex = 0,
+            int pageSize = 20,
+            bool disableTracking = true)
+        {
+            return _unitOfWork.GetRepository<TEntity>().GetPagedList(predicate, orderBy, include, pageIndex, pageSize, disableTracking);
+        }
 
         public Task AddAsync(TEntity entity, CancellationToken cancellationToken = new CancellationToken())
         {
@@ -49,16 +58,7 @@ namespace MyNote.Identity.Infrastructure.SeedWork
             _unitOfWork.GetRepository<TEntity>().Delete(entity);
         }
 
-        public IPagedList<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
-                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-                                        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
-                                        int pageIndex = 0,
-                                        int pageSize = 20,
-                                        bool disableTracking = true)
-        {
-            return _unitOfWork.GetRepository<TEntity>().GetPagedList(predicate, orderBy, include, pageIndex, pageSize, disableTracking);
-        }
-
+  
         public Task<IPagedList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null,
                                             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,

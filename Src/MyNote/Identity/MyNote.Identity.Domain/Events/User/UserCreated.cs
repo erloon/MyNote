@@ -29,7 +29,7 @@ namespace MyNote.Identity.Domain.Events.User
             if (applicationUser == null) throw new ArgumentNullException(nameof(applicationUser));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
-            this.UserId = Guid.NewGuid();
+            this.UserId = Guid.Parse(applicationUser.Id);
             this.IsAdministrator = command.IsAdministrator;
             this.UserName = applicationUser.UserName;
             this.ApplicationUser = applicationUser;

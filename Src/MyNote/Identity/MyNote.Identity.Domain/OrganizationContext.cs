@@ -11,5 +11,8 @@ namespace MyNote.Identity.Domain
         public List<Guid> TeamsOwnership { get; set; }
         public List<Guid> ProjectsOwnership { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public List<AvailableTeam> AvaliableTeams { get; set; }
+        public List<AvailableProject> AvailableProjects { get; set; }
     }
 }

@@ -1,0 +1,91 @@
+﻿@using System.Globalization
+@model MyNote.MVC.Models.Projects
+
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="row">
+    @Html.DropDownListFor(x=>x.Name, new SelectListItem[]
+    {
+        new SelectListItem(){Value = "1", Text = "Projekt 1", Selected = true},
+        new SelectListItem(){Value = "2", Text = "Projekt 3"},
+        new SelectListItem(){Value = "3", Text = "Projekt 2" }
+        
+    }, new { @class = "select2_single form-control", @tabindex = "-1", @placeholder = "Projekt" })
+</div>
+<br/>
+<br />
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Notatki projektowe<small>top 5</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <article class="media event">
+                    <a class="pull-left date">
+                        <p class="month">@DateTime.Now.Date.ToString("MMM", CultureInfo.InvariantCulture)</p>
+                        <p class="day">@DateTime.Now.Day</p>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Wymagania funkcjonalne</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </article>
+                <article class="media event">
+                    <a class="pull-left date">
+                        <p class="month">@DateTime.Now.Date.ToString("MMM", CultureInfo.InvariantCulture)</p>
+                        <p class="day">@DateTime.Now.Day</p>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Minutki 21/12/2017</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </article>
+                <article class="media event">
+                    <a class="pull-left date">
+                        <p class="month">@DateTime.Now.Date.ToString("MMM", CultureInfo.InvariantCulture)</p>
+                        <p class="day">@DateTime.Now.Day</p>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Notatka ze spotkania 20/12/2017</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </article>
+                <article class="media event">
+                    <a class="pull-left date">
+                        <p class="month">@DateTime.Now.Date.ToString("MMM", CultureInfo.InvariantCulture)</p>
+                        <p class="day">@DateTime.Now.Day</p>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Spoykanie 02/01/2018</a>
+                        <p>Notatki ze spotkania.</p>
+                    </div>
+                </article>
+                <article class="media event">
+                    <a class="pull-left date">
+                        <p class="month">@DateTime.Now.Date.ToString("MMM", CultureInfo.InvariantCulture)</p>
+                        <p class="day">@DateTime.Now.Day</p>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="#">Zebrać dane</a>
+                        <p>Informacje o dostępnych API.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
+

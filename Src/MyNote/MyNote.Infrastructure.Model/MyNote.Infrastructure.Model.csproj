@@ -244,6 +244,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Base64.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Database\IDocumentRepository.cs" />
     <Compile Include="Domain\DomainEventsService.cs" />
@@ -275,8 +276,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

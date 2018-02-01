@@ -9,6 +9,7 @@ using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model.Database;
+using MyNote.Infrastructure.Model.Domain;
 
 namespace MyNote.Identity.Infrastructure.Services
 {
@@ -17,10 +18,14 @@ namespace MyNote.Identity.Infrastructure.Services
         private readonly IUserQuery _userQuery;
         private readonly IOrganizationQuery _organizationQuery;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITeamQuery _teamQuery;
+        private readonly IProjectQuery _projectQuery;
 
         public OrganizationContextService(IUserQuery userQuery,
                                           IOrganizationQuery organizationQuery,
-                                          UserManager<ApplicationUser> userManager)
+                                          UserManager<ApplicationUser> userManager,
+                                          ITeamQuery teamQuery,
+                                          IProjectQuery projectQuery)
         {
             if (userQuery == null) throw new ArgumentNullException(nameof(userQuery));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
@@ -29,6 +34,8 @@ namespace MyNote.Identity.Infrastructure.Services
             _userQuery = userQuery;
             _organizationQuery = organizationQuery;
             _userManager = userManager;
+            _teamQuery = teamQuery ?? throw new ArgumentNullException(nameof(teamQuery));
+            _projectQuery = projectQuery ?? throw new ArgumentNullException(nameof(projectQuery));
         }
         public async Task<OrganizationContext> Get(string userName)
         {
@@ -40,9 +47,37 @@ namespace MyNote.Identity.Infrastructure.Services
                 OrganizationId = user.OrganizationId,
                 ProjectsOwnership = GetProjects(user),
                 TeamsOwnership = GetTeams(user),
-                ApplicationUser = applicationUser
+                ApplicationUser = applicationUser,
+                AvailableProjects = GetAvailableProjects(user),
+                AvaliableTeams = GetAvailableTeams(user)
+
             };
             return context;
+        }
+
+        private List<AvailableTeam> GetAvailableTeams(User user)
+        {
+            var teams = _teamQuery.GetAllAsync(user.OrganizationId).Result.Items.Select(x => new { x.Name, x.Id }).ToList();
+            List<AvailableTeam> availableTeams = new List<AvailableTeam>();
+            teams.ForEach(x=>availableTeams.Add(new AvailableTeam()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }));
+            return availableTeams;
+        }
+
+        private List<AvailableProject> GetAvailableProjects(User user)
+        {
+            var projects = _projectQuery.GetAllAsync(user.OrganizationId).Result.Items.Select(x => new { x.Name, x.Id }).ToList();
+            List<AvailableProject> availableProjects = new List<AvailableProject>();
+            projects.ForEach(x => availableProjects.Add(new AvailableProject()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }));
+
+            return availableProjects;
         }
 
         private List<Guid> GetTeams(User user)

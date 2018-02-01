@@ -173,7 +173,7 @@
     <Compile Include="Model\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\FIleQuery.cs" />
-    <Compile Include="Queries\Handlers\NoteEventHandler.cs" />
+    <Compile Include="Handlers\NoteEventHandler.cs" />
     <Compile Include="Queries\IFIleQuery.cs" />
     <Compile Include="Queries\IImageQuery.cs" />
     <Compile Include="Queries\ImageQuery.cs" />

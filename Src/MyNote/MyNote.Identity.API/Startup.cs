@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using MyNote.Identity.API.Application;
@@ -22,6 +25,8 @@ using MyNote.Identity.Infrastructure;
 using MyNote.Infrastructure.Model.EventBusRabbitMQ;
 using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 
 namespace MyNote.Identity.API
 {
@@ -48,13 +53,17 @@ namespace MyNote.Identity.API
                     }))
                     .AddUnitOfWork<MyIdentityDbContext>();
 
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
+         
+
             services.Configure<AppSettings>(Configuration);
             services.AddAutoMapper(x => x.AddProfile(new ModelMapping()));
-            //services.AddRawRabbit();
+
+            
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
@@ -97,10 +106,7 @@ namespace MyNote.Identity.API
 
             });
 
-
             var container = new ContainerBuilder();
-
-
             ConfigureContainer(container);
             container.Populate(services);
 
@@ -109,38 +115,6 @@ namespace MyNote.Identity.API
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            //builder.RegisterRawRabbit(new RawRabbitConfiguration()
-            //{
-            //    Username = "guest",
-            //    Password = "guest",
-            //    VirtualHost = "/",
-            //    Port = 5672,
-            //    Hostnames = { "localhost" },
-            //    RequestTimeout = new TimeSpan(0, 0, 0, 10),
-            //    PublishConfirmTimeout = new TimeSpan(0, 0, 0, 10),
-            //    RecoveryInterval = new TimeSpan(0, 0, 0, 10),
-            //    PersistentDeliveryMode = true,
-            //    AutoCloseConnection = true,
-            //    AutomaticRecovery = true,
-            //    TopologyRecovery = true,
-            //    Exchange = new GeneralExchangeConfiguration()
-            //    {
-
-            //        AutoDelete = true,
-            //        Durable = true,
-            //        Type = ExchangeType.Topic
-            //    },
-
-            //    Queue = new GeneralQueueConfiguration()
-            //    {
-            //        AutoDelete = true,
-            //        Durable = true,
-            //        Exclusive = true
-            //    }
-
-
-            //});
-
             builder.RegisterModule(new DepedencyModule());
             builder.RegisterModule(new MediatorModule());
             builder.RegisterModule(new MartenModule(Configuration.GetSection("EventStore")));
@@ -152,6 +126,7 @@ namespace MyNote.Identity.API
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
+
             app.UseAuthentication();
 
             var pathBase = Configuration["PATH_BASE"];

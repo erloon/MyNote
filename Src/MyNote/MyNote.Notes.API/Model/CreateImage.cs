@@ -9,5 +9,9 @@ namespace MyNote.Notes.API.Model
         public Guid OrganizationId { get; set; }
         public byte[] Content { get; set; }
 
+        public CreateImage()
+        {
+            
+        }
     }
 }

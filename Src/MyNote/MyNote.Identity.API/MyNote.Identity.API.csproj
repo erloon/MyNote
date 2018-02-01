@@ -41,6 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.DataProtection.Extensions">
+      <HintPath>C:\Users\macie\.nuget\packages\microsoft.aspnetcore.dataprotection.extensions\1.1.0\lib\net451\Microsoft.AspNetCore.DataProtection.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Infrastructure\MigrationData\Migrations\IdentityServer\ConfigurationDb\20171005153917_InitialIdentityServerConfigurationDbMigration.Designer.cs">
       <DependentUpon>20171005153917_InitialIdentityServerConfigurationDbMigration.cs</DependentUpon>
     </Compile>

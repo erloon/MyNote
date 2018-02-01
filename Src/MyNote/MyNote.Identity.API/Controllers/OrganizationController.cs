@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Model;
+using MyNote.Identity.Domain;
 using MyNote.Identity.Domain.Commands.Address;
 using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
@@ -14,6 +15,7 @@ using MyNote.Identity.Domain.Events;
 using MyNote.Identity.Domain.Events.Organization;
 using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
+using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model.Time;
 
 
@@ -26,11 +28,13 @@ namespace MyNote.Identity.API.Controllers
         private readonly IMediator _mediator;
         private readonly IOrganizationQuery _organizationQuery;
         private readonly IMapper _mapper;
+        private readonly IOrganizationContextService _organizationContextService;
 
         public OrganizationController(IMediator mediator,
                                      IOrganizationQuery organizationQuery,
                                      UserManager<ApplicationUser> userManager,
-                                     IMapper mapper)
+                                     IMapper mapper,
+                                     IOrganizationContextService organizationContextService)
             : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
@@ -41,6 +45,7 @@ namespace MyNote.Identity.API.Controllers
             _mediator = mediator;
             _organizationQuery = organizationQuery;
             _mapper = mapper;
+            _organizationContextService = organizationContextService ?? throw new ArgumentNullException(nameof(organizationContextService));
         }
 
         [HttpPost]
@@ -120,6 +125,10 @@ namespace MyNote.Identity.API.Controllers
             return new OkObjectResult(await _organizationQuery.GetUserAsync(organizationId, userId));
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> GetOrganizationContext()
+        {
+            return new OkObjectResult(await _organizationContextService.Get(this.HttpContext.User.Identity.Name));
+        }
     }
 }

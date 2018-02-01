@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Model;
 using MyNote.Identity.Domain.Commands.User;
+using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 using Newtonsoft.Json;
@@ -13,7 +17,7 @@ namespace MyNote.Identity.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]/[action]")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
 
         private readonly IMediator _mediator;
@@ -22,9 +26,11 @@ namespace MyNote.Identity.API.Controllers
         private readonly IUserQuery _userQuery;
 
         public UsersController(IMediator mediator,
-                                IOrganizationContextService organizationContextService,
-                                IMapper mapper,
-                                IUserQuery userQuery)
+            IOrganizationContextService organizationContextService,
+            IMapper mapper,
+            IUserQuery userQuery,
+            UserManager<ApplicationUser> userManager
+        ) : base(userManager)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationContextService == null) throw new ArgumentNullException(nameof(organizationContextService));
@@ -60,16 +66,17 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> User([FromBody]CreateUser team)
+        public async Task<IActionResult> User([FromBody]CreateUser user)
         {
-            if (team == null) throw new ArgumentNullException(nameof(team));
-            var organizationContext = await _organizationContextService.Get(this.HttpContext.User.Identity.Name);
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            //var organizationContext = await _organizationContextService.Get(this.HttpContext.User.Identity.Name);
+            var applicationUser = _userManager.Users.FirstOrDefault(x => x.Email.Equals(user.UserName));
+            var userId = Guid.Parse(applicationUser.Id);
 
-            var command = _mapper.Map<CreateUserCommand>(team);
-            command.OrganizationId = organizationContext.OrganizationId;
-            command.ApplicationUser = organizationContext.ApplicationUser;
-            command.CreateBy = organizationContext.UserId;
-            command.UpdateBy = organizationContext.UserId;
+            var command = _mapper.Map<CreateUserCommand>(user);
+            command.ApplicationUser = applicationUser;
+            command.CreateBy = userId;
+            command.UpdateBy = userId;
 
 
             var result = await _mediator.Send(command);

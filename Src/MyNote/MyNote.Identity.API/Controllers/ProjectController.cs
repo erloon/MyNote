@@ -60,7 +60,7 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Team([FromBody]CreateProject project)
+        public async Task<IActionResult> Project([FromBody]CreateProject project)
         {
             if (project == null) throw new ArgumentNullException(nameof(project));
             var organizationContext = await _organizationContextService.Get(this.HttpContext.User.Identity.Name);
@@ -79,7 +79,7 @@ namespace MyNote.Identity.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Team([FromBody]UpdateProject project)
+        public async Task<IActionResult> Project([FromBody]UpdateProject project)
         {
             if (project == null) throw new ArgumentNullException(nameof(project));
             var organizationContext = await _organizationContextService.Get(this.HttpContext.User.Identity.Name);
@@ -96,7 +96,7 @@ namespace MyNote.Identity.API.Controllers
             return new BadRequestResult();
         }
         [HttpDelete]
-        public async Task<IActionResult> Team([FromBody]DeleteProject deleteProject)
+        public async Task<IActionResult> Project([FromBody]DeleteProject deleteProject)
         {
             if (deleteProject == null) throw new ArgumentNullException(nameof(deleteProject));
             var organizationContext = await _organizationContextService.Get(this.HttpContext.User.Identity.Name);

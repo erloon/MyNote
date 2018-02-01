@@ -8,7 +8,7 @@ namespace MyNote.Identity.API.Infrastructure
 {
     public class BaseController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        protected readonly UserManager<ApplicationUser> _userManager;
 
         public BaseController(UserManager<ApplicationUser> userManager)
         {

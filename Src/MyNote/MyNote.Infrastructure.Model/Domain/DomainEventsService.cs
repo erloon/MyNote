@@ -26,7 +26,6 @@ namespace MyNote.Infrastructure.Model.Domain
             store.Append(@event.Id, @event);
             _session.SaveChanges();
             _mediator.Publish(@event);
-
         }
     }
 }

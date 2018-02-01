@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Marten;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,6 +22,7 @@ using MyNote.Notes.API.Infrastructure;
 using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
 using ConnectionFactory = RabbitMQ.Client.ConnectionFactory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MyNote.Notes.API
 {
@@ -40,6 +46,7 @@ namespace MyNote.Notes.API
                 c.DescribeAllEnumsAsStrings();
 
             });
+
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
@@ -72,6 +79,8 @@ namespace MyNote.Notes.API
                 return new DefaultRabbitMQPersisterConnection(factory, logger, retryCount);
             });
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+
+           
             services.AddMvc();
             var container = new ContainerBuilder();
 
@@ -84,36 +93,6 @@ namespace MyNote.Notes.API
         private void ConfigureContainer(ContainerBuilder builder)
         {
             var config = Configuration.GetSection("EventStore");
-            //builder.RegisterRawRabbit(new RawRabbitConfiguration()
-            //{
-            //    Username = "guest",
-            //    Password = "guest",
-            //    VirtualHost = "/",
-            //    Port = 5672,
-            //    Hostnames = { "localhost" },
-            //    RequestTimeout = new TimeSpan(0, 0, 0, 10),
-            //    PublishConfirmTimeout = new TimeSpan(0, 0, 0, 10),
-            //    RecoveryInterval = new TimeSpan(0, 0, 0, 10),
-            //    PersistentDeliveryMode = true,
-            //    AutoCloseConnection = true,
-            //    AutomaticRecovery = true,
-            //    TopologyRecovery = true,
-            //    Exchange = new GeneralExchangeConfiguration()
-            //    {
-
-            //        AutoDelete = true,
-            //        Durable = true,
-            //        Type = ExchangeType.Topic
-            //    },
-            //    Queue = new GeneralQueueConfiguration()
-            //    {
-            //        AutoDelete = true,
-            //        Durable = true,
-            //        Exclusive = true
-            //    }
-
-
-            //});
             builder.RegisterModule(new DepedencyModule());
             builder.RegisterModule(new MediatorModule());
             builder.RegisterModule(new MartenModule(config));
@@ -124,6 +103,7 @@ namespace MyNote.Notes.API
         {
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

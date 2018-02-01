@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyNote.Identity.API.Model;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
+using MyNote.Infrastructure.Model.API;
 
 namespace MyNote.Identity.API.Controllers
 {
@@ -38,9 +43,9 @@ namespace MyNote.Identity.API.Controllers
             var command = _mapper.Map<RegisterUserCommand>(model);
             var result = _mediator.Send(command).Result;
 
-            if (result)
+            if (result.Succeeded)
             {
-                return new OkResult();
+                return new OkObjectResult(result);
             }
             return new BadRequestResult();
         }
@@ -52,9 +57,10 @@ namespace MyNote.Identity.API.Controllers
 
             var command = _mapper.Map<LoginCommand>(model);
             var result = await _signInManager.PasswordSignInAsync(command.Email, command.Password, false, lockoutOnFailure: false);
+
             if (result.Succeeded)
             {
-                return new OkResult();
+                return new OkObjectResult(result);
             }
             return new BadRequestResult();
         }

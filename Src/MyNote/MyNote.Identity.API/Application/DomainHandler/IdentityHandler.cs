@@ -11,7 +11,7 @@ using MyNote.Infrastructure.Model.Database;
 namespace MyNote.Identity.API.Application.DomainHandler
 {
     public class IdentityHandler
-        : IRequestHandler<RegisterUserCommand, bool>
+        : IRequestHandler<RegisterUserCommand, IdentityResult>
 
     {
         private readonly IRegisterService _registerService;
@@ -33,13 +33,13 @@ namespace MyNote.Identity.API.Application.DomainHandler
             _loginService = loginService;
         }
 
-        public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             IdentityResult result = null;
 
             result = await _registerService.Register(request);
 
-            return result.Succeeded;
+            return result;
 
         }
 

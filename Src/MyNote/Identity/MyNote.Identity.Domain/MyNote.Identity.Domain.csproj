@@ -147,6 +147,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvailableProject.cs" />
+    <Compile Include="AvailableTeam.cs" />
     <Compile Include="Commands\Address\CreateAddressCommand.cs" />
     <Compile Include="Commands\Address\DeleteAddressCommand.cs" />
     <Compile Include="Commands\Address\UpdateAddressCommand.cs" />
@@ -211,11 +213,11 @@
     <Compile Include="Model\ResourceTeam.cs" />
     <Compile Include="Model\ResourceUser.cs" />
     <Compile Include="OrganizationContext.cs" />
-    <Compile Include="Queries\Handlers\OrganizationEventHandler.cs" />
-    <Compile Include="Queries\Handlers\ProjectEventHandler.cs" />
-    <Compile Include="Queries\Handlers\ResourceEventHandler.cs" />
-    <Compile Include="Queries\Handlers\TeamEventHandler.cs" />
-    <Compile Include="Queries\Handlers\UserEventHandler.cs" />
+    <Compile Include="Handlers\OrganizationEventHandler.cs" />
+    <Compile Include="Handlers\ProjectEventHandler.cs" />
+    <Compile Include="Handlers\ResourceEventHandler.cs" />
+    <Compile Include="Handlers\TeamEventHandler.cs" />
+    <Compile Include="Handlers\UserEventHandler.cs" />
     <Compile Include="Queries\IOrganizationQuery.cs" />
     <Compile Include="Queries\IProjectQuery.cs" />
     <Compile Include="Queries\IResourceQuery.cs" />

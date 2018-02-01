@@ -1,0 +1,49 @@
+﻿@model MyNote.MVC.Models.VM.CreateTeam
+
+
+<form asp-action="CreateTeam" asp-controller="Identity">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Utwórz zespół</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Nazwa</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CreateDate" class="control-label">Data utworzenia</label>
+                        <input asp-for="CreateDate" type="date" class="form-control" />
+                        <span asp-validation-for="CreateDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+               
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a asp-action="Index" class="btn btn-secondary" data-dismiss="modal">Powrót</a>
+            <input type="submit" value="Zapisz" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

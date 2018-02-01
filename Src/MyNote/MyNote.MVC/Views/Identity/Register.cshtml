@@ -1,0 +1,72 @@
+﻿@model MyNote.MVC.Models.VM.RegisterUser
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyNote</title>
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="~/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/css/custom.css" rel="stylesheet">
+</head>
+<body class="login">
+<div>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                @using (Html.BeginForm("Register", "Identity"))
+                {
+                    <h1>Nowy użytkownik</h1>
+                    <div>
+                        @Html.TextBoxFor(x => x.Email, new {@class = "form-control", @placeholder = "Email", @required = "true"})
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(x => x.Organization, new {@class = "form-control", @placeholder = "Organizacja", @required = "true"})
+                    </div>
+                    <div>
+                        @Html.PasswordFor(x => x.Password, new {@class = "form-control", @placeholder = "Hasło", @required = "true"})
+                    </div>
+                    <div>
+                        @Html.PasswordFor(x => x.ConfirmPassword, new {@class = "form-control", @placeholder = "Potwierdź hasło", @required = "true"})
+                    </div>
+                    <div>
+                        @Html.LabelFor(x=>x.FirstOrganization,"Nowa organizacja?")
+                        @Html.CheckBoxFor(x => x.FirstOrganization, new { @placeholder = "Potwierdź hasło", @required = "true"})
+                    </div>
+                    
+                    <div>
+                        <div>
+                            <input type="submit" class="form-control submit" value="Rejestracja"/>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">
+                            Posiadasz już konto ?
+                            <a class="to_register">@Html.ActionLink("Zaloguj", "Login", "Identity", @Model, new {@class = "to_register"}) </a>
+
+                        </p>
+                        <div class="clearfix"></div>
+                        <br/>
+                        <div>
+                            <h1><i class="fa fa-flask"></i>MyNote</h1>
+                            <p>©2018 All Rights Reserved. MyNote power by Gentelella</p>
+                        </div>
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>
