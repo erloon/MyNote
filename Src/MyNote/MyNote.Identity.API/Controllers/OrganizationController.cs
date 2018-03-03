@@ -2,21 +2,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Model;
-using MyNote.Identity.Domain;
-using MyNote.Identity.Domain.Commands.Address;
-using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.User;
-using MyNote.Identity.Domain.Events;
-using MyNote.Identity.Domain.Events.Organization;
-using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure.Services.Contracts;
-using MyNote.Infrastructure.Model.Time;
 
 
 namespace MyNote.Identity.API.Controllers
@@ -32,10 +24,10 @@ namespace MyNote.Identity.API.Controllers
 
         public OrganizationController(IMediator mediator,
                                      IOrganizationQuery organizationQuery,
-                                     UserManager<ApplicationUser> userManager,
+                                     IUserMenagerService userMenagerService,
                                      IMapper mapper,
                                      IOrganizationContextService organizationContextService)
-            : base(userManager)
+            : base(userMenagerService)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationQuery == null) throw new ArgumentNullException(nameof(organizationQuery));
@@ -56,7 +48,7 @@ namespace MyNote.Identity.API.Controllers
 
             command = _mapper.Map<CreateOrganizationCommand>(model);
 
-            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            var userId = _userMenagerService.GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;
             command.UpdateBy = userId;
 
@@ -78,7 +70,7 @@ namespace MyNote.Identity.API.Controllers
             CreateUserCommand command = null;
             command = _mapper.Map<CreateUserCommand>(model);
 
-            var userId = GetUserId(this.HttpContext.User.Identity.Name);
+            var userId = _userMenagerService.GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;
             command.UpdateBy = userId;
 

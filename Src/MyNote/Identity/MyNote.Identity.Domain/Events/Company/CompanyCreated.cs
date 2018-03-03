@@ -2,6 +2,7 @@
 using MyNote.Identity.Domain.Commands.Company;
 using MyNote.Identity.Domain.Events.Address;
 using MyNote.Infrastructure.Model.Domain;
+using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.Company

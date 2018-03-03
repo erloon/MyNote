@@ -24,13 +24,15 @@ namespace MyNote.Identity.API.Controllers
         private readonly IOrganizationContextService _organizationContextService;
         private readonly IMapper _mapper;
         private readonly IUserQuery _userQuery;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UsersController(IMediator mediator,
             IOrganizationContextService organizationContextService,
             IMapper mapper,
             IUserQuery userQuery,
-            UserManager<ApplicationUser> userManager
-        ) : base(userManager)
+            UserManager<ApplicationUser> userManager,
+            IUserMenagerService userMenagerService
+        ) : base(userMenagerService)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (organizationContextService == null) throw new ArgumentNullException(nameof(organizationContextService));
@@ -41,6 +43,7 @@ namespace MyNote.Identity.API.Controllers
             _organizationContextService = organizationContextService;
             _mapper = mapper;
             _userQuery = userQuery;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
         [HttpGet]
         public async Task<IActionResult> Get()

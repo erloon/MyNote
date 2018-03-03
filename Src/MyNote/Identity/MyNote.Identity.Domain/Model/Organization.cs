@@ -33,6 +33,7 @@ namespace MyNote.Identity.Domain.Model
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (timeService == null) throw new ArgumentNullException(nameof(timeService));
 
+
             var @event = new OrganizationCreated(command, timeService);
             domainEventsService.Save(@event);
             Apply(@event);

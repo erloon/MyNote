@@ -4,6 +4,7 @@ using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Events.Address;
 using MyNote.Identity.Domain.Events.Company;
 using MyNote.Infrastructure.Model.Domain;
+using MyNote.Infrastructure.Model.Exception;
 using MyNote.Infrastructure.Model.Time;
 
 namespace MyNote.Identity.Domain.Events.Organization
@@ -27,8 +28,14 @@ namespace MyNote.Identity.Domain.Events.Organization
             this.Modification = timeService.GetCurrent();
             this.CreateBy = command.CreateBy;
             this.UpdateBy = command.UpdateBy;
-            this.Company = new CompanyCreated(command.Company,timeService,this.OrganizationId);
-            this.Address = new AddressCreated(command.Address,timeService);
+
+            if (command.Company == null) throw new DomainException("Firma nie może być pusta", this.OrganizationId);
+
+            this.Company = new CompanyCreated(command.Company, timeService, this.OrganizationId);
+
+            if (command.Address == null) throw new DomainException("Adres nie może być pusty", this.OrganizationId);
+
+            this.Address = new AddressCreated(command.Address, timeService);
         }
 
     }
