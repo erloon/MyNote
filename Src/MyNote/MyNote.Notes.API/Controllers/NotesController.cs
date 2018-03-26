@@ -45,7 +45,7 @@ namespace MyNote.Notes.API.Controllers
         {
             if (createNote == null) throw new ArgumentNullException(nameof(createNote));
             //var userContext = GetUserClaims(this.HttpContext.User);
-            var yyyy = this.HttpContext.User;
+            //var yyyy = this.HttpContext.User.Identity.Name;
             var command = _mapper.Map<CreateNoteCommand>(createNote);
             command.CreateBy = _userContext.UserId;
             command.OrganizationId = _userContext.OrganizationId;

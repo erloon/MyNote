@@ -45,26 +45,38 @@ namespace MyNote.Identity.API
 
 
             services.AddDbContext<MyIdentityDbContext>(options =>
-                options.UseSqlServer(connectionString,
-                    sqlServerOptionsAction: sqlOptions =>
-                    {
-                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                    }))
-                    .AddUnitOfWork<MyIdentityDbContext>();
+                    options.UseSqlServer(connectionString,
+                        sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
+                                errorNumbersToAdd: null);
+                        }))
+                .AddUnitOfWork<MyIdentityDbContext>();
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-         
+            var directory = new DirectoryInfo("C:\\KeyRing");
+            services.ConfigureApplicationCookie(options =>
+            {
+                var protectionProvider = DataProtectionProvider.Create(directory);
+
+                options.Cookie.Name = ".AspNet.SharedCookie";
+                options.DataProtectionProvider = protectionProvider;
+                options.TicketDataFormat =
+                    new TicketDataFormat(
+                        protectionProvider.CreateProtector(
+                            "Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationMiddleware",
+                            "Cookies",
+                            "v2"));
+            });
+
 
             services.Configure<AppSettings>(Configuration);
             services.AddAutoMapper(x => x.AddProfile(new ModelMapping()));
-
-            
-
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
                 var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
@@ -78,7 +90,8 @@ namespace MyNote.Identity.API
                     retryCount = int.Parse(Configuration["EventBusRetryCount"]);
                 }
 
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, retryCount);
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope,
+                    eventBusSubcriptionsManager, retryCount);
             });
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -99,9 +112,16 @@ namespace MyNote.Identity.API
             services.AddTransient<NoteIntegrationEventHandler>();
             services.AddMvc();
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = ".AspNet.SharedCookie";
+                    options.DataProtectionProvider = DataProtectionProvider.Create(directory);
+                });
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Identity API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info {Title = "Identity API", Version = "v1"});
                 c.DescribeAllEnumsAsStrings();
 
             });

@@ -68,6 +68,7 @@ namespace MyNote.Identity.API.Controllers
             var command = _mapper.Map<CreateProjectCommand>(project);
             command.CreateBy = organizationContext.UserId;
             command.UpdateBy = organizationContext.UserId;
+            command.OrganizationId = organizationContext.OrganizationId;
 
             var result = await _mediator.Send(command);
 

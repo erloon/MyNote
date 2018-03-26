@@ -47,7 +47,7 @@ namespace MyNote.MVC.Controllers
                 var cookie = await _identityService.Login(model);
                 if (cookie != null)
                 {
-
+                    //await HttpContext.SignInAsync();
                     await SignToHttp(model);
                     _storeService.Cookie = cookie;
                     return RedirectToAction("Index", "Home");

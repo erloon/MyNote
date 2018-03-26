@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -26,22 +27,51 @@ namespace MyNote.MVC
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
+            var directory = new DirectoryInfo("C:\\KeyRing");
+            services.ConfigureApplicationCookie(options =>
+            {
+                var protectionProvider = DataProtectionProvider.Create(directory);
+
+                options.Cookie.Name = ".AspNet.SharedCookie";
+                options.DataProtectionProvider = protectionProvider;
+                options.TicketDataFormat =
+                    new TicketDataFormat(
+                        protectionProvider.CreateProtector(
+                            "Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationMiddleware",
+                            "Cookies",
+                            "v2"));
+            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
                 {
                     o.Cookie = new CookieBuilder()
                     {
-                        Name = ".AuthCookie",
+                        Name = ".AspNet.SharedCookie",
                         Domain = "localhost",
                         SecurePolicy = CookieSecurePolicy.SameAsRequest,
                         SameSite = SameSiteMode.Lax,
                         HttpOnly = false,
 
                     };
-                    o.LoginPath = new PathString("/Identity/Login");
+                    o.LoginPath= new PathString("/Identity/Login");
                     o.LogoutPath = new PathString("/Identity/LogOut");
                 });
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+            //    {
+            //        o.Cookie = new CookieBuilder()
+            //        {
+            //            Name = ".AuthCookie",
+            //            Domain = "localhost",
+            //            SecurePolicy = CookieSecurePolicy.SameAsRequest,
+            //            SameSite = SameSiteMode.Lax,
+            //            HttpOnly = false,
+
+            //        };
+            //        o.LoginPath = new PathString("/Identity/Login");
+            //        o.LogoutPath = new PathString("/Identity/LogOut");
+            //    });
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"/appdata"));
             services.AddMvc();
             services.AddSession(options =>
@@ -75,6 +105,26 @@ namespace MyNote.MVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private string GetKeyRingFolderPath()
+        {
+            var startupAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var applicationBasePath = System.AppContext.BaseDirectory;
+            var directoryInfo = new DirectoryInfo(applicationBasePath);
+            do
+            {
+                directoryInfo = directoryInfo.Parent;
+
+                var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo.FullName, "KeyRing"));
+                if (projectDirectoryInfo.Exists)
+                {
+                    return projectDirectoryInfo.FullName;
+                }
+            }
+            while (directoryInfo.Parent != null);
+
+            throw new Exception($"KeyRing folder could not be located using the application root {applicationBasePath}.");
         }
     }
 }

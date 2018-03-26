@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Marten;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MyNote.Infrastructure.Model.EventBusRabbitMQ;
 using MyNote.Notes.API.Infrastructure;
-using RabbitMQ.Client;
 using Swashbuckle.AspNetCore.Swagger;
 using ConnectionFactory = RabbitMQ.Client.ConnectionFactory;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MyNote.Notes.API
 {
@@ -38,6 +30,20 @@ namespace MyNote.Notes.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            var directory = new DirectoryInfo("C:\\KeyRing");
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    var protectionProvider = DataProtectionProvider.Create(directory);
+
+            //    options.Cookie.Name = ".AspNet.SharedCookie";
+            //    options.DataProtectionProvider = protectionProvider;
+            //    options.TicketDataFormat =
+            //        new TicketDataFormat(
+            //            protectionProvider.CreateProtector(
+            //                "Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationMiddleware",
+            //                "Cookies",
+            //                "v2"));
+            //});
 
             services.AddAutoMapper(x => x.AddProfile(new ModelMapping()));
             services.AddSwaggerGen(c =>
@@ -47,6 +53,7 @@ namespace MyNote.Notes.API
 
             });
 
+           
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
@@ -79,9 +86,16 @@ namespace MyNote.Notes.API
                 return new DefaultRabbitMQPersisterConnection(factory, logger, retryCount);
             });
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
-
-           
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"/appdata"));
             services.AddMvc();
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = ".AspNet.SharedCookie";
+                    options.DataProtectionProvider = DataProtectionProvider.Create(directory);
+                });
             var container = new ContainerBuilder();
 
             services.Configure<AppSettings>(Configuration);

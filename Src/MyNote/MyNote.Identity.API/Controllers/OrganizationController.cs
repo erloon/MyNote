@@ -7,6 +7,7 @@ using MyNote.Identity.API.Infrastructure;
 using MyNote.Identity.API.Model;
 using MyNote.Identity.Domain.Commands.Organization;
 using MyNote.Identity.Domain.Commands.User;
+using MyNote.Identity.Domain.Model;
 using MyNote.Identity.Domain.Queries;
 using MyNote.Identity.Infrastructure.Services.Contracts;
 
@@ -51,8 +52,16 @@ namespace MyNote.Identity.API.Controllers
             var userId = _userMenagerService.GetUserId(this.HttpContext.User.Identity.Name);
             command.CreateBy = userId;
             command.UpdateBy = userId;
-
-            var result = await _mediator.Send(command);
+            Organization result = null;
+            try
+            {
+                result = await _mediator.Send(command);
+            }
+            catch (Exception e)
+            {
+                
+            }
+          
 
             if (result != null)
             {

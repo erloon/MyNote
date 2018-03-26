@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyNote.Identity.API.Model;
+using MyNote.Identity.Domain;
 using MyNote.Identity.Domain.Commands.User;
 using MyNote.Identity.Domain.Model;
+using MyNote.Identity.Infrastructure.Services.Contracts;
 using MyNote.Infrastructure.Model.API;
 
 namespace MyNote.Identity.API.Controllers
@@ -22,10 +24,12 @@ namespace MyNote.Identity.API.Controllers
         private readonly IMediator _mediator;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IOrganizationContextService _organizationContextService;
 
         public IdentityController(IMediator mediator,
                                   SignInManager<ApplicationUser> signInManager,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  IOrganizationContextService organizationContextService)
         {
             if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (signInManager == null) throw new ArgumentNullException(nameof(signInManager));
@@ -34,6 +38,7 @@ namespace MyNote.Identity.API.Controllers
             _mediator = mediator;
             _signInManager = signInManager;
             _mapper = mapper;
+            _organizationContextService = organizationContextService ?? throw new ArgumentNullException(nameof(organizationContextService));
         }
 
         [HttpPost]
@@ -58,11 +63,29 @@ namespace MyNote.Identity.API.Controllers
             var command = _mapper.Map<LoginCommand>(model);
             var result = await _signInManager.PasswordSignInAsync(command.Email, command.Password, false, lockoutOnFailure: false);
 
+
+            var organizationContext = await _organizationContextService.Get(command.Email);
+            AddClaims(organizationContext);
+
             if (result.Succeeded)
             {
                 return new OkObjectResult(result);
             }
             return new BadRequestResult();
+        }
+
+        private void AddClaims(OrganizationContext organizationContext)
+        {
+            var claimsIdentity = this.HttpContext.User.Identity as ClaimsIdentity;
+
+            claimsIdentity.AddClaims(new Claim[]
+            {
+                new Claim("userId", organizationContext.UserId.ToString()),
+            });
+            claimsIdentity.AddClaims(new Claim[]
+            {
+                new Claim("organizationId", organizationContext.OrganizationId.ToString()),
+            });
         }
     }
 }
